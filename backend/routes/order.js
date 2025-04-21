@@ -60,12 +60,14 @@ router.post("/placeorder", authMiddleware, async (req, res) => {
                 };
             })
         );
+        
 
         // Calculate totals
         const orderTotal = itemsWithDetails.reduce((acc, item) => acc + item.total, 0);
         const deliveryFee = req.body.deliveryFee || 0;
         const grandTotal = orderTotal + deliveryFee;
-
+        
+     
         // Create the order
         const order = new Order({
             orderId,
@@ -83,7 +85,7 @@ router.post("/placeorder", authMiddleware, async (req, res) => {
             status: "pending",
             paymentStatus: "awaiting_payment"
         });
-
+  console.log(order)
         // Save the order
         await order.save({ session });
 

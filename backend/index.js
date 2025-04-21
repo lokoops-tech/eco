@@ -13,7 +13,7 @@ app.use(express.json());
 // Import routes
 const authUsersRoutes = require("./routes/authUsers");
 const productRoutes = require("./routes/Product");
-const orderRoutes = require("./routes/order");
+const orderRoutes = require("./routes/Order");
 const adminRoutes = require("./routes/Admin");
 const newslettersRoutes = require("./routes/newsletters");
 const stockUpdateRoutes = require("./routes/stockUpdate");
