@@ -76,15 +76,16 @@
     }
     
     .recently-viewed-grid {
-        grid-template-columns: repeat(2, minmax(140px, 1fr));
-        gap: 50px;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 40px;
+        width: 100%;
         /* Remove the fixed width of 150px that was causing problems */
     }
     
     .recently-viewed-image {
         height: auto;
         max-height: 180px;
-        width: auto;
+        
     }
 }
 
