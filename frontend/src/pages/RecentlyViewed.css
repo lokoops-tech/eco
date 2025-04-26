@@ -77,7 +77,7 @@
     
     .recently-viewed-grid {
         grid-template-columns: repeat(2, minmax(140px, 1fr));
-        gap: 40px;
+        gap: 50px;
         /* Remove the fixed width of 150px that was causing problems */
     }
     
