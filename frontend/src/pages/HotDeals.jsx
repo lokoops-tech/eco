@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AlertCircle } from 'lucide-react';
 import './HotDeals.css';
+import DefaultImage from '../../Assets/logo.png';
 const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
 
 const HotDeals = () => {
@@ -133,7 +134,7 @@ const HotDeals = () => {
               loading="lazy"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = 'https://via.placeholder.com/200x200?text=No+Image';
+                e.target.src ={DefaultImage };
               }}
             />
           </Link>
