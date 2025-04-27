@@ -132,9 +132,6 @@ const HotDeals = () => {
               src={product.image}
               alt={product.name}
               loading="lazy"
-              onError={(e) => {
-                e.target.onerror = null;
-              }
             />
           </Link>
           <div className="deals-product-info">
