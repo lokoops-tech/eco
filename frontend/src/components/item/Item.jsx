@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import SEO from '../../pages/Seo';
 import './Item.css';
+import DefaultImage from'../../Assets/logo.png';
 
 const Item = (props) => {
     const handleClick = () => {
@@ -44,7 +45,7 @@ const Item = (props) => {
                     src={props.image}
                     alt={props.name}
                     onError={(e) => {
-                        e.target.src = '/path/to/default-image.jpg'; // Add a fallback image
+                        e.target.src ={DefaultImage}; // Add a fallback image
                     }}
                 />
             </Link>
