@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AlertCircle } from 'lucide-react';
 import './HotDeals.css';
-import DefaultImage from '../../Assets/logo.png';
+import DefaultImage from '../../src/Assets/logo.png';
 const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
 
 const HotDeals = () => {
