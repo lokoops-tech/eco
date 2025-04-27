@@ -667,6 +667,9 @@
 
 /* For screens below 500px - make tabs stack vertically */
 @media (max-width: 500px) {
+  .product-main-section {
+ width:100%;
+}
   .tabs-header {
     flex-direction: column;
     width: 100%;
