@@ -44,7 +44,7 @@ const Item = (props) => {
                     className="img"
                     src={props.image}
                     alt={props.name}
-                    }
+                    
                 />
             </Link>
             <div className="name">
