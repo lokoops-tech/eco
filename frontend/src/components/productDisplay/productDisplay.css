@@ -667,14 +667,42 @@
 
 /* For screens below 500px - make tabs stack vertically */
 @media (max-width: 500px) {
+  .product-container,
+  .main-image-container,
+  .thumbnail,
+  .social-icon,
+  .stock-indicator,
+  .error-message,
+  .auth-error,
+  .out-of-stock-error,
+  .size-btn,
+  .quantity-controls,
 
+  .shipping-item,
+  .review-form,
+  .form-group input,
+  .form-group textarea,
+  .review-content-btn,
+  .review-card,
+  .Toastify__toast {
+    border-radius: 0;
+  }
+  .product-display-wrapper {
+    max-width: 100%;
+    margin: 0;
+   padding: 0%;
+    width: 100%;
+  }
+  .main-image-container{
+    box-shadow: none;
+  }
   .tabs-header {
     flex-direction: column;
     width: 100%;
   }
   
   .tab-btn {
-    width: 100%;
+    width: auto;
     text-align: center;
     padding: 12px 15px;
     border-bottom: 1px solid var(--medium-gray);
@@ -691,6 +719,7 @@
     padding: 20px 15px;
   }
 }
+
 
 /* Additional responsive adjustments */
 @media (max-width: 768px) {
