@@ -41,7 +41,7 @@ const Shop = () => {
         <LazyNews />
         <LazyFeatures />
         <LazyFAQ />
-      </LoadingProvider/>
+      </LoadingProvider>
       
       <ToastifyWrapper />
     </div>
