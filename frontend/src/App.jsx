@@ -56,7 +56,7 @@ const App = () => {
     <ToastContainer/>
       <FindUs/>
       <Navbar />
-      <Suspense fallback={<div>Loading...</div>}>
+      
         <Routes>
           <Route path="/" element={<Shop />} />
 
@@ -106,7 +106,7 @@ const App = () => {
           <Route path="/:mainCategory/:subCategory/:brand" element={<BestProducts />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Suspense>
+ 
       <WhatsAppButton />
       <Footer />
     </BrowserRouter>
