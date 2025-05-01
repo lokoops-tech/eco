@@ -6,6 +6,7 @@ import ToastifyWrapper from "./Toastify"; // We'll create this wrapper
 import HotDeals from "./HotDeals";
 import BeiYangu from "./BieYangu";
 import RecentlyViewedItems from "./RecentViewed";
+import { LoadingProvider } from "../components/loadingstate/LoadingState";
 // Lazy load less critical or lower in the viewport components
 const LazyNew = lazy(() => import("../components/NewColections/NewCollection"));
 const LazyNews = lazy(() => import("../components/NewsLatter/NewsLatter"));
@@ -19,11 +20,6 @@ const LazyBestJblSpeakers = lazy(() => import("./BestJbl"));
 const LazyBestHpLaptops = lazy(() => import("./BestHp"));
 
 // Optional loading component
-const LoadingFallback = () => (
-  <div className="flex justify-center items-center h-32">
-    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-500"></div>
-  </div>
-);
 
 const Shop = () => {
   return (
@@ -34,7 +30,7 @@ const Shop = () => {
       <LazyMyPocket />
       <Offers />
       <Popular />
-      <Suspense fallback={<LoadingFallback />}>
+      <LoadingProvider>
         <LazyBestVitronTvs />
         <LazyBestPowerbanks />
         <LazyBestJblSpeakers />
@@ -45,7 +41,7 @@ const Shop = () => {
         <LazyNews />
         <LazyFeatures />
         <LazyFAQ />
-      </Suspense>
+      </LoadingProvider/>
       
       <ToastifyWrapper />
     </div>
