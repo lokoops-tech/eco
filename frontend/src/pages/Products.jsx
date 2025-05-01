@@ -8,6 +8,7 @@ import RelatedProduct from "./relatedProducts";
 import YouMayLike from "./YouMayLike";
 import SEO from "./Seo";
 import RecentlyViewedItems from "./RecentViewed";
+import { LoadingProvider } from "../components/loadingstate/LoadingState";
 
 const Product = () => {
     const { all, loading, error } = useContext(shopContext);
@@ -95,12 +96,13 @@ const Product = () => {
                     }
                 }
             }} />
-            
+            <LoadingProvider>
             <BreadCrum product={product} />
             <ProductDisplay product={product} />
             <YouMayLike />
             <RecentlyViewedItems />
             <Describe />
+                </LoadingProvider>
         </div>
     );
 };
