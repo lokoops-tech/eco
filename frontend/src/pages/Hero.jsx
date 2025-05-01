@@ -29,7 +29,7 @@ const categories = [
     { title: "Smart Watches", description: "Stay connected in style", image: watch, path: "/watch" },
     { title: "Grooming Essentials", description: "Professional grooming tools for your daily routine", image: grooming, path: "/groomings" },
     { title: "Kitchen Appliances", description: "Modern solutions for your kitchen needs", image: kitchen, path: "/kitchen-appliances" },
-    { title: "Best products", description: "save money! Enjoy Great Deals", image: hero, path: "/all-in-one" },
+
 ];
 
 const Hero = () => {
