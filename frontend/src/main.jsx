@@ -11,6 +11,6 @@ root.render(
   <HelmetProvider>
     <ShopConextProvider>
         <App />
-    </ShopConextProvider
+    </ShopConextProvider>
   </HelmetProvider>
 );
