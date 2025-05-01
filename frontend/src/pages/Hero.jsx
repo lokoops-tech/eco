@@ -8,7 +8,7 @@ import phone from '../Assets/product_15.png';
 import woofer from '../Assets/speaker_4.jpeg';
 import tv from '../Assets/tv3.jpg';
 import watch from '../Assets/watch_6.webp';
-import hero from '../Assets/face.png';
+import hero from '../src/Assets/face.png';
 import './Hero.css';
 
 const holidays = {
