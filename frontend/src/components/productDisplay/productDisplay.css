@@ -652,19 +652,6 @@
 .Toastify__toast {
   border-radius: var(--border-radius);
 }
-
-
-
-.Toastify__toast--error {
-  background-color: var(--error-red);
-}
-
-.Toastify__toast--warning {
-  background-color: var(--warning-yellow);
-}
-
-
-
 /* For screens below 500px - make tabs stack vertically */
 @media (max-width: 500px) {
   .product-container,
