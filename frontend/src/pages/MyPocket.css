@@ -79,12 +79,13 @@
 }
 
 .shop-clear-button {
-  padding: 6px 20px !important;
+  padding: 2px 20px !important;
   background:rgb(45, 45, 156);
   color: white;
   border: none;
   width:auto;
-  
+  height: 40px;
+  margin-top: auto;
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.3s ease;
