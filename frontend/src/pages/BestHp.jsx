@@ -52,8 +52,8 @@ const BestHpLaptops = () => {
                         </Link>
                         <div className="hp-product-details">
                                <h3 className="hp-product-name">{product.name}</h3>
-                                <p className='hp-price-new'>Ksh {product.new_price}</p>
-                                <p className="hp-old-price">Ksh {product.old_price}</p>
+                                <span className='hp-price-new'>Ksh {product.new_price}</span>
+                                <span className="hp-old-price">Ksh {product.old_price}</span>
                         </div>
                     </div>
                 ))}

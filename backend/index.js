@@ -9,6 +9,8 @@ const cors = require("cors");
 const fs = require('fs');
 require("dotenv").config(); // Load environment variables
 app.use(express.json());
+const cloudinary = require('cloudinary').v2;
+
 
 // Import routes
 const authUsersRoutes = require("./routes/authUsers");
@@ -47,9 +49,10 @@ mongoose
         console.error("MongoDB connection error:", err);
         process.exit(1); // Exit the process if MongoDB connection fails
     });
+    
 
 // Create upload directory if it doesn't exist
-const uploadDir = './upload/images';
+const uploadDir = path.join(__dirname, 'upload/images');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -67,7 +70,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Serving static images
-app.use('/images', express.static('upload/images'));
+app.use('/images', express.static(path.join(__dirname, 'upload/images')));
 
 // API root endpoint
 app.get("/", (req, res) => {

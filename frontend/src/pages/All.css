@@ -1,22 +1,22 @@
 /* General Styles */
 .all-products-container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 3% 2%;
-  
+  margin: 30px auto;
+  padding: 20px;
+   background-color: #dfdfdf;
   justify-content: center;
-  margin-bottom: 30px;
+  border-radius: 10px;
+
 
 }
 
 .all-products-title {
   font-size: clamp(1.5rem, 5vw, 2rem);
   text-align: center;
-  color: whitesmoke;
+  color: blue;
   margin-bottom: 1%;
   border-radius: 5px;
-    background-color: #0052cc;
-    margin-bottom: 10px;
+
     flex-wrap: wrap;
     padding: 15px 10px;
 }
@@ -24,7 +24,7 @@
 .all-products-subtitle {
   font-size: clamp(1rem, 3vw, 1.2rem);
   text-align: center;
-  color: black;
+  color: dark;
   margin-bottom: 3%;
 }
 
@@ -148,10 +148,18 @@
 
 /* Responsive Design for Below 500px */
 @media (max-width: 500px) {
+  .all-products-container{
+   padding: 0%;
+   background-color: white;
+  }
   .all-products-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 15px;
-    row-gap: 30px;
+  
+  }
+  .all-products-title{
+    background-color:#dfdfdf;
+    padding: 0%;
   }
   
   .product-image {
@@ -159,9 +167,12 @@
   
   }
   
-  .all-product-card {
-    padding: 10px;
-  }
+.load-more-button, .show-less-button {
+  padding: 6px 9px;
+  font-size: clamp(0.5rem, 2.0vw, 0.6rem);
+}
+  
+ 
 }
 
 /* Responsive Design for Below 350px */

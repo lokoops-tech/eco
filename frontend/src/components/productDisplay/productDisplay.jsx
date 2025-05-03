@@ -47,6 +47,7 @@ const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
     const productImg = `${product.image}`;
     const productUrl = `${baseUrl}/product/${product.name}${product?.id}`;
     
+    
     useEffect(() => {
       setErrorMessage('');
     }, [product]);
@@ -58,6 +59,7 @@ const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
         setCurrentProductId(product.id);
       }
     }, [product]);
+    
 
     const MetaTags = () => {
       useEffect(() => {

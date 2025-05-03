@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import SEO from '../../pages/SEO';
 import './Item.css';
+import DefaultImage from'../../Assets/logo.png';
 
 const Item = (props) => {
     const handleClick = () => {
@@ -28,6 +29,8 @@ const Item = (props) => {
     const discountPercentage = calculateDiscount();
     const hasDiscount = discountPercentage > 0;
 
+    console.log("Product image URL:", props.image);
+
     return (
         <>
         <SEO 
@@ -37,17 +40,22 @@ const Item = (props) => {
             {hasDiscount && (
                 <div className="discount-badge">-{discountPercentage}%</div>
             )}
+           
             <Link to={`/product/${formatProductUrl(props.name)}-${props.id}`}>
+            
                 <img 
                     onClick={handleClick}
                     className="img"
                     src={props.image}
+                  
                     alt={props.name}
                     onError={(e) => {
-                        e.target.src = '/path/to/default-image.jpg'; // Add a fallback image
+                        e.target.src ={DefaultImage}; // Add a fallback image
                     }}
                 />
+                
             </Link>
+           
             <div className="name">
                 <h3>{props.name}</h3>
             </div>
@@ -60,6 +68,7 @@ const Item = (props) => {
                 )}
             </div>
         </div>
+    
         </>
     );
 };

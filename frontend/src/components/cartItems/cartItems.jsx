@@ -109,30 +109,29 @@ const CartItems = () => {
         }
     }, [cartState.items]);
 
+    // Updated handleRemoveFromCart to completely remove a product regardless of quantity
     const handleRemoveFromCart = useCallback(async (productId) => {
         console.log('Attempting to remove product:', productId);
         console.log('Current cart items before removal:', cartState.items);
 
         try {
-            // Optimistically update the UI
-            const updatedCartItemsToShow = cartItemsToShow.filter(
-                product => product.id !== productId
-            );
-
-            console.log('Cart items after optimistic removal:', updatedCartItemsToShow);
-
-            // Remove the item from cart
+            // Call removeFromCart directly without checking quantity
             await removeFromCart(productId);
-
             console.log('Remove from cart completed');
-
-            // If cart is now empty, redirect
-           
+            
+            // Check if cart is now empty after the async operation
+            if (Object.keys(cartState.items).length === 0 || 
+                !Object.values(cartState.items).some(item => item.quantity > 0)) {
+                console.log('Cart is now empty, redirecting...');
+                // You can add redirect here if needed
+            }
+            
+            toast.success("Product removed from cart");
         } catch (err) {
             console.error('Error removing item:', err);
             toast.error(err.message || "Failed to remove item from cart");
         }
-    }, [removeFromCart, cartItemsToShow, navigate, cartState.items]);
+    }, [removeFromCart, cartState.items]);
 
     const handleProceedToCheckout = useCallback(async () => {
         try {
@@ -174,7 +173,6 @@ const CartItems = () => {
         );
     }
 
-
     // Render cart items
     return (
         <>
@@ -209,15 +207,15 @@ const CartItems = () => {
                                     )}
                                 </div>
                                 <div className="page-cart-remove-button">
-    <button 
-        onClick={() => handleRemoveFromCart(product.id)}
-        className="page-cart-remove-btn"
-    >
-        <div className="page-cart-remove-btn-content">
-            <Trash2 size={20} />
-        </div>
-    </button>
-</div>
+                                    <button 
+                                        onClick={() => handleRemoveFromCart(product.id)}
+                                        className="page-cart-remove-btn"
+                                    >
+                                        <div className="page-cart-remove-btn-content">
+                                            <Trash2 size={20} />
+                                        </div>
+                                    </button>
+                                </div>
                             </div>
                             
                             <div className="page-cart-product-right">
@@ -270,7 +268,7 @@ const CartItems = () => {
             </div>
         </div>
         <div className="customer-satisfaction">
-       <GichTechDelivery/>
+            <GichTechDelivery/>
         </div>
         </>
     );

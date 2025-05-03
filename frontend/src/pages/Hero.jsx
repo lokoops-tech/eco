@@ -8,6 +8,7 @@ import phone from '../Assets/product_15.png';
 import woofer from '../Assets/speaker_4.jpeg';
 import tv from '../Assets/tv3.jpg';
 import watch from '../Assets/watch_6.webp';
+import hero from '../Assets/face.png';
 import './Hero.css';
 
 const holidays = {
@@ -27,7 +28,8 @@ const categories = [
     { title: "Phone Accessories", description: "Enhance your mobile experience", image: phone, path: "/phone-accessories" },
     { title: "Smart Watches", description: "Stay connected in style", image: watch, path: "/watch" },
     { title: "Grooming Essentials", description: "Professional grooming tools for your daily routine", image: grooming, path: "/groomings" },
-    { title: "Kitchen Appliances", description: "Modern solutions for your kitchen needs", image: kitchen, path: "/kitchen-appliances" }
+    { title: "Kitchen Appliances", description: "Modern solutions for your kitchen needs", image: kitchen, path: "/kitchen-appliances" },
+    { title: "Best products", description: "save money! Enjoy Great Deals", image: hero, path: "/all-in-one" },
 ];
 
 const Hero = () => {

@@ -368,12 +368,18 @@
 }
 
 @media (max-width: 480px) {
+
+  .orders-container {
+   
+    margin: 0 ;
+    padding: 0%;
+  }
   .table-header,
   .order-info {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
   }
 
-  .table-header span:nth-child(3),
+  .table-header span:nth-child(),
   .order-info .status-badge {
       display: none;
   }

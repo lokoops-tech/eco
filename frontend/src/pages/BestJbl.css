@@ -4,6 +4,8 @@
   justify-content: center;
   margin: 0 auto;
   padding: 20px;
+  background-color: #dfdfdf;
+  border-radius: 10px;
 }
 
 /* Header Section */
@@ -12,7 +14,7 @@
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
-  background-color: #0052cc;
+ 
   margin-bottom: 10px;
   flex-wrap: wrap;
   padding: 15px 10px;
@@ -20,7 +22,7 @@
 
 .title {
   font-size: 1.5rem;
-  color: whitesmoke;
+  color: blue;
   margin: 0;
 }
 
@@ -30,11 +32,11 @@
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
-  color: white;
+  color: rgb(36, 5, 214);
 }
 
 .jbl-view-all:hover {
-  color:whitesmoke;
+  color:rgb(107, 56, 190);
 }
 
 /* Products Grid */
@@ -96,13 +98,13 @@
 
 /* Product Details */
 .jbl-product-details {
-  padding: 15px;
+  margin: 0px 10px;
   text-align: left;
 }
 
 .jbl-product-name {
   font-size: 1rem;
-  margin-bottom: 10px;
+  padding: 0% !important;
   color: #333;
   white-space: nowrap;
   overflow: hidden;
@@ -111,17 +113,19 @@
 
 .jbl-price-container {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column !important;
+  margin: 0;
 }
 
 .jbl-price {
   color:#df2e3c;
   font-weight: bold;
   font-size: 1.1rem;
+  padding: 0%;
 }
 
 .jbl-old-price {
+  display: block;
   color: #888;
   text-decoration: line-through;
   font-size: 0.9rem;
@@ -161,9 +165,20 @@
 }
 
 @media screen and (max-width: 500px) {
+  .best-jbl-products{
+    padding: 0;
+    background-color: white;
+  }
   .header-section {
     display: flex;
     justify-content: space-evenly;
+    background-color:#dfdfdf;
+    width: 100%;
+    padding: 0%;
+  }
+  .title {
+    font-size: 0.9rem;
+    color: blue;
   }
   .jbl-products-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

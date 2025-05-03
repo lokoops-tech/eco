@@ -51,10 +51,10 @@ const BestJblSpeakers = () => {
                             )}
                         </Link>
                         <div className="jbl-product-details">
-                            <h2 className="jbl-product-name">{product.name}</h2>
-                                <p className="jbl-price">Ksh {product.new_price}</p>
+                               <h2 className="jbl-product-name">{product.name}</h2>
+                                <span className="jbl-price">Ksh {product.new_price}</span>
                                 {product.old_price && (
-                                    <p className="jbl-old-price">Ksh {product.old_price}</p>
+                                <span className="jbl-old-price">Ksh {product.old_price}</span>
                                 )}
                             </div>
                         </div>

@@ -55,9 +55,9 @@ const BestPowerbanks = () => {
                         <div className="powerbank-product-details">
                             <h2 className="powerbank-product-name">{product.name}</h2>
                          
-                                <h3 className="powerbank-price">Ksh {product.new_price}</h3>
+                                <span className="powerbank-price">Ksh {product.new_price}</span>
                                 {product.old_price && (
-                                    <h3 className="powerbank-old-price">Ksh {product.old_price}</h3>
+                                    <span className="powerbank-old-price">Ksh {product.old_price}</span>
                                 )}
         
                         </div>

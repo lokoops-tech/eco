@@ -252,14 +252,14 @@ const AddProduct = () => {
                     toast.success("Product Added Successfully");
                     setProductDetails({
                         name: "",
-                        description: "No description available",
+                        description: "",
                         shortDescription: "",
                         category: "phone-accessories",
                         subcategory: "",
                         image: "",
                         new_price: "",
                         old_price: "",
-                        currency: "USD",
+                        currency: "KSH",
                         sizes: [],
                         colors: [],
                         keyFeatures: [],

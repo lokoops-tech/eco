@@ -12,7 +12,7 @@ const Joi = require('joi');
 const productSchema = Joi.object({
     // Required fields
     name: Joi.string().required(),
-    description: Joi.string().required().default("No description available"),
+    description: Joi.string().required().default(""),
     shortDescription: Joi.string().max(160).required(),
     category: Joi.string().required(),
     subcategory: Joi.string().required(),
@@ -314,9 +314,8 @@ router.get('/newcollection', async (req, res) => {
 // Get best Orimo products
 router.get('/bestorimoproducts', async (req, res) => {
     try {
-        const products = await Product.find({ category: "earpods", brand: { $in: ["Orimo", "Xiomi", "Oppo", "Apple", "Samsung", "Huawei", "Sony"] } })
-            .sort({ rating: -1, reviews: -1 })
-            .limit(8);
+        const products = await Product.find({ category: "earpods", subcategory:"wireless-earbuds",  brand: { $in: ["Orimo", "Xiomi", "Oppo", "Apple", "Samsung", "Huawei", "Sony"] } })
+          
 
         res.json({
             success: true,

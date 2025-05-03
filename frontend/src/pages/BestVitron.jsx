@@ -58,9 +58,9 @@ const BestVitronTvs = () => {
                         <div className="vitron-product-details">
                             <h2 className="vitron-product-name">{product.name}</h2>
                     
-                                <p className="vitron-price">Ksh {product.new_price}</p>
+                                <span className="vitron-price">Ksh {product.new_price}</span>
                                 {product.old_price && (
-                                    <p className="vitron-old-price">Ksh {product.old_price}</p>
+                                    <span className="vitron-old-price">Ksh {product.old_price}</span>
                                 )}
                             </div>
                     </div>

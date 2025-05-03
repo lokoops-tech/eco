@@ -2,8 +2,10 @@
 .hp-best-products {
     justify-content: center;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 30px auto;
     padding: 20px;
+    border-radius: 10px;
+    background-color: #e0e0e0;
 
 }
 
@@ -13,7 +15,6 @@
     justify-content: space-between;
     align-items: center;
     border-radius: 5px;
-    background-color: #0052cc;
     margin-bottom: 10px;
     flex-wrap: wrap;
     padding: 15px 10px;
@@ -22,7 +23,7 @@
 
 .hp-title {
     font-size: 1.5rem;
-    color: whitesmoke;
+    color: blue;
     margin: 0;
   
 }
@@ -31,13 +32,13 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: white;
+    color: blue;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .hp-view-all:hover {
-    color: whitesmoke;
+    color: darkblue;
 }
 
 /* Products Grid */
@@ -121,6 +122,7 @@
     color: #df2e3c;
     font-weight: bold;
     font-size: 1.1rem;
+    display: block;
 }
 
 .hp-old-price {
@@ -163,12 +165,20 @@
 
 @media screen and (max-width: 480px) {
     .hp-best-products {
-        width: auto;
-        padding: 15px 10px;
+     background-color: white;
+     margin: 30px auto;
+     padding: 0%;
     }
     
     .hp-header-container {
         margin-bottom: 15px;
+        background-color: #dfdfdf;
+        width: 100%;
+        padding: 0;
+
+    }
+    .hp-title{
+        font-size: 0.9rem;
     }
     
     .hp-products-grid {

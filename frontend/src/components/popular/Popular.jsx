@@ -27,7 +27,7 @@ const Popular = () => {
                 
                 // Filter products to only include earpods with specified brands
                 const filteredProducts = products.filter(product => 
-                    product.category === "earpods" && 
+                    product.category === "earpods" && product.subcategory=== "wireless-earbuds" && 
                     ["Orimo", "Xiomi", "Oppo", "Apple", "Samsung", "Huawei", "Sony"].includes(product.brand)
                 );
                 

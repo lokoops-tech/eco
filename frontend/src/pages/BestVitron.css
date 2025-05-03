@@ -5,6 +5,8 @@
     margin: 0 auto;
     justify-content: center;
     padding: 20px;
+    border-radius: 10px;
+    background-color: #dfdfdf;
 }
 
 /* Header Container */
@@ -13,16 +15,15 @@
     justify-content: space-between;
     align-items: center;
     border-radius: 5px;
-    background-color: #0052cc;
     margin-bottom: 10px;
     flex-wrap: wrap;
-    padding: 15px 10px;
+    
 
 }
 
 .vitron-title-head {
     font-size: 1.3rem;
-    color: whitesmoke;
+    color: blue;
     
 }
 
@@ -30,13 +31,13 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: white;
+    color: dark;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .vitron-view-all:hover {
-    color: whitesmoke;
+    color:  rgb(28, 28, 165);
 }
 .vitron-subtitle{
     text-align: center;
@@ -125,6 +126,7 @@
     color: #df2e3c;
     font-weight: bold;
     font-size: 1.1rem;
+    display: block;
 }
 
 .vitron-old-price {
@@ -171,18 +173,26 @@
 @media screen and (max-width: 480px) {
     .vitron-best-products {
         width: auto;
-        padding: 15px 10px;
+        padding: 0%;
+        background-color: white;
+    }
+    .vitron-title-head {
+        font-size: 0.9rem;
+        color: blue;
+        
     }
 
     .vitron-header-container {
      display: flex;
-
-     flex-direction: column;
-        margin-bottom: 15px;
+     flex-direction:space-between; 
+     margin-bottom: 15px;
+     background-color: #dfdfdf;
+     width: 100%;
     }
+    
 
     .vitron-products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       
         gap: 10px;
     }
