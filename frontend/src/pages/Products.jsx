@@ -99,7 +99,6 @@ const Product = () => {
        
             <BreadCrum product={product} />
             <ProductDisplay product={product} />
-            </LoadingProvider>
             <YouMayLike />
             <RecentlyViewedItems />
             <Describe />
