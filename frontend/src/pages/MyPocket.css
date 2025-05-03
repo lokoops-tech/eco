@@ -264,8 +264,6 @@
   .shop-main-title{
     font-size: 0.9rem;
   }
-  .shop-h
-
   .shop-products-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 5px;
