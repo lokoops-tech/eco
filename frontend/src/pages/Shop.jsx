@@ -7,6 +7,7 @@ import HotDeals from "./HotDeals";
 import BeiYangu from "./BieYangu";
 import RecentlyViewedItems from "./RecentViewed";
 import { LoadingProvider } from "../components/loadingstate/LoadingState";
+import { LoadingProvider } from "../components/loadingstate/LoadingState";
 // Lazy load less critical or lower in the viewport components
 const LazyNew = lazy(() => import("../components/NewColections/NewCollection"));
 const LazyNews = lazy(() => import("../components/NewsLatter/NewsLatter"));

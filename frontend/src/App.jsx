@@ -5,7 +5,9 @@ import Footer from "./components/Footer/Footer.jsx";
 import WhatsAppButton from "./components/WhatsApp/WhatsAppButton.jsx";
 import FindUs from "./pages/Top.jsx";
 import { ToastContainer } from "react-toastify";
-import phone from "../src/Assets/ph.png"
+import LoadingSpinner from "./components/LoadingSpinner"; // Create this component
+import All from "./pages/All.jsx";
+import SEO from "./pages/Seo.jsx";
 
 // Lazy load components
 const Shop = lazy(() => import("./pages/Shop.jsx"));
@@ -34,7 +36,7 @@ const Checkout = lazy(() => import("./components/ChekOut/ChekOut.jsx"));
 const BestProducts = lazy(() => import("./pages/BestProducts.jsx"));
 const Warranty = lazy(() => import("./components/Waranty/Waranty.jsx"));
 import All from "./pages/All.jsx";
-import SEO from "./pages/SEO.jsx";
+import SEO from "./pages/Seo.jsx";
 
 const App = () => {
   const categoryRoutes = {
@@ -52,11 +54,11 @@ const App = () => {
 
   return (
     <BrowserRouter>
-    <SEO/>
-    <ToastContainer/>
-      <FindUs/>
+      <SEO />
+      <ToastContainer />
+      <FindUs />
       <Navbar />
-  
+      
         <Routes>
           <Route path="/" element={<Shop />} />
 
@@ -65,7 +67,6 @@ const App = () => {
               key={category}
               path={`/${category}`}
               element={<ShopCategory category={category} />}
-            
             />
           ))}
 
@@ -83,7 +84,7 @@ const App = () => {
           <Route path="/product/:productName/:productId" element={<Products />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/orders/:orderId" element={<Orders />} />
-          <Route path="/all-in-one" element={<All/>}/>
+          <Route path="/all-in-one" element={<All />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<LoginSignup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -106,7 +107,7 @@ const App = () => {
           <Route path="/:mainCategory/:subCategory/:brand" element={<BestProducts />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-    
+ 
       <WhatsAppButton />
       <Footer />
     </BrowserRouter>

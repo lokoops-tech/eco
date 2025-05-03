@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Item from '../Item/Item.jsx';
+import Item from '../item/Item.jsx';
 import SEO from '../../pages/Seo.jsx';
-import './popular.css';
+import './Popular.css';
 
-const API_BASE_URL = "http://localhost:4000";
+const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
 
 const Popular = () => {
     const [popularProducts, setPopularProducts] = useState([]);

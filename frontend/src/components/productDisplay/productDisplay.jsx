@@ -9,8 +9,8 @@ import RecentlyViewedItems from '../../pages/RecentViewed';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import SEO from '../../pages/SEO';
-import './ProductDisplay.css';
+import SEO from '../../pages/Seo';
+import './productDisplay.css';
 
 const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
     const { 
@@ -45,7 +45,19 @@ const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
 
     const baseUrl = window.location.origin;
     const productImg = `${product.image}`;
-    const productUrl = `${baseUrl}/product/${product.name}${product?.id}`;
+    
+    // Create a function to format product name for URLs
+    const formatProductForUrl = (productName) => {
+      if (!productName) return '';
+      return productName
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '') // Remove special characters except spaces and hyphens
+        .replace(/\s+/g, '-')     // Replace spaces with hyphens
+        .trim();                  // Trim extra spaces
+    };
+    
+    // Build the URL with properly formatted product name AND ID
+    const productUrl = `${baseUrl}/product/${formatProductForUrl(product.name)}-${product?.id}`;
     
     
     useEffect(() => {
@@ -63,7 +75,7 @@ const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
 
     const MetaTags = () => {
       useEffect(() => {
-        const absoluteProductImg = product.image.startsWith('http')
+        const absoluteProductImg = product.image.startsWith('https')
           ? product.image
           : `${window.location.origin}${product.image.startsWith('/') ? '' : '/'}${product.image}`;
 
@@ -120,6 +132,7 @@ const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
       { id: 'reviews', label: 'Reviews' }
     ];
 
+    // Updated share links with the properly formatted URL
     const shareLinks = {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}&picture=${encodeURIComponent(productImg)}&quote=${encodeURIComponent(`Check out ${product?.name} - Now at Ksh ${product?.new_price}!`)}`,
       twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(`${product?.name} - Now at Ksh ${product?.new_price}!`)}&image=${encodeURIComponent(productImg)}`,
@@ -311,7 +324,8 @@ View it here: ${productUrl}`;
       ));
     };
 
-    const whatsappLink = `https://api.whatsapp.com/send?phone=YOUR_PHONE_NUMBER&text=Hello,%20I%20am%20interested%20in%20${encodeURIComponent(product.name)}%20on%20your%20website.`; 
+    // Updated WhatsApp link with properly formatted URL
+    const whatsappLink = `https://api.whatsapp.com/send?phone=YOUR_PHONE_NUMBER&text=Hello,%20I%20am%20interested%20in%20${encodeURIComponent(product.name)}%20on%20your%20website.%20${encodeURIComponent(productUrl)}`; 
 
     const renderErrorMessage = () => {
       if (!errorMessage) return null;

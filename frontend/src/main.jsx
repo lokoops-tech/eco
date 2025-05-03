@@ -10,9 +10,9 @@ const root = createRoot(document.getElementById('root'))
 root.render(
   <HelmetProvider>
     <ShopConextProvider>
-  
+      <LoadingProvider>
         <App />
-    
+      </LoadingProvider>
     </ShopConextProvider>
   </HelmetProvider>
 );

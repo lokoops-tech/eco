@@ -10,7 +10,7 @@ const LoadingProvider = ({ children }) => {
     // Simulate loading time (replace with your actual loading logic)
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000); 
+    }, 900); 
   }, []);
 
   return (

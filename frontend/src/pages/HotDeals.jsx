@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AlertCircle } from 'lucide-react';
 import './HotDeals.css';
-import DefaultImage from '../../src/Assets/logo.png';
-const API_BASE_URL = "http://localhost:4000";
+
+const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
 
 const HotDeals = () => {
   const [products, setProducts] = useState([]);
@@ -132,10 +132,6 @@ const HotDeals = () => {
               src={product.image}
               alt={product.name}
               loading="lazy"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = {DefaultImage}; // Add a fallback image
-              }}
             />
           </Link>
           <div className="deals-product-info">
