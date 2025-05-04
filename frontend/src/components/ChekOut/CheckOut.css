@@ -222,7 +222,7 @@
 .place-order-button {
   width: 100%;
   padding: 1rem;
-  background: #ff0000;
+  background: #1c1397;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -233,7 +233,7 @@
 }
 
 .place-order-button:hover {
-  background: #cc0000;
+  background: #01011f;
 }
 
 .place-order-button:disabled {
