@@ -348,7 +348,7 @@ const SearchResultsPage = () => {
                 const discount = calculateDiscount(product.old_price, product.new_price);
                 return (
                   <div className="product-card" key={product.id}>
-                    <Link to={`/product/${product.name}-${product.id}`} className="product-card__link">
+                    <Link to={`/product/${product.name}-${product.id}`} className="product-card__link" style={{ textDecoration: 'none', color: 'inherit' }}>
                       <div className="product-card__image-container">
                         {discount > 0 && (
                           <div className="product-card__discount">
@@ -361,8 +361,7 @@ const SearchResultsPage = () => {
                           alt={product.name}
                         />
                       </div>
-                    </Link>
-                    <div className="product-card__details">
+                      <div className="product-card__details">
                       <h3 className="product-card__name">{product.name}</h3>
                       
                       {/* Rating display */}
@@ -394,6 +393,8 @@ const SearchResultsPage = () => {
                         </div>
                       )}
                     </div>
+                    </Link>
+                   
                   </div>
                 );
               })}

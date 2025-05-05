@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './All.css';
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
+const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base URL
 
 const All = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -99,15 +99,14 @@ const All = () => {
           return (
             <div key={product.id} className='all-product-card'>
               {discount > 0 && <div className="discount-badge">-{discount}%</div>}
-              <Link to={`/product/${product.name}-${product.id}`}>
+              <Link to={`/product/${product.name}-${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <img 
                   onClick={handleClick}
                   className="product-image"
                   src={product.image}
                   alt={product.name}
                 />
-              </Link>
-              <div className="all-product-details">
+                 <div className="all-product-details">
                 <h3 className='all-product-name'>{product.name}</h3>
               <div className="product-price-container">
                 <div className="product-price-new">Ksh {product.new_price}</div>
@@ -116,6 +115,8 @@ const All = () => {
                 )}
               </div>
               </div>
+              </Link>
+             
             </div>
           );
         })}

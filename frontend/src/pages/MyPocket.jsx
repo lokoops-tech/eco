@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Import Link
 import './MyPocket.css';
 
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
+const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base URL
 
 const MyPocket = () => {
   const [minPrice, setMinPrice] = useState('');
@@ -167,15 +167,14 @@ const MyPocket = () => {
       <div key={item.id} className="shop-product-wrapper">
         <div className="shop-product-card">
           {discount > 0 && <div className="shop-discount-badge">-{discount}%</div>}
-          <Link to={`/product/${item.id}/${encodeURIComponent(item.name)}`} className="shop-product-link">
+          <Link to={`/product/${item.id}/${encodeURIComponent(item.name)}`} className="shop-product-link" style={{textDecoration:"none", color:'inherit'}}>
             <img
               onClick={() => console.log(`Product ${item.id} clicked`)}
               src={item.image || "/api/placeholder/400/300"}
               alt={item.name}
               className="shop-product-thumbnail"
             />
-          </Link>
-          <div className="shop-product-info">
+              <div className="shop-product-info">
             <h3 className="shop-product-title">{item.name}</h3>
             <div className="shop-product-category">{item.category}</div>
             <div className="shop-price-wrapper">
@@ -185,6 +184,8 @@ const MyPocket = () => {
               )}
             </div>
           </div>
+          </Link>
+        
         </div>
       </div>
     );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import './BeiYangu.css';
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
+const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base URL
 
 const BeiYangu = () => {
     const [products, setProducts] = useState([]);
@@ -105,8 +105,7 @@ const BeiYangu = () => {
                                                     className="budget-product-image"
                                                     loading="lazy"
                                                 />
-                                            </Link>
-                                            <div className="budget-product-details">
+                                                 <div className="budget-product-details">
                                                 <h3 className="budget-product-name">{item.name}</h3>
                                                 <div className="budget-price-container">
                                                     <span className="budget-current-price">
@@ -119,6 +118,8 @@ const BeiYangu = () => {
                                                     )}
                                                 </div>
                                             </div>
+                                            </Link>
+                                           
                                         </div>
                                     );
                                 })}

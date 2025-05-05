@@ -41,7 +41,7 @@ const Item = (props) => {
                 <div className="discount-badge">-{discountPercentage}%</div>
             )}
            
-            <Link to={`/product/${formatProductUrl(props.name)}-${props.id}`}>
+            <Link to={`/product/${formatProductUrl(props.name)}-${props.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             
                 <img 
                     onClick={handleClick}
@@ -52,8 +52,6 @@ const Item = (props) => {
                     
                 />
                 
-            </Link>
-           
             <div className="name">
                 <h3>{props.name}</h3>
             </div>
@@ -65,6 +63,9 @@ const Item = (props) => {
                     </div>
                 )}
             </div>
+                
+            </Link>
+           
         </div>
     
         </>

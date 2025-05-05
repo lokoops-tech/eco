@@ -57,7 +57,7 @@ const Orders = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://ecommerce-axdj.onrender.com/order/user-orders?page=${currentPage}&status=${filter}`,
+        `http://localhost:4000/order/user-orders?page=${currentPage}&status=${filter}`,
         {
           headers: {
             Authorization: `Bearer ${authToken}`,

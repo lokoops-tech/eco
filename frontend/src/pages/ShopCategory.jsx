@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { ArrowUpDown, ArrowDownUp, SortAsc } from "lucide-react";
+import { ArrowUpDown, ArrowDownUp, SortAsc, ShoppingCart, LogIn, AlertCircle } from "lucide-react";
 import { shopContext } from "../context/ShopContext";
 import Item from "../components/item/Item.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import watch from '../Assets/watch.png';
 import phone from '../Assets/ph.png';
 import fridge from '../Assets/fridge.png';
@@ -25,10 +25,21 @@ const ShopCategory = ({ category, subcategory }) => {
         filteredProducts, 
         filterByCategory, 
         filterBySubcategory, 
+        cartState,
+        cart,
         addToCart, 
-        isAuthenticated 
+        updateCartItemQuantity,
+        removeFromCart,
+        error,
+        clearCartError,
+        isLoading,
+        isAuthenticated,
+        userProfile,
+        cartTotal,
+        cartItemCount
     } = useContext(shopContext);
 
+    const navigate = useNavigate();
     const [sortOption, setSortOption] = useState("default");
     const [visibleCount, setVisibleCount] = useState(12);
     const [selectedBrands, setSelectedBrands] = useState([]);
@@ -36,7 +47,8 @@ const ShopCategory = ({ category, subcategory }) => {
     const [displayProducts, setDisplayProducts] = useState([]);
     const [isFilterVisible, setIsFilterVisible] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-    const [hoveredProductId, setHoveredProductId] = useState(null); // Track hovered product
+    const [hoveredProductId, setHoveredProductId] = useState(null);
+    const [addingToCart, setAddingToCart] = useState({});
 
     const categoryBanners = {
         "phone-accessories": phone,
@@ -51,21 +63,70 @@ const ShopCategory = ({ category, subcategory }) => {
         "electricals": electric
     };
 
-    // Handle Add to Cart
+    // Improved Add to Cart handler
     const handleAddToCart = async (productId) => {
         try {
             if (!isAuthenticated) {
                 toast.warning("Please log in to add items to your cart");
+                navigate("/login", { state: { from: window.location.pathname } });
+                return;
+            }
+
+            setAddingToCart(prev => ({ ...prev, [productId]: true }));
+            
+            // Check if product is in stock
+            const product = allProducts.find(p => p.id === productId);
+            if (product?.stockStatus === 'OUT_OF_STOCK') {
+                toast.error("This product is out of stock");
                 return;
             }
 
             await addToCart(productId, 1);
             toast.success("Added to cart successfully");
-        } catch (error) {
-            toast.error(error.message);
+        } catch (err) {
+            toast.error(err?.response?.data?.message || err?.message || "Failed to add item to cart");
+        } finally {
+            setAddingToCart(prev => ({ ...prev, [productId]: false }));
         }
     };
 
+    // Simplified cart state checking
+    const isInCart = (productId) => {
+        const items = cartState?.items || cart?.items || cartState || cart || [];
+        // Make sure items is an array before calling .some()
+        return Array.isArray(items) 
+            ? items.some(item => item.product_id === productId || item.id === productId)
+            : false;
+    };
+    
+    const getItemQuantity = (productId) => {
+        const items = cartState?.items || cart?.items || cartState || cart || [];
+        // Make sure items is an array before trying to find an item
+        if (!Array.isArray(items)) return 0;
+        
+        const item = items.find(item => item.product_id === productId || item.id === productId);
+        return item?.quantity || 0;
+    };
+   
+
+    // Clear cart errors on unmount
+    useEffect(() => {
+        return () => {
+            if (clearCartError) {
+                clearCartError();
+            }
+        };
+    }, [clearCartError]);
+
+    // Display error notifications
+    useEffect(() => {
+        if (error) {
+            toast.error(error?.response?.data?.message || error.message || "An error occurred");
+            if (clearCartError) {
+                clearCartError();
+            }
+        }
+    }, [error, clearCartError]);
 
     // Get display names for the current category
     const getAvailableBrands = () => {
@@ -176,6 +237,9 @@ const ShopCategory = ({ category, subcategory }) => {
 
     return (
         <div className="shop-container">
+            {/* Toast notifications */}
+            <ToastContainer position="top-right" autoClose={3000} />
+            
             {/* Add the SEO component */}
             <SEO category={categoryData} />
 
@@ -200,6 +264,13 @@ const ShopCategory = ({ category, subcategory }) => {
                     </>
                 )}
             </div>
+
+            {!isAuthenticated && (
+                <div className="login-prompt">
+                    <LogIn size={18} />
+                    <p>Please <Link to="/login" className="login-link">log in</Link> to add items to your cart</p>
+                </div>
+            )}
 
             <div className="shop-content">
                 {windowWidth < 800 && (
@@ -302,7 +373,9 @@ const ShopCategory = ({ category, subcategory }) => {
                     </p>
 
                     <div className="products-view">
-                        {displayProducts.length > 0 ? (
+                        {isLoading ? (
+                            <div className="loading-products">Loading products...</div>
+                        ) : displayProducts.length > 0 ? (
                             sortedProducts.slice(0, visibleCount).map((item) => (
                                 <div 
                                     key={item.id} 
@@ -312,19 +385,78 @@ const ShopCategory = ({ category, subcategory }) => {
                                 >
                                     <Item {...item} />
                                     {hoveredProductId === item.id && (
-                                        <button 
-                                            className="add-to-cart-hover"
-                                            onClick={() => handleAddToCart(item.id)}
-                                        >
-                                            Add to Cart
-                                        </button>
+                                        <div className="product-actions">
+                                            {item.stockStatus === 'OUT_OF_STOCK' ? (
+                                                <div className="out-of-stock-message">Out of Stock</div>
+                                            ) : isInCart(item.id) ? (
+                                                <div className="quantity-controls">
+                                                    <button 
+                                                        onClick={async () => {
+                                                            try {
+                                                                const newQuantity = getItemQuantity(item.id) - 1;
+                                                                if (newQuantity > 0) {
+                                                                    await updateCartItemQuantity(item.id, newQuantity);
+                                                                } else {
+                                                                    await removeFromCart(item.id);
+                                                                }
+                                                            } catch (err) {
+                                                                toast.error(err?.response?.data?.message || "Failed to update quantity");
+                                                            }
+                                                        }}
+                                                        disabled={!isAuthenticated || addingToCart[item.id]}
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <span>{getItemQuantity(item.id)}</span>
+                                                    <button 
+                                                        onClick={async () => {
+                                                            try {
+                                                                await updateCartItemQuantity(item.id, getItemQuantity(item.id) + 1);
+                                                            } catch (err) {
+                                                                toast.error(err?.response?.data?.message || "Failed to update quantity");
+                                                            }
+                                                        }}
+                                                        disabled={!isAuthenticated || addingToCart[item.id]}
+                                                    >
+                                                        +
+                                                    </button>
+                                                    <button 
+                                                        className="remove-from-cart"
+                                                        onClick={async () => {
+                                                            try {
+                                                                await removeFromCart(item.id);
+                                                                toast.success("Item removed from cart");
+                                                            } catch (err) {
+                                                                toast.error(err?.response?.data?.message || "Failed to remove item");
+                                                            }
+                                                        }}
+                                                        disabled={!isAuthenticated || addingToCart[item.id]}
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <button 
+                                                    className="add-to-cart-hover"
+                                                    onClick={() => handleAddToCart(item.id)}
+                                                    disabled={addingToCart[item.id] || !isAuthenticated}
+                                                >
+                                                    {addingToCart[item.id] ? (
+                                                        <span className="adding-spinner"></span>
+                                                    ) : (
+                                                        'Add to Cart'
+                                                    )}
+                                                </button>
+                                            )}
+                                        </div>
                                     )}
                                 </div>
                             ))
                         ) : (
                             <div className="no-products">
-                                No products found matching the selected filters. 
-                                Try adjusting your brand or price selections.
+                                <AlertCircle size={24} />
+                                <p>No products found matching the selected filters. 
+                                Try adjusting your brand or price selections.</p>
                             </div>
                         )}
                     </div>

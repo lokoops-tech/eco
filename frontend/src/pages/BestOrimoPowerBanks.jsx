@@ -51,8 +51,7 @@ const BestPowerbanks = () => {
                                     -{calculateDiscount(product.old_price, product.new_price)}%
                                 </div>
                             )}
-                        </Link>
-                        <div className="powerbank-product-details">
+                                <div className="powerbank-product-details">
                             <h2 className="powerbank-product-name">{product.name}</h2>
                          
                                 <span className="powerbank-price">Ksh {product.new_price}</span>
@@ -61,6 +60,8 @@ const BestPowerbanks = () => {
                                 )}
         
                         </div>
+                        </Link>
+                    
                     </div>
                 ))}
             </div>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AlertCircle } from 'lucide-react';
 import './HotDeals.css';
 
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
+const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base URL
 
 const HotDeals = () => {
   const [products, setProducts] = useState([]);
@@ -126,6 +126,7 @@ const HotDeals = () => {
             to={`/product/${productSlug}-${product.id}`} 
             onClick={handleClick}
             className="deals-product-link"
+            style={{ textDecoration: 'none', color: 'inherit' }}
           >
             <img
               className="deals-product-image"
@@ -133,8 +134,7 @@ const HotDeals = () => {
               alt={product.name}
               loading="lazy"
             />
-          </Link>
-          <div className="deals-product-info">
+            <div className="deals-product-info">
             <h4 className="deals-product-title">{product.name}</h4>
           </div>
           <div className="deals-price-container">
@@ -147,6 +147,8 @@ const HotDeals = () => {
               </span>
             )}
           </div>
+          </Link>
+          
         </div>
       </div>
     );

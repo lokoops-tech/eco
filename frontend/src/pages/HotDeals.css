@@ -42,7 +42,7 @@
     box-shadow: 0 4px 6px rgba(0,0.3,0,0.05);
     border-radius: 8px;
     border: 1px solid #dad7d7;
-    padding: 15px;
+    padding:   15px;
     transition: transform 0.3s ease;
 }
 .deals-product-card:hover {
@@ -87,7 +87,6 @@
 
 .deals-price-container {
     display: flex;
-    gap: 10px;
     flex-direction: column;
 }
 

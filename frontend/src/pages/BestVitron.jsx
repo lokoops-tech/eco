@@ -54,8 +54,7 @@ const BestVitronTvs = () => {
                                     -{calculateDiscount(product.old_price, product.new_price)}%
                                 </div>
                             )}
-                        </Link>
-                        <div className="vitron-product-details">
+                               <div className="vitron-product-details">
                             <h2 className="vitron-product-name">{product.name}</h2>
                     
                                 <span className="vitron-price">Ksh {product.new_price}</span>
@@ -63,6 +62,8 @@ const BestVitronTvs = () => {
                                     <span className="vitron-old-price">Ksh {product.old_price}</span>
                                 )}
                             </div>
+                        </Link>
+                     
                     </div>
                 ))}
             </div>

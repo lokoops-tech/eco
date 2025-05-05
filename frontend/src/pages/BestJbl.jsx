@@ -49,15 +49,16 @@ const BestJblSpeakers = () => {
                                     -{calculateDiscount(product.old_price, product.new_price)}%
                                 </div>
                             )}
-                        </Link>
-                        <div className="jbl-product-details">
+                             <div className="jbl-product-details">
                                <h2 className="jbl-product-name">{product.name}</h2>
                                 <span className="jbl-price">Ksh {product.new_price}</span>
                                 {product.old_price && (
                                 <span className="jbl-old-price">Ksh {product.old_price}</span>
                                 )}
-                            </div>
                         </div>
+                        </Link>
+                       
+                    </div>
                 ))}
             </div>
         </div>

@@ -1,102 +1,244 @@
 .recently-viewed-container {
-    width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 30px  auto;
     padding: 20px;
-}
-
-.recently-viewed-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.recently-viewed-grid {
-    
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    /* Remove the fixed width of 200px which was causing problems */
-}
-
-.recently-viewed-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: #333;
-    transition: transform 0.3s ease;
-}
-
-.recently-viewed-item:hover {
-    transform: scale(1.05);
-}
-
-.recently-viewed-image {
-    width: 100%; /* This ensures the image takes full width of its container */
-    height: auto; /* This maintains aspect ratio */
-    max-height: 200px;
-    object-fit: contain;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.recently-viewed-name {
-    font-size: 0.9rem;
+    background-color: #dfdfdf;
+    border-radius: 10px;
+  }
+  
+  .recently-viewed-header {
+ 
     text-align: center;
-    margin-bottom: 5px;
-    width: 100%; /* Ensure text wraps properly */
-}
-
-.recently-viewed-price {
-    font-size: 1rem;
+  }
+  
+  .recently-viewed-header h1 {
+    font-size: 28px;
+    color:blue;
+    font-weight: 600;
+  }
+  
+  .recently-viewed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .recently-viewed-item {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .recently-viewed-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  .recently-viewed-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .recently-viewed-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+  }
+  
+  .recently-viewed-item:hover .recently-viewed-image img {
+    transform: scale(1.05);
+    border-color: #e74c3c;
+  }
+  
+  .recently-viewed-discount {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #e74c3c;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
     font-weight: bold;
-    color: #007bff;
-}
+    font-size: 14px;
+  }
+  
+  .recently-viewed-details {
+    padding: 15px;
+  }
+  
+  .recently-viewed-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .recently-viewed-category {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .recently-viewed-prices {
+    display: block;
+    align-items: center;
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .recently-viewed-grid {
-        grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  
+  .recently-viewed-new-price {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(201, 23, 23);
+   
+  }
+  
+  .recently-viewed-old-price {
+    font-size: 14px;
+    color: #777;
+    text-decoration: line-through;
+    display: block;
+  }
+  
+  .recently-viewed-load-more {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .recently-viewed-load-more button {
+    background-color: #1c2ece;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .recently-viewed-load-more button:hover {
+    background-color: #1a1c68;
+  }
+  
+  /* Loading skeletons */
+  .recently-viewed-loading {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  
+  .recently-viewed-skeleton {
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f8f8f8;
+    height: 300px;
+  }
+  
+  .skeleton-image {
+    height: 200px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+  
+  .skeleton-text, .skeleton-price {
+    height: 20px;
+    margin: 10px 15px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+  }
+  
+  .skeleton-price {
+    width: 60%;
+  }
+  
+  @keyframes loading {
+    0% {
+      background-position: 200% 0;
     }
-}
-
-@media (max-width: 768px) {
-    .recently-viewed-grid {
-        grid-template-columns: repeat(3, 1fr);
+    100% {
+      background-position: -200% 0;
     }
-}
-
-@media (max-width: 480px) {
-    .recently-viewed-container {
-        padding: 20px;
-        width: auto;
-        margin: 0 auto;
-        justify-content: center;
-    }
-    
+  }
+  
+  /* Error and empty states */
+  .recently-viewed-error, .recently-viewed-empty {
+    text-align: center;
+    padding: 50px 20px;
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .recently-viewed-error button {
+    margin-left: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
     .recently-viewed-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 40px;
-        /* Remove the fixed width of 150px that was causing problems */
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     }
     
     .recently-viewed-image {
-        height: auto;
-        max-height: 180px;
-        
+      height: 150px;
     }
-}
-
-@media (max-width: 320px) {
+    
+    .recently-viewed-name {
+      font-size: 14px;
+    }
+    
+    .recently-viewed-new-price {
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 500px) {
     .recently-viewed-container {
-        padding: 10px;
-        width: auto;
-        margin: 0 auto;
-        justify-content: center;
-    }
+        max-width: 100%;
+        margin: 30px  auto;
+        padding: 0px;
+        background-color: white;
+      }
+      
+      .recently-viewed-header {
+        background-color: #dfdfdf;
+        width: 100%;
+        border-radius: 8px;
+      }
+       
+  .recently-viewed-header h1 {
+    font-size: 20px;
+   
+  }
     .recently-viewed-grid {
-        grid-template-columns: repeat(1, minmax(100px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
     }
-}
+    
+    .recently-viewed-image {
+      height: 150px;
+    }
+    
+    .recently-viewed-name {
+      font-size: 14px;
+    }
+    
+    .recently-viewed-new-price {
+      font-size: 16px;
+    }
+  }

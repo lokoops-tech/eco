@@ -27,9 +27,8 @@ const categoryData = {
 };
 
 const CategoryDropdown = ({ category, isHovered, onMouseEnter, onMouseLeave, isMobile, handleBackToMain, handleSubCategoryClick }) => {
-  // For desktop view (hover behavior)
   if (!isMobile && !isHovered) return null;
-  
+
   return (
     <div 
       className={`nav-category-dropdown ${isMobile ? 'nav-mobile-dropdown' : ''}`}
@@ -71,13 +70,10 @@ const ProfileDropdown = ({ closeDropdown }) => {
         closeDropdown();
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [closeDropdown]);
-  
 
-  // Stop propagation to prevent interactions with category dropdowns
   const handleDropdownClick = (e) => {
     e.stopPropagation();
   };
@@ -98,8 +94,8 @@ const ProfileDropdown = ({ closeDropdown }) => {
             onClick={() => {
               localStorage.removeItem("auth-token");
               localStorage.removeItem("token-expiry");
-              localStorage.removeItem("cart"); // Clear the cart data
-              setCartState(getDefaultCart()); // Reset cart state
+              localStorage.removeItem("cart");
+              setCartState(getDefaultCart());
               navigate("/");
               closeDropdown();
             }}
@@ -128,32 +124,22 @@ const Navbar = () => {
   const location = useLocation();
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
-  
-  // Search functionality states (integrated from Search.jsx)
+
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Check if viewport is mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 800);
       if (window.innerWidth > 800) {
-        // Reset mobile navigation state when switching to desktop
         setActiveCategory(null);
       }
     };
-    
-    // Initial check
     checkMobile();
-    
-    // Add event listener for window resize
     window.addEventListener('resize', checkMobile);
-    
-    // Clean up
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Reset search term when not on search page (from Search.jsx)
   useEffect(() => {
     if (!location.pathname.startsWith('/search')) {
       setSearchTerm('');
@@ -161,17 +147,14 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const handleCategoryClick = (category, e) => {
-    if (e) e.preventDefault(); // Prevent default link behavior
-      
+    if (e) e.preventDefault();
     if (category === "shop") {
       navigate("/");
       closeMenu();
     } else {
       setActiveCategory(category);
       setMenu(category);
-      navigate(`/${category}`); // Navigate to the main category page
-      
-      // Only close menu on desktop if not hamburger style
+      navigate(`/${category}`);
       if (!isJumiaStyle) {
         closeMenu();
       }
@@ -179,11 +162,8 @@ const Navbar = () => {
   };
 
   const handleSubCategoryClick = (category, subCategory) => {
-    // Navigate to the subcategory page
     navigate(`/${category}/${subCategory}`);
-    // Close the menu after navigating
     closeMenu();
-    // Reset active category
     setActiveCategory(null);
   };
 
@@ -198,22 +178,18 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Search functions (from Search.jsx)
   const handleSearch = (value) => {
     setSearchTerm(value);
   };
 
   const handleSearchClick = () => {
     if (!searchTerm.trim()) return;
-    
     setIsLoading(true);
-
-    // Navigate to search results with the current search term
     navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`, {
       state: { searchTerm: searchTerm.trim() }
     });
-
     setTimeout(() => setIsLoading(false), 500);
+    if (isMobileView) setIsSearchExpanded(false);  // Auto-close search on small screens
   };
 
   const handleKeyDown = (e) => {
@@ -222,12 +198,10 @@ const Navbar = () => {
     }
   };
 
-  // Navigate to home when logo is clicked
   const handleLogoClick = () => {
     navigate('/');
   };
 
-  // Always use Jumia-style with hamburger menu on all screen sizes
   const isJumiaStyle = true;
 
   useEffect(() => {
@@ -237,10 +211,8 @@ const Navbar = () => {
         setIsSearchExpanded(false);
       }
     };
-
     checkScreenSize();
     window.addEventListener('resize', checkScreenSize);
-    
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
@@ -248,52 +220,62 @@ const Navbar = () => {
     setIsSearchExpanded(!isSearchExpanded);
   };
 
+  const closeSearch = () => {
+    setIsSearchExpanded(false);
+    setSearchTerm('');
+  };
+
   return (
-    
     <div className="nav-container">
-      <div className="nav-top">
-        <div className="nav-left">
-          <button 
-            className="nav-hamburger-btn"
-            onClick={toggleMenu}
-            aria-label="Toggle navigation menu"
-          >
-            {isMenuOpen ? <X className="nav-icon" /> : <Menu className="nav-icon" />}
-          </button>
-          
-          <div className="nav-logo" onClick={handleLogoClick}>
+      {/* For mobile view (below 500px) - Logo on top */}
+      {isMobileView && (
+        <div className="nav-top" style={{ flexDirection: 'column', alignItems: 'center' }}>
+          {/* First row: Logo only */}
+          <div className="nav-logo" onClick={handleLogoClick} style={{ margin: '8px auto' }}>
             <h1>gich-<span></span></h1>
           </div>
-        </div>
-        
-        {!isMobileView && (
-          <div className="nav-search-container">
-            <div className="nav-search-bar">
-              <input
-                className="nav-search-input"
-                type="text"
-                placeholder="Search ...."
-                value={searchTerm}
-                onChange={(e) => handleSearch(e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
-              <button className="nav-search-btn" type="button" onClick={handleSearchClick}>
-                {isLoading ? <Loader className="nav-icon nav-spinner" /> : <Search className="nav-icon" />}
+          
+          {/* Second row: All icons */}
+          <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
+            {/* Left side - Hamburger */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <button 
+                className="nav-hamburger-btn"
+                onClick={toggleMenu}
+                aria-label="Toggle navigation menu"
+              >
+                {isMenuOpen ? <X className="nav-icon" /> : <Menu className="nav-icon" />}
               </button>
             </div>
+            
+            {/* Right side - Search, Profile, Cart icons */}
+            <div className="nav-icons" style={{ marginLeft: 'auto' }}>
+              <button className="nav-search-icon-btn" onClick={toggleSearch}>
+                <Search size={22} className="nav-icon" />
+              </button>
+              
+              <div className="nav-profile-container">
+                <button 
+                  className="nav-profile-btn"
+                  onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                  aria-label="Profile menu"
+                >
+                  <User size={30} className="nav-icon-user" />
+                </button>
+                {showProfileDropdown && (
+                  <ProfileDropdown closeDropdown={() => setShowProfileDropdown(false)} />
+                )}
+              </div>
+              
+              <Link to="/cart" aria-label="Shopping cart" className="nav-cart-icon-container">
+                <ShoppingCart className="nav-icon-cart" strokeWidth={2.6} height={30} size={30} />
+                <span className="nav-cart-count">{getTotalCartItems()}</span>
+              </Link>
+            </div>
           </div>
-        )}
-
-        {/* Mobile view elements */}
-        {isMobileView && (
-          <button className="nav-search-icon-btn" onClick={toggleSearch}>
-            <Search size={22} className="nav-icon" />
-          </button>
-        )}
-        
-        <div className="nav-icons">
-          {/* Expanded search container that shows below navbar on mobile */}
-          {isMobileView && isSearchExpanded && (
+          
+          {/* Expanded search area */}
+          {isSearchExpanded && (
             <div className="nav-expanded-search-wrapper">
               <div className="nav-search-container">
                 <div className="nav-search-bar">
@@ -309,45 +291,73 @@ const Navbar = () => {
                   <button className="nav-search-btn" type="button" onClick={handleSearchClick}>
                     {isLoading ? <Loader className="nav-icon nav-spinner" /> : <Search className="nav-icon" />}
                   </button>
+                  <button className="nav-search-close-btn" type="button" onClick={closeSearch}>
+                    <X className="nav-icon" />
+                  </button>
                 </div>
               </div>
             </div>
           )}
-          
-          <div className="nav-profile-container">
-            <button 
-              className="nav-profile-btn"
-              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-              aria-label="Profile menu"
-            >
-              <User  size={(30)}
-              className="nav-icon-user" />
-            </button>
-            {showProfileDropdown && (
-              <ProfileDropdown closeDropdown={() => setShowProfileDropdown(false)} />
-            )}
-            <span className='user-text'>Account</span>
-          </div>
-          
-          <Link to="/cart" aria-label="Shopping cart" className="nav-cart-icon-container">
-            <ShoppingCart className="nav-icon-cart" 
-            strokeWidth={2.6}
-            height={30}
-            size={30}
-          
-            
-            />
-            <span className="nav-cart-count">{getTotalCartItems()}</span>
-             
-          </Link>
-          <p className='cart-text'>cart</p>
         </div>
+      )}
 
-      </div>
-    
+      {/* For desktop view (above 500px) - Original layout */}
+      {!isMobileView && (
+        <div className="nav-top">
+          <div className="nav-left">
+            <button 
+              className="nav-hamburger-btn"
+              onClick={toggleMenu}
+              aria-label="Toggle navigation menu"
+            >
+              {isMenuOpen ? <X className="nav-icon" /> : <Menu className="nav-icon" />}
+            </button>
+            <div className="nav-logo" onClick={handleLogoClick}>
+              <h1>gich-<span></span></h1>
+            </div>
+          </div>
+
+          <div className="nav-search-container">
+            <div className="nav-search-bar">
+              <input
+                className="nav-search-input"
+                type="text"
+                placeholder="Search ...."
+                value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              <button className="nav-search-btn" type="button" onClick={handleSearchClick}>
+                {isLoading ? <Loader className="nav-icon nav-spinner" /> : <Search className="nav-icon" />}
+              </button>
+            </div>
+          </div>
+
+          <div className="nav-icons">
+            <div className="nav-profile-container">
+              <button 
+                className="nav-profile-btn"
+                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                aria-label="Profile menu"
+              >
+                <User size={30} className="nav-icon-user" />
+              </button>
+              {showProfileDropdown && (
+                <ProfileDropdown closeDropdown={() => setShowProfileDropdown(false)} />
+              )}
+              <span className='user-text'>Account</span>
+            </div>
+            <Link to="/cart" aria-label="Shopping cart" className="nav-cart-icon-container">
+              <ShoppingCart className="nav-icon-cart" strokeWidth={2.6} height={30} size={30} />
+              <span className="nav-cart-count">{getTotalCartItems()}</span>
+            </Link>
+            <p className='cart-text'>cart</p>
+          </div>
+        </div>
+      )}
+
       <div className={`nav-links ${isMenuOpen ? "nav-open" : ""}`}>
         {activeCategory ? (
-          // Showing subcategories for the active category
           <CategoryDropdown 
             category={activeCategory}
             isHovered={true}
@@ -356,12 +366,8 @@ const Navbar = () => {
             handleSubCategoryClick={handleSubCategoryClick}
           />
         ) : (
-          // Main category list view
           <ul className="nav-category-list">
-            {[
-              "shop",
-              ...Object.keys(categoryData)
-            ].map((item, index) => (
+            {["shop", ...Object.keys(categoryData)].map((item, index) => (
               <li 
                 key={index} 
                 onMouseEnter={() => !isJumiaStyle && setHoveredCategory(item)}
@@ -392,8 +398,6 @@ const Navbar = () => {
                   )}
                 </div>
                 {menu === item && <hr className="nav-divider" />}
-                
-                {/* Desktop dropdown - only shown on hover if not in Jumia style */}
                 {!isJumiaStyle && item !== "shop" && (
                   <CategoryDropdown 
                     category={item}

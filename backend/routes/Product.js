@@ -311,12 +311,27 @@ router.get('/newcollection', async (req, res) => {
     }
 });
 
-// Get best Orimo products
 router.get('/bestorimoproducts', async (req, res) => {
     try {
-        const products = await Product.find({ category: "earpods", subcategory:"wireless-earbuds",  brand: { $in: ["Orimo", "Xiomi", "Oppo", "Apple", "Samsung", "Huawei", "Sony"] } })
-          
+        // Find all earpods from the specified premium brands with more flexible criteria
+        const products = await Product.find({
+            category: { $regex: new RegExp('earpods', 'i') }, // Case-insensitive search
+            $or: [
+                { subcategory: { $regex: new RegExp('wireless.*earbuds', 'i') } }, // More flexible subcategory match
+                { subcategory: { $exists: false } }, // Also include products without subcategory
+                { subcategory: "" } // Empty subcategory
+            ],
+            brand: { 
+                $in: ["Orimo", "Xiomi", "Oppo", "Apple", "Samsung", "Huawei", "Sony", "Jbl"].map(
+                    brand => new RegExp(brand, 'i') // Case-insensitive brand match
+                ) 
+            }
+        });
 
+        // Log what was found for debugging
+        console.log(`Found ${products.length} earpod products`);
+        
+        // Return proper response format
         res.json({
             success: true,
             count: products.length,
@@ -324,14 +339,13 @@ router.get('/bestorimoproducts', async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Error fetching best Orimo products:", error);
+        console.error("Error fetching earpod products:", error);
         res.status(500).json({
             success: false,
             error: error.message
         });
     }
 });
-
 // Get best Vitron TVs
 router.get('/bestvitrontvs', async (req, res) => {
     try {

@@ -8,6 +8,10 @@
     background-color: #e0e0e0;
 
 }
+.hp-image-link{
+    text-decoration: none;
+    color: inherit;
+}
 
 /* Header Container */
 .hp-header-container {

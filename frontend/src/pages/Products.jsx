@@ -7,14 +7,14 @@ import ProductDisplay from "../components/productDisplay/productDisplay";
 import RelatedProduct from "./relatedProducts";
 import YouMayLike from "./YouMayLike";
 import SEO from "./Seo";
-import RecentlyViewedItems from "./RecentViewed";
-
+import RecentlyViewedItems, { addToRecentlyViewed } from "../pages/RecentViewed";
 
 const Product = () => {
     const { all, loading, error } = useContext(shopContext);
     const { productName } = useParams();
     const [product, setProduct] = useState(null);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
+    const [productId, setProductId] = useState(null);
 
     useEffect(() => {
         if (all?.length) {
@@ -25,7 +25,14 @@ const Product = () => {
             const foundProduct = all.find((e) => Number(e.id) === id);
             
             setProduct(foundProduct);
+            setProductId(id); // Store the ID separately for recently viewed tracking
             setIsInitialLoad(false);
+            
+            // Add this product to recently viewed
+            if (id) {
+                addToRecentlyViewed(id);
+                console.log("Added product to recently viewed:", id);
+            }
         }
     }, [all, productName]);
 
@@ -99,11 +106,11 @@ const Product = () => {
        
             <BreadCrum product={product} />
             <ProductDisplay product={product} />
-            </LoadingProvider>
+          
             <YouMayLike />
-            <RecentlyViewedItems />
+            {/* Pass the current product ID to RecentlyViewedItems */}
+            <RecentlyViewedItems currentProductId={productId} />
             <Describe />
-
         </div>
     );
 };

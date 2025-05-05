@@ -26,6 +26,10 @@
     color: blue;
     
 }
+.vitron-image-link{
+    text-decoration: none;
+    color: inherit;
+}
 
 .vitron-view-all {
     display: flex;
@@ -143,19 +147,23 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 800px) {
+    .vitron-best-products {
+        max-width: 100% ;
+        margin: 30px auto;
+        padding: 0px;
+       
+       
+    }
     .vitron-header-container {
     display: flex;
-    justify-content: space-evenly;
-    width: 91%;
-   
+    justify-content: space-between;
+    width: 100%;
+    text-align: center;
+    }
+
     
-    }
-
-    .vitron-view-all {
-
-    }
-
+  
     .vitron-products-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 10px;

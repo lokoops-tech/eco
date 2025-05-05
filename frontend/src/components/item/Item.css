@@ -1,87 +1,205 @@
-/* Item.css - Responsive styling for product items */
+/* Item.css - Enhanced responsive styling for product items */
 
+/* Base styles */
 .all {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 250px;
-    height: auto;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: white;
-    overflow: hidden;
-  }
-  
-  .all:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: white !important;
+  overflow: hidden;
+  margin: 0 auto 15px; /* Center items and add bottom margin */
+}
+
+.all:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.img:hover {
+  transform: scale(1.03);
+}
+
+.name {
+  margin-top: 10px;
+}
+
+.name h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  color: black !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  display: block;
+  line-height: 1.2;
+}
+
+.item-price {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.item-price-new {
+  font-size: 18px;
+  font-weight: 600;
+  color: red;
+  margin-right: 10px;
+}
+
+.oldprice {
+  font-size: 14px;
+  color: #888;
+  text-decoration: line-through;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff3232;
+  color: white;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 1;
+}
+
+/* Media Queries */
+
+/* For phones (small screens) */
+@media only screen and (max-width: 480px) {
+  .all {
+    max-width: 85%;
+   
   }
   
   .img {
-    width: 100%;
-    height: 180px;
-    object-fit: contain;
-    border-radius: 4px;
-    transition: transform 0.3s ease;
-  }
-  
-  .img:hover {
-    transform: scale(1.03);
-  }
-  
-  .name {
-    margin-top: 10px;
+    height: 150px;
   }
   
   .name h3 {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0;
-    color: #333;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
-    display: block;
-    line-height: 1.2;
-}
-  
-  .item-price {
-    display: flex;
-    flex-direction: column;
-    margin-top: 8px;
-    flex-wrap: wrap;
+    font-size: 14px;
   }
   
   .item-price-new {
-    font-size: 18px;
-    font-weight: 600;
-    color:red;
-    margin-right: 10px;
+    font-size: 16px;
   }
   
   .oldprice {
-    font-size: 14px;
-    color: #888;
-    text-decoration: line-through;
+    font-size: 12px;
   }
   
   .discount-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #ff3232;
-    color: white;
-    padding: 5px 8px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: bold;
-    z-index: 1;
+    font-size: 12px;
+    padding: 3px 6px;
+  }
+}
+
+/* For tablets (medium screens) */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .all {
+    max-width: 200px;
   }
   
+  .img {
+    height: 160px;
+  }
+}
 
+/* For small desktops */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .all {
+    max-width: 220px;
+  }
+}
+
+/* For large desktops and high-resolution screens */
+@media only screen and (min-width: 1025px) {
+  .all {
+    max-width: 250px;
+  }
+}
+
+/* Support for grid layouts when items are in a container */
+.items-container {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Adjust grid based on screen size */
+@media only screen and (max-width: 480px) {
+  .items-container {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 15px;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .items-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .items-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .items-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Support for dark mode */
+@media (prefers-color-scheme: dark) {
+  .all {
+    background-color: #222;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
   
- 
+  .name h3 {
+    color: #eee;
+  }
+  
+  .oldprice {
+    color: #aaa;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion) {
+  .all, .img {
+    transition: none;
+  }
+  
+  .all:hover {
+    transform: none;
+  }
+  
+  .img:hover {
+    transform: none;
+  }
+}

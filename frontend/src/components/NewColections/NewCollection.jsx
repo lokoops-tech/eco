@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import SEO from '../../pages/SEO';
+import SEO from '../../pages/Seo.jsx';
 import './NewCollection.css';
 import DefaultImage from '../../Assets/logo.png';
 
@@ -106,15 +106,16 @@ const NewProducts = () => {
             </Link>
           </div>
           <div className="product-card__details">
-            <Link to={`/product/${formatProductUrl(name)}-${id}`} onClick={handleClick}>
+            <Link to={`/product/${formatProductUrl(name)}-${id}`} onClick={handleClick} style={{textDecoration:'none', color:'inherit'}}>
               <h3 className="product-card__name">{name}</h3>
-            </Link>
-            <div className="product-card__price-container">
+              <div className="product-card__price-container">
               <span className="product-card__new-price">Ksh {new_price}</span>
               {old_price && old_price > new_price && (
                 <span className="product-card__old-price">Ksh {old_price}</span>
               )}
             </div>
+            </Link>
+           
           </div>
         </div>
       </>

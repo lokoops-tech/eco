@@ -1,10 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './relatedProduct.css';
-import Item from '../components/item/Item';
+import './RelatedProduct.css';
 
 // Define the API endpoint as a constant
-const API_ENDPOINT = 'https://ecommerce-axdj.onrender.com/product/allproducts';
+const API_ENDPOINT = 'http://localhost:4000/product/allproducts';
 
 const RelatedProduct = ({ currentCategory, currentProductId }) => {
     const ITEMS_PER_PAGE = 8;
@@ -14,14 +13,13 @@ const RelatedProduct = ({ currentCategory, currentProductId }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-
     useEffect(() => {
         if (!currentCategory || !currentProductId) return;
 
         const fetchRelatedProducts = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(API_ENDPOINT); // Use the defined constant
+                const response = await fetch(API_ENDPOINT);
                 if (!response.ok) {
                     throw new Error('Failed to fetch products');
                 }
@@ -63,7 +61,7 @@ const RelatedProduct = ({ currentCategory, currentProductId }) => {
     const hasMoreItems = visibleItems < relatedProducts.length;
 
     if (loading) return (
-        <div className="loading">
+        <div className="related-loading">
             {Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
                 <div key={index} className="skeleton-item"></div>
             ))}
@@ -71,7 +69,7 @@ const RelatedProduct = ({ currentCategory, currentProductId }) => {
     );
 
     if (error) return (
-        <div className="error">
+        <div className="related-error">
             Error: {error}. <button onClick={() => window.location.reload()}>Retry</button>
         </div>
     );
@@ -79,9 +77,9 @@ const RelatedProduct = ({ currentCategory, currentProductId }) => {
     return (
         <div className="related">
             <div className="related-header">
-            <h1>Related Products</h1>
+                <h1>Related Products</h1>
             </div>
-            <div className="relatedproducts">
+            <div className="related-products-grid">
                 {displayedProducts.map((item) => {
                     // Calculate discount percentage
                     const discountPercentage = item.old_price
@@ -92,17 +90,24 @@ const RelatedProduct = ({ currentCategory, currentProductId }) => {
                         <div 
                             key={item.id} 
                             onClick={() => handleProductClick(item.name, item.id)}
-                            className="product-item-wrapper"
+                            className="product-card"
                         >
-                            <Item
-                                id={item.id}
-                                name={item.name}
-                                image={item.image}
-                                category={item.category}
-                                new_price={item.new_price}
-                                old_price={item.old_price} // Pass old_price
-                                discountPercentage={discountPercentage} // Pass discount percentage
-                            />
+                            <div className="product-image-container">
+                                <img src={item.image} alt={item.name} className="product-image" />
+                                {discountPercentage > 0 && (
+                                    <span className="discount-tag">-{discountPercentage}%</span>
+                                )}
+                            </div>
+                            <div className="product-details">
+                                <h3 className="product-name">{item.name}</h3>
+                                <span className="product-category">{item.category}</span>
+                                <div className="product-price">
+                                    <span className="new-price">Ksh{item.new_price}</span>
+                                    {item.old_price && (
+                                        <span className="old-price">Ksh{item.old_price}</span>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     );
                 })}

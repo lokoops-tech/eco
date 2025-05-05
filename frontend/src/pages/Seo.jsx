@@ -1,80 +1,95 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ product = null, category = null, defaultData = {} }) => {
+  // Use a ref to store the initial valid product/category data
+  const initialDataRef = useRef(null);
+  
+  // Store initial valid data to prevent losing it on subsequent renders
+  useEffect(() => {
+    if (!initialDataRef.current && (product?.id || category?.id)) {
+      initialDataRef.current = { product, category };
+    }
+  }, [product, category]);
+
+  // Use stored data or current props
+  const effectiveProduct = product?.id ? product : initialDataRef.current?.product;
+  const effectiveCategory = category?.id ? category : initialDataRef.current?.category;
+
   // Debug logging
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
       console.log('SEO component updated:', {
-        productId: product?.id,
-        metaTitle: product?.metaTitle || category?.name || defaultData.title,
-        timestamp: new Date().toISOString()
+        productId: effectiveProduct?.id,
+        metaTitle: effectiveProduct?.metaTitle || effectiveCategory?.name || defaultData.title,
+        timestamp: new Date().toISOString(),
+        fromCache: !product?.id && initialDataRef.current?.product?.id ? true : false
       });
     }
-  }, [product, category, defaultData]);
+  }, [effectiveProduct, effectiveCategory, defaultData]);
 
   // Dynamically update document title immediately
   useEffect(() => {
     let title = 'Gich-Tech | Electronics & Tech Accessories Store';
     
-    if (product) {
-      title = product.metaTitle || `${product.name} | Gich-Tech Electronics`;
-    } else if (category) {
-      title = `${category.name} | Gich-Tech Electronics`;
+    if (effectiveProduct) {
+      title = effectiveProduct.metaTitle || `${effectiveProduct.name} | Gich-Tech Electronics`;
+    } else if (effectiveCategory) {
+      title = `${effectiveCategory.name} | Gich-Tech Electronics`;
     } else if (defaultData.title) {
       title = defaultData.title;
     }
 
     document.title = title;
-  }, [product, category, defaultData]);
+  }, [effectiveProduct, effectiveCategory, defaultData]);
 
   // Product SEO
-  if (product) {
+  if (effectiveProduct) {
     // Clean up meta description - remove any code snippets
-    const cleanDescription = (product.metaDescription || product.description || '')
+    const cleanDescription = (effectiveProduct.metaDescription || effectiveProduct.description || '')
       .replace(/\/\/.*?\n/g, '') // Remove code comments
       .replace(/`.*?`/g, '')     // Remove code blocks
-      .trim() || `Buy ${product.name} at Gich-Tech Electronics`;
+      .trim() || `Buy ${effectiveProduct.name} at Gich-Tech Electronics`;
 
     return (
       <Helmet prioritizeSeoTags>
-        <title>{product.metaTitle || `${product.name} | Gich-Tech Electronics`}</title>
+        <title>{effectiveProduct.metaTitle || `${effectiveProduct.name} | Gich-Tech Electronics`}</title>
         <meta name="description" content={cleanDescription} />
-        {product.metaKeywords && <meta name="keywords" content={product.metaKeywords.join(', ')} />}
+        {effectiveProduct.metaKeywords && <meta name="keywords" content={effectiveProduct.metaKeywords.join(', ')} />}
         
-        <link rel="canonical" href={product.seoData?.canonicalUrl || `http://localhost:5173/products/${product.slug || product.id}`} />
+        <link rel="canonical" href={effectiveProduct.seoData?.canonicalUrl || `http://localhost:5173/products/${effectiveProduct.slug || effectiveProduct.id}`} />
         
         {/* Open Graph */}
         <meta property="og:type" content="product" />
-        <meta property="og:title" content={product.metaTitle || `${product.name} | Gich-Tech Electronics`} />
+        <meta property="og:title" content={effectiveProduct.metaTitle || `${effectiveProduct.name} | Gich-Tech Electronics`} />
         <meta property="og:description" content={cleanDescription} />
-        <meta property="og:url" content={product.seoData?.canonicalUrl || `http://localhost:5173/products/${product.slug || product.id}`} />
-        <meta property="og:image" content={product.images?.[0]?.url || product.image} />
+        <meta property="og:url" content={effectiveProduct.seoData?.canonicalUrl || `http://localhost:5173/products/${effectiveProduct.slug || effectiveProduct.id}`} />
+        <meta property="og:image" content={effectiveProduct.images?.[0]?.url || effectiveProduct.image} />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={product.metaTitle || `${product.name} | Gich-Tech Electronics`} />
+        <meta name="twitter:title" content={effectiveProduct.metaTitle || `${effectiveProduct.name} | Gich-Tech Electronics`} />
         <meta name="twitter:description" content={cleanDescription} />
-        <meta name="twitter:image" content={product.images?.[0]?.url || product.image} />
+        <meta name="twitter:image" content={effectiveProduct.images?.[0]?.url || effectiveProduct.image} />
         
         {/* Structured Data */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            "name": product.name,
+            "name": effectiveProduct.name,
             "description": cleanDescription,
             "brand": {
               "@type": "Brand",
-              "name": product.brand || "Gich-Tech"
+              "name": effectiveProduct.brand || "Gich-Tech"
             },
             "offers": {
               "@type": "Offer",
-              "priceCurrency": product.currency || "KES",
-              "price": product.new_price,
-              "availability": product.availability || (product.stockStatus === 'IN_STOCK' ? "https://schema.org/InStock" : "https://schema.org/OutOfStock")
+              "priceCurrency": effectiveProduct.currency || "KES",
+              "price": effectiveProduct.new_price,
+              "availability": effectiveProduct.availability || (effectiveProduct.stockStatus === 'IN_STOCK' ? "https://schema.org/InStock" : "https://schema.org/OutOfStock")
             },
-            ...(product.seoData?.structuredData || {})
+            ...(effectiveProduct.seoData?.structuredData || {})
           })}
         </script>
       </Helmet>
@@ -82,20 +97,20 @@ const SEO = ({ product = null, category = null, defaultData = {} }) => {
   }
 
   // Category SEO
-  if (category) {
+  if (effectiveCategory) {
     return (
       <Helmet>
-        <title>{`${category.name} | Gich-Tech Electronics`}</title>
-        <meta name="description" content={`Shop ${category.name} at Gich-Tech. Find the best ${category.name.toLowerCase()} products and accessories.`} />
+        <title>{`${effectiveCategory.name} | Gich-Tech Electronics`}</title>
+        <meta name="description" content={`Shop ${effectiveCategory.name} at Gich-Tech. Find the best ${effectiveCategory.name.toLowerCase()} products and accessories.`} />
         
-        <link rel="canonical" href={`http://localhost:5173/${category.slug}`} />
+        <link rel="canonical" href={`http://localhost:5173/${effectiveCategory.slug}`} />
         
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={`${category.name} | Gich-Tech Electronics`} />
-        <meta property="og:description" content={`Shop ${category.name} at Gich-Tech Electronics`} />
-        <meta property="og:url" content={`http://localhost:5173/${category.slug}`} />
-        <meta property="og:image" content={category.image || 'http://localhost:5173/default-category-image.jpg'} />
+        <meta property="og:title" content={`${effectiveCategory.name} | Gich-Tech Electronics`} />
+        <meta property="og:description" content={`Shop ${effectiveCategory.name} at Gich-Tech Electronics`} />
+        <meta property="og:url" content={`http://localhost:5173/${effectiveCategory.slug}`} />
+        <meta property="og:image" content={effectiveCategory.image || 'http://localhost:5173/default-category-image.jpg'} />
       </Helmet>
     );
   }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./YouMaylike.css";
-const API_BASE_URL="https://ecommerce-axdj.onrender.com"
+const API_BASE_URL="http://localhost:4000"; // Adjust this to your API base URL
 
 
 
@@ -97,18 +97,19 @@ const ProductCard = ({ product, onClick }) => {
   return (
     <div className="youmaylike-product-card">
       {discount > 0 && <div className="youmaylike-discount-badge">-{discount}%</div>}
-      <Link to={safeProductUrl} onClick={onClick}>
+      <Link to={safeProductUrl} onClick={onClick} style={{ textDecoration: "none", color: "inherit" }}>
         <div className="youmaylike-product-image-container">
           <img className="youmaylike-product-image" src={image} alt={name} />
         </div>
-      </Link>
-      <div className="youmaylike-product-details">
+        <div className="youmaylike-product-details">
         <h3 className="youmaylike-product-name">{name}</h3>
         <div className="youmaylike-item-price">
           <span className="youmaylike-item-price-new">Ksh {new_price}</span>
           {old_price && <span className="youmaylike-old-price">Ksh {old_price}</span>}
         </div>
       </div>
+      </Link>
+     
     </div>
   );
 };

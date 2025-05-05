@@ -1,15 +1,17 @@
 .budget-deals-wrapper {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 30px auto;
     justify-content: center;
-    padding: 0%;
+    background-color: #dfdfdf;
+    padding: 20px;
+    border-radius: 10px;
   }
   
   .budget-deals-header {
     text-align: center !important;
     margin-bottom: 30px;
     border-radius: 5px;
-    background-color: #f0f0f0;
+
   }
   
   .budget-deals-title {
@@ -17,7 +19,10 @@
     color: blue;
     margin-bottom: 10px;
   }
-  
+  .budget-product-link{
+    text-decoration: none;
+    color: inherit;
+  }
   .budget-deals-subtitle {
     font-size: 1.2rem;
     color:black;
@@ -80,7 +85,6 @@
   
   .budget-price-container {
     display: flex;
-    gap: 10px;
     flex-wrap: wrap;
     flex-direction: column;
   }
@@ -179,11 +183,15 @@
   @media (max-width: 500px) {
     .budget-deals-wrapper {
       max-width: 100%;
-      margin: 0;
+    
+      padding: 0%;
       justify-content: start;
+      background-color: white;
   
     }
- 
+     .budget-deals-header{
+      background-color: #f0f0f0;
+     }
     .budget-deals-title {
       font-size: 0.9rem;
     }

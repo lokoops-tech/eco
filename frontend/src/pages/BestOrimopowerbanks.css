@@ -108,6 +108,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.powerbank-image-link{
+    text-decoration: none;
+    color: inherit;
+}
 
 .powerbank-price-container {
     display: flex;
@@ -192,7 +196,7 @@
      }
  
     .powerbank-products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
        
     }
 

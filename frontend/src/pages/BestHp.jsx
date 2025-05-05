@@ -49,12 +49,13 @@ const BestHpLaptops = () => {
                                     -{calculateDiscount(product.old_price, product.new_price)}%
                                 </div>
                             )}
-                        </Link>
-                        <div className="hp-product-details">
+                               <div className="hp-product-details">
                                <h3 className="hp-product-name">{product.name}</h3>
                                 <span className='hp-price-new'>Ksh {product.new_price}</span>
                                 <span className="hp-old-price">Ksh {product.old_price}</span>
                         </div>
+                        </Link>
+                     
                     </div>
                 ))}
             </div>
