@@ -251,7 +251,7 @@
 }
 
 /* 500px Breakpoint */
-@media (max-width: 500px) {
+@media (max-width: 480px) {
   .shop-container {
     padding: 0%;
     margin: 0;
@@ -263,15 +263,17 @@
   .shop-main-title{
     font-size: 0.9rem;
   }
-  .shop-h
+  
 
   .shop-products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 5px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 2px;
   }
 
   .shop-product-card {
+    
     padding: 10px;
+ 
   }
 
   .shop-product-thumbnail {
@@ -283,4 +285,5 @@
     font-size: 0.7rem;
   }
 }
+
 
