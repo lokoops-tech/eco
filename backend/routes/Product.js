@@ -403,6 +403,7 @@ router.get('/bestjblspeakers', async (req, res) => {
     try {
         const products = await Product.find({
             category: "woofers",
+            subcategory: "wireless-speakers",
             brand: "Jbl"
         })
 
