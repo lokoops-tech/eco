@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Import Link
 import './MyPocket.css';
 
-const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base URL
+const API_BASE_URL = "https://ecommerce-axdj.onrender.com"; // Adjust this to your API base URL
 
 const MyPocket = () => {
   const [minPrice, setMinPrice] = useState('');
