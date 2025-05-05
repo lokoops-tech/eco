@@ -5,7 +5,6 @@ import Footer from "./components/Footer/Footer.jsx";
 import WhatsAppButton from "./components/WhatsApp/WhatsAppButton.jsx";
 import FindUs from "./pages/Top.jsx";
 import { ToastContainer } from "react-toastify";
-
 import All from "./pages/All.jsx";
 import SEO from "./pages/Seo.jsx";
 

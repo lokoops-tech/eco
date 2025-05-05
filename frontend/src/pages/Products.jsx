@@ -106,7 +106,7 @@ const Product = () => {
        
             <BreadCrum product={product} />
             <ProductDisplay product={product} />
-          
+           
             <YouMayLike />
             {/* Pass the current product ID to RecentlyViewedItems */}
             <RecentlyViewedItems currentProductId={productId} />
