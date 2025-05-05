@@ -46,7 +46,7 @@
 .jbl-products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  gap: 7px;
   width: 100%;
 }
 
@@ -56,6 +56,7 @@
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
+  padding: 10px;
   transition: all 0.3s ease;
   background: #fff;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
@@ -64,7 +65,7 @@
 .jbl-product-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-  border-color: red;
+  border-color: rgb(79, 83, 134);
 }
 
 /* Image Link */
@@ -90,7 +91,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #eb0404;
+  background-color: #3f51b5;
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
@@ -106,11 +107,13 @@
 }
 
 .jbl-product-name {
-  font-size: 1rem;
+  font-size: 14px;
+  font-weight: 600;
   padding: 0% !important;
-  color: #333;
+  color: #444444 !important;
   white-space: nowrap;
   overflow: hidden;
+  
   text-overflow: ellipsis;
 }
 
@@ -121,9 +124,9 @@
 }
 
 .jbl-price {
-  color:#df2e3c;
+  color:dark;
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 16px;
   padding: 0%;
 }
 

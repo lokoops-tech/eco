@@ -1,19 +1,23 @@
 .footer-container {
-    background-color:#080808;
+    background-color: #080808;
     color: #ffffff;
     font-family: 'Arial', sans-serif;
     margin-top: 30px;
-   
-    
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .footer-content-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 3rem;
-     max-width: 1400px;
+    max-width: 1200px; /* Set a max-width for the content */
+    width: 100%;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 2rem 3%;  /* Add horizontal padding */
+    box-sizing: border-box;
 }
 
 .footer-left-section {
@@ -27,57 +31,64 @@
     align-items: center;
 }
 .footer-brand-logo h1{
-    font-family: 'Roboto', sans-serif; /* Android's default font */
+    font-family: 'Roboto', sans-serif;
     font-size: 30px;
     text-transform: uppercase;
     font-weight: 700;
     color: #2706e2;
+    margin: 0;
 }
 .footer-brand-logo span::after{
     content: 'Tech';
-  color: #E53935; /* Material Design red */
-  font-weight: 700;
+    color: #E53935;
+    font-weight: 700;
+}
+.footer-nav-links {
+    padding: 0;
+    margin: 0;
 }
 .footer-nav-links li{
     list-style: none !important;
+    margin-bottom: 0.75rem;
 }
 
 .footer-quick-links-section {
     padding: 2rem 0;
-  }
+}
   
-  .footer-quick-links-title {
+.footer-quick-links-title {
     color: #ffffff;
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
-  }
+}
   
-  .footer-quick-links-list {
+.footer-quick-links-list {
     list-style: none !important;
     padding: 0;
     margin: 0;
-  }
+}
   
-  .footer-quick-links-list li {
+.footer-quick-links-list li {
     margin-bottom: 0.75rem;
-  }
+}
   
-  .footer-nav-link {
+.footer-nav-link {
     color: #e0e0e0;
     text-decoration: none;
     font-size: 0.95rem;
     transition: color 0.3s ease;
-  }
+}
   
-  .footer-nav-link:hover {
+.footer-nav-link:hover {
     color: #2b12b9;
     text-decoration: underline;
-  }
+}
   
 .footer-social-icons {
     display: flex;
     gap: 1.2rem;
+    margin-top: 1.5rem;
 }
 
 .footer-social-icon {
@@ -89,24 +100,6 @@
 .footer-social-icon:hover {
     transform: translateY(-3px);
     color: #2a2b9c;
-}
-
-.footer-quick-links-section {
-    padding-top: 1rem;
-}
-
-.footer-quick-links-title {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-}
-
-.footer-quick-links-list {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-quick-links-list li {
-    margin-bottom: 0.8rem;
 }
 
 .footer-review-section {
@@ -149,7 +142,6 @@
 
 .footer-star-button.filled {
     color: #2144b8f8;
-    
 }
 
 .footer-review-textarea {
@@ -177,10 +169,12 @@
 }
 
 .footer-bottom-section {
+    width: 100%;
     margin-top: 3rem;
-    padding-top: 2rem;
+    padding: 2rem 3%;
     border-top: 1px solid #333;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .footer-copyright {
@@ -188,9 +182,11 @@
 }
 .footer-copyright p{
     color: whitesmoke;
+    margin: 0;
 }
 .footer-bottom-section p{
     color: whitesmoke;
+    margin: 0.5rem 0;
 }
 
 .footer-designer {
@@ -216,13 +212,35 @@
     background-color: #45a049;
 }
 
+/* Make sure the body and html have no margins that could affect footer width */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
 @media (max-width: 768px) {
     .footer-content-wrapper {
         grid-template-columns: 1fr;
         gap: 2rem;
+        padding: 2rem 5%;
     }
     
     .footer-social-icons {
-        justify-content: center;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        margin: 30px 0 0 0;
+        width: 100%;
+    }
+
+    .footer-content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem 5%;
     }
 }

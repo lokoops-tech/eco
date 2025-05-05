@@ -36,7 +36,7 @@ const Footer = () => {
                 <h1>gich-<span></span></h1>
             </div>
             <ul className="footer-nav-links">
-                <li><Link className="footer-nav-link" to="/offices">Offices</Link></li>
+               
                 <li><Link className="footer-nav-link" to="/about">About</Link></li>
                 <li><Link className="footer-nav-link" to="/contact">Contact</Link></li>
                 <li><Link className="footer-nav-link" to="/privacy-policy">Privacy Policy</Link></li>

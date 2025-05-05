@@ -41,8 +41,8 @@ router.post("/signup", async (req, res) => {
         // Save user to database
         await user.save();
 
-        // Generate JWT token
-        const token = jwt.sign({ user: { id: user._id } }, process.env.JWT_SECRET, { expiresIn: "24h" });
+        // Generate JWT token - Changed from 24h to 720h (30 days)
+        const token = jwt.sign({ user: { id: user._id } }, process.env.JWT_SECRET, { expiresIn: "720h" });
 
         res.status(201).json({
             success: true,
@@ -100,9 +100,9 @@ router.post("/login", async (req, res) => {
             });
         }
 
-        // Generate JWT token
-        const token = jwt.sign({ user: { id: user._id, email: user.email } }, process.env.JWT_SECRET, { expiresIn: "24h" });
-
+        // Generate JWT token - Already correctly set to 720h
+        const token = jwt.sign({ user: { id: user._id, email: user.email } }, process.env.JWT_SECRET, { expiresIn: "720h" });
+        console.log("Generated token:", token); // Debug log
         res.json({
             success: true,
             message: "Login successful",

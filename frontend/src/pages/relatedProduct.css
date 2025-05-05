@@ -26,15 +26,15 @@
     position: absolute;
     width: 40%;
     height: 3px;
-    background-color: #ff4141;
+    background-color: #3f51b5;
     bottom: -6px;
     left: 0;
 }
 
 .related-products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
     margin-bottom: 40px;
 }
 
@@ -73,7 +73,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: #ff4141;
+    background-color: #3f51b5;
     color: white;
     padding: 5px 10px;
     border-radius: 4px;
@@ -86,9 +86,9 @@
 }
 
 .product-name {
-    font-size: 16px ;
+    font-size: 14px ;
     font-weight: 600 ;
-    color: #333;
+    color: #444;
     margin: 0 0 8px 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -108,15 +108,15 @@
 }
 
 .new-price {
-    font-size: 18px !important;
-    font-weight: 600 !important;
-    color: #df3636 !important;
+    font-size: 16px !important;
+    font-weight: bold!important;
+    color: dark !important;
    
 }
 
 .old-price {
-    font-size: 14px;
-    color: #888;
+    font-size: 14px !important;
+    color: #918e8e;
     text-decoration: line-through;
   
 }
@@ -128,26 +128,25 @@
 }
 
 .load-more-button {
-    background-color: #ff4141;
+    padding: 10px 20px;
+    background: #3f51b5 !important;
     color: white;
     border: none;
-    padding: 12px 25px;
-    font-size: 16px;
-    border-radius: 25px;
+    border-radius: 5px !important;
     cursor: pointer;
-    transition: background-color 0.3s;
-    font-weight: 500;
+    transition: background 0.3s ease;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
 }
 
 .load-more-button:hover {
-    background-color: #e63535;
+    background-color: #303f9f;
 }
 
 /* Loading skeleton animation */
 .related-loading {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px !important;
 }
 
 .skeleton-item {

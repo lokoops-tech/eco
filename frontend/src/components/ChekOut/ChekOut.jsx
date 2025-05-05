@@ -331,7 +331,7 @@ const Checkout = () => {
       const result = await placeOrder(orderPayload);
 
       if (result?.success) {
-        toast.success("Order placed successfully! Redirecting to order details...");
+        toast.success("Order placed successfully! Check Your Email ...");
         navigate('/orders');
       } else {
         throw new Error("Order placement failed");

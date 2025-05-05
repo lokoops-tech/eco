@@ -152,6 +152,8 @@ const SearchResultsPage = () => {
       return () => clearTimeout(loadingTimer);
     }
   }, [location.search, all, sortBy, priceRange, selectedCategories, selectedBrands]);
+
+
   
   useEffect(() => {
     const handleResize = () => {

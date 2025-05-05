@@ -88,17 +88,17 @@
 }
 
 .stage-content h4 {
-  color: #000;
+  color: #585151;
   margin-bottom: 0.5rem;
 }
 
 .stage-fee {
-  color: #ff6b00;
-  font-weight: 500;
+  color: dark;
+  font-weight: bold;
 }
 
 .stage-time {
-  color: #000;
+  color: #474242;
   margin-top: 0.25rem;
 }
 
@@ -278,8 +278,9 @@
 }
 
 .delivery-info-note p {
-  color: #666;
-  font-size: 0.875rem;
+  color: dark;
+  font-weight: bold;
+  font-size: 1.1rem;
   margin-bottom: 0.5rem;
 }
 

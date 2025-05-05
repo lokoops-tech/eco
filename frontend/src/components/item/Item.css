@@ -40,9 +40,9 @@
 
 .name h3 {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   margin: 0;
-  color: black !important;
+  color: #444444 !important;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -59,9 +59,9 @@
 }
 
 .item-price-new {
-  font-size: 18px;
-  font-weight: 600;
-  color: red;
+  font-size: 16px;
+  font-weight: bold;
+  color: dark;
   margin-right: 10px;
 }
 
@@ -75,7 +75,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #ff3232;
+  background-color: #3f51b5; /* Blue background */
   color: white;
   padding: 5px 8px;
   border-radius: 4px;

@@ -1,4 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
+
+import { ChevronDown } from 'lucide-react';
 import { shopContext } from '../../context/ShopContext';
 import star_icon from '../../Assets/star_icon.png';
 import star_dull_icon from '../../Assets/star_dull_icon.png';
@@ -37,6 +39,12 @@ const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
     const [currentProductId, setCurrentProductId] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [showShareOptions, setShowShareOptions] = useState(false);
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+   const [isKeyFeaturesExpanded, setIsKeyFeaturesExpanded] = useState(false);
+   const [isSubmitting, setIsSubmitting] = useState(false);
+
+// Reset expansion state when product changes
+
 
     const absoluteSavings = product.old_price - product.new_price;
     const percentageSavings = Math.round((absoluteSavings / product.old_price) * 100);
@@ -71,7 +79,13 @@ const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
         setCurrentProductId(product.id);
       }
     }, [product]);
-    
+     
+    useEffect(() => {
+      if (product) {
+        setIsDescriptionExpanded(false);
+        setIsKeyFeaturesExpanded(false);
+      }
+    }, [product]);
 
     const MetaTags = () => {
       useEffect(() => {
@@ -279,28 +293,35 @@ View it here: ${productUrl}`;
           toast.error("Review must be at least 3 characters long");
           return;
         }
-
-        const newReview = {
-          rating: userRating,
-          comment: reviewText.trim(),
-          name: reviewerName.trim() || 'Anonymous',
-          date: new Date().toLocaleDateString(),
-          id: Date.now(),
-        };
-
-        const updatedReviews = [newReview, ...reviews];
-        setReviews(updatedReviews);
-        localStorage.setItem(`reviews-${product.id}`, JSON.stringify(updatedReviews));
-
-        setUserRating(0);
-        setReviewText('');
-        setReviewerName('');
-        toast.success("Review submitted successfully");
+    
+        // Set submitting state to true
+        setIsSubmitting(true);
+    
+        // Simulate a network request with setTimeout
+        setTimeout(() => {
+          const newReview = {
+            rating: userRating,
+            comment: reviewText.trim(),
+            name: reviewerName.trim() || 'Anonymous',
+            date: new Date().toLocaleDateString(),
+            id: Date.now(),
+          };
+    
+          const updatedReviews = [newReview, ...reviews];
+          setReviews(updatedReviews);
+          localStorage.setItem(`reviews-${product.id}`, JSON.stringify(updatedReviews));
+    
+          setUserRating(0);
+          setReviewText('');
+          setReviewerName('');
+          setIsSubmitting(false); // Reset submitting state
+          toast.success("Review submitted successfully");
+        }, 1000); // Simulate 1 second delay
       } catch (error) {
+        setIsSubmitting(false); // Reset submitting state on error
         toast.error("Failed to submit review");
       }
     };
-
     useEffect(() => {
       if (product?.id) {
         const storedReviews = localStorage.getItem(`reviews-${product.id}`);
@@ -310,7 +331,7 @@ View it here: ${productUrl}`;
       }
     }, [product?.id]);
 
-    const renderStars = (rating, totalStars = 5, interactive = false) => {
+    const renderStars = (rating, totalStars = 5, interactive = false,) => {
       return Array(totalStars).fill(0).map((_, index) => (
         <img 
           key={index}
@@ -375,14 +396,39 @@ View it here: ${productUrl}`;
         case 'description':
           return (
             <div>
-              <p className="description">{product.description}</p>
+              {/* Add state for expanded description */}
+              <div className={`description ${isDescriptionExpanded ? 'description-expanded' : 'description-collapsed'}`}>
+                {product.description}
+              </div>
+              
+              {/* Add show more/less button */}
+              <button 
+                className="show-more-btn" 
+                onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+              >
+                {isDescriptionExpanded ? 'Show Less' : 'Show More'}
+                <ChevronDown className={`show-more-icon ${isDescriptionExpanded ? 'expanded' : ''}`} size={18} />
+              </button>
+              
               <div className="key-features">
                 <h3>Key Features</h3>
-                <div className="key-text">
+                <div className={`key-text ${isKeyFeaturesExpanded ? 'key-text-expanded' : 'key-text-collapsed'}`}>
                   {product.keyFeatures && product.keyFeatures.map((feature, index) => (
                     <p key={index}>{feature}</p>
                   ))}
                 </div>
+                
+                {/* Only show this button if there are enough features to warrant it */}
+                {product.keyFeatures && product.keyFeatures.length > 2 && (
+                  <button 
+                    className="show-more-btn" 
+                    onClick={() => setIsKeyFeaturesExpanded(!isKeyFeaturesExpanded)}
+                  >
+                    {isKeyFeaturesExpanded ? 'Show Less' : 'Show More Features'}
+                    <ChevronDown className={`show-more-icon ${isKeyFeaturesExpanded ? 'expanded' : ''}`} size={18} />
+                  </button>
+                )}
+                
                 {product.technicalSpecs && Object.keys(product.technicalSpecs).length > 0 && (
                   <div className="technical-specs">
                     <h3>Technical Specifications</h3>
@@ -441,7 +487,21 @@ View it here: ${productUrl}`;
                     required
                   />
                 </div>
-                <button className='review-content-btn' type="submit">Submit Review</button>
+                <button 
+  className={`review-content-btn ${isSubmitting ? 'submitting' : ''}`} 
+  type="submit" 
+  disabled={isSubmitting}
+>
+  {isSubmitting ? 'Submitting...' : 'Submit Review'}
+</button>
+
+{/* Optionally add a loading spinner under the button when submitting */}
+{isSubmitting && (
+  <div className="review-submit-status">
+    <div className="submit-spinner"></div>
+    <span>Processing your review...</span>
+  </div>
+)}
               </form>
 
               <div className="reviews-list">

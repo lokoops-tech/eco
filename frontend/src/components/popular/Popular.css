@@ -29,8 +29,8 @@
 
 .earpods-products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
 }
 
 .earpods-product-card {
@@ -54,7 +54,7 @@
 
 .earpods-product-image img {
     width: 100%;
-    height: 100%;
+    height: 180px;
     object-fit: contain;
     background-color:white;
     padding: 10px;
@@ -65,9 +65,9 @@
 }
 
 .earpods-product-name {
-    font-size: 16px;
-    font-weight: 500;
-    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    color: #444444;
     text-decoration: none;
    height: auto;
     overflow: hidden;
@@ -85,16 +85,16 @@
 }
 
 .earpods-new-price {
-    font-size: 18px;
-    font-weight: 600;
-    color: #dd2c2ce5;
+    font-size: 16px;
+    font-weight: bold;
+    color: dark;
     margin-right: 10px;
     text-decoration: none !important;
 }
 
 .earpods-old-price {
     font-size: 14px;
-    color: #999;
+    color: #918e8e;
     text-decoration: line-through;
 }
 
@@ -158,7 +158,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: #ff4d4d;
+    background-color: #3f51b5;
     color: white;
     padding: 5px 10px;
     border-radius: 4px;
@@ -166,7 +166,7 @@
     font-size: 14px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 2;
-    animation: pulse 2s infinite;
+    animation: none;
 }
 
 @keyframes pulse {
@@ -202,9 +202,22 @@
 }
 
 @media (max-width: 480px) {
+    .earpods-popular-section {
+        padding: 0px;
+        background-color: #ffff;
+       
+    }
+    .earpods-section-header{
+        background-color: #dfdfdf;
+        border-radius: 8px;
+
+    }
+    .earpods-section-header h1 {
+        font-size: 24px;
+    }
     .earpods-products-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 15px;
+        gap: 10px;
     }
     
     .earpods-product-image {

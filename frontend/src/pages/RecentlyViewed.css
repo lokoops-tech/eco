@@ -20,7 +20,7 @@
   .recently-viewed-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    gap: 10px;
   }
   
   .recently-viewed-item {
@@ -52,14 +52,14 @@
   
   .recently-viewed-item:hover .recently-viewed-image img {
     transform: scale(1.05);
-    border-color: #e74c3c;
+    border-color: #544bd1;
   }
   
   .recently-viewed-discount {
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: #e74c3c;
+    background-color: #3f51b5;
     color: white;
     padding: 4px 8px;
     border-radius: 4px;
@@ -72,8 +72,9 @@
   }
   
   .recently-viewed-name {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
+    color: #444444 !important;
+    font-weight: 600;
     margin: 0 0 5px;
     white-space: nowrap;
     overflow: hidden;
@@ -94,15 +95,15 @@
   }
   
   .recently-viewed-new-price {
-    font-size: 18px;
-    font-weight: 600;
-    color: rgb(201, 23, 23);
+    font-size: 16px;
+    font-weight: bold;
+    color: dark;
    
   }
   
   .recently-viewed-old-price {
     font-size: 14px;
-    color: #777;
+    color: #918e8e;
     text-decoration: line-through;
     display: block;
   }
@@ -113,14 +114,14 @@
   }
   
   .recently-viewed-load-more button {
-    background-color: #1c2ece;
-    color: white;
-    border: none;
     padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background: #3f51b5 !important;
+  color: white;
+  border: none;
+  border-radius: 5px !important;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
   }
   
   .recently-viewed-load-more button:hover {

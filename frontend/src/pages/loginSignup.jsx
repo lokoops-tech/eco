@@ -8,6 +8,7 @@ const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base UR
 const LoginSignup = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState("Login");
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -128,6 +129,8 @@ const LoginSignup = () => {
 
     if (!validateForm()) return;
 
+    setIsLoading(true);
+
     const url = mode === "Sign Up"
       ? `${API_BASE_URL}/auth/signup`
       : `${API_BASE_URL}/auth/login`;
@@ -163,6 +166,7 @@ const LoginSignup = () => {
         toast.error(mode === "Login" ?
           "Login failed. Please check your credentials." :
           "Sign up failed. Please check your information.");
+        setIsLoading(false);
         return;
       }
 
@@ -186,6 +190,7 @@ const LoginSignup = () => {
 
       // Redirect after a small delay, e.g., 1.5 seconds
       setTimeout(() => {
+        setIsLoading(false);
         navigate("/");
       }, 1500);
 
@@ -196,6 +201,7 @@ const LoginSignup = () => {
         general: "Connection error. Please check your internet and try again."
       }));
       toast.error("Something went wrong. Please try again.");
+      setIsLoading(false);
     }
   };
 
@@ -205,6 +211,7 @@ const LoginSignup = () => {
     if (tokenExpiry && Date.now() > parseInt(tokenExpiry)) {
       // Token has expired, redirect to login
       localStorage.removeItem("auth-token");
+      console.log("Token expiry date.",tokenExpiry);
       localStorage.removeItem("token-expiry");
       navigate("/login");
       return true; // Token expired
@@ -212,6 +219,13 @@ const LoginSignup = () => {
     return false; // Token is valid
   };
 
+  // Loading spinner component
+  const LoadingSpinner = () => (
+    <div className="loggin-spinner-container">
+      <div className="spinner-login"></div>
+      <p className="spinner-text">{mode === "Login" ? "Logging in..." : "Creating account..."}</p>
+    </div>
+  );
 
   return (
     <div className="auth-page">
@@ -229,6 +243,7 @@ const LoginSignup = () => {
                 placeholder="Enter username"
                 value={formData.username}
                 onChange={changeHandler}
+                disabled={isLoading}
                 className={errors.username ? "field-input input-error" : "field-input"}
               />
               {errors.username && <div className="error-message field-error">{errors.username}</div>}
@@ -242,6 +257,7 @@ const LoginSignup = () => {
               placeholder="Enter email"
               value={formData.email}
               onChange={changeHandler}
+              disabled={isLoading}
               className={errors.email ? "field-input input-error" : "field-input"}
             />
             {errors.email && <div className="error-message field-error">{errors.email}</div>}
@@ -254,11 +270,18 @@ const LoginSignup = () => {
               placeholder="Enter password"
               value={formData.password}
               onChange={changeHandler}
+              disabled={isLoading}
               className={errors.password ? "field-input input-error" : "field-input"}
             />
             {errors.password && <div className="error-message field-error">{errors.password}</div>}
           </div>
-          <button type="submit" className="auth-button">{mode}</button>
+          <button 
+            type="submit" 
+            className={`auth-button ${isLoading ? 'button-loading' : ''}`}
+            disabled={isLoading}
+          >
+            {isLoading ? <LoadingSpinner /> : mode}
+          </button>
         </form>
 
         <p className="auth-options">
@@ -267,25 +290,36 @@ const LoginSignup = () => {
               <span className="option-text">New Customer?</span>
               <span
                 onClick={() => {
-                  setMode("Sign Up");
-                  setFormData({ username: "", email: "", password: "" });
+                  if (!isLoading) {
+                    setMode("Sign Up");
+                    setFormData({ username: "", email: "", password: "" });
+                  }
                 }}
-                className="option-link"
+                className={`option-link ${isLoading ? 'disabled-link' : ''}`}
               >
                 Create an account
               </span>
               <span className="option-divider">|</span>
-              <span onClick={() => navigate("/forgot-password")} className="option-link">
+              <span 
+                onClick={() => {
+                  if (!isLoading) {
+                    navigate("/forgot-password");
+                  }
+                }} 
+                className={`option-link ${isLoading ? 'disabled-link' : ''}`}
+              >
                 Forgot Password?
               </span>
             </>
           ) : (
             <span
               onClick={() => {
-                setMode("Login");
-                setFormData({ username: "", email: "", password: "" });
+                if (!isLoading) {
+                  setMode("Login");
+                  setFormData({ username: "", email: "", password: "" });
+                }
               }}
-              className="option-link back-option"
+              className={`option-link back-option ${isLoading ? 'disabled-link' : ''}`}
             >
               Back to Login
             </span>

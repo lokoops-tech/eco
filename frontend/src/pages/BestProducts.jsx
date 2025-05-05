@@ -106,9 +106,7 @@ const BestProducts = () => {
                                             alt={product.name} 
                                             className="product-image"
                                         />
-                                    </Link>
-                                    
-                                    <div className="best-detail">
+                                         <div className="best-detail">
                                         <h2>{product.name}</h2>
                                         <div className="product-price">
                                             <span className="current-price">Ksh {product.new_price?.toLocaleString() || '0'}</span>
@@ -117,6 +115,9 @@ const BestProducts = () => {
                                             )}
                                         </div>
                                     </div>
+                                    </Link>
+                                    
+                                   
                                 </div>
                             );
                         })}

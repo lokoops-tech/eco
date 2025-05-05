@@ -4,7 +4,6 @@
   margin: 30px auto;
   padding: 20px;
   width: 100%;
-
   border-radius: 10px;
   background-color: #ddd;
  
@@ -99,7 +98,7 @@
 .shop-products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
+  gap: 8px;
   width: 100%;
 }
 
@@ -126,7 +125,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background: #ff4444;
+  background: #3f51b5;
   color: white;
   padding: 5px 10px;
   border-radius: 4px;
@@ -144,17 +143,18 @@
 }
 
 .shop-product-title {
-  font-size: clamp(0.8rem, 2.5vw, 1rem);
+  font-size: 14px;
+  font-weight: 600;
   margin: 10px 0;
-  color: #333;
+  color: #444444;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .shop-product-category {
-  color: #666;
-  font-size: clamp(0.75rem, 2vw, 0.9rem);
+  color: #918e8e;
+  font-size: 14px;
   margin-bottom: 10px;
 }
 
@@ -166,15 +166,15 @@
 }
 
 .shop-price-current {
-  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-  font-weight: bold;
-  color: #df2e3c;
+  font-size: 16px;
+  font-weight: 600;
+  color: dark;
 }
 
 .shop-price-original {
-  color: #999;
+  color: #918e8e;
   text-decoration: line-through;
-  font-size: clamp(0.75rem, 2vw, 0.9rem);
+  font-size: 14px;
 }
 
 /* Loading State */

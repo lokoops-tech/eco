@@ -126,7 +126,7 @@ const All = () => {
         {visibleProducts < allProducts.length ? (
           <button onClick={loadMore} className="load-more-button"> More Products</button>
         ) : (
-          visibleProducts > 8 && <button onClick={showLess} className="show-less-button">Show Less</button>
+          visibleProducts > 8 && <button onClick={showLess} className="show-less-button">Less products</button>
         )}
       </div>
     </div>

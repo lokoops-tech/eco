@@ -195,6 +195,7 @@
 .star {
   width: 18px;
   height: 18px;
+ 
 }
 
 .review-count {
@@ -391,6 +392,90 @@
 .whatsapp-btn:hover {
   background-color: #128c7e;
 }
+.description {
+  line-height: 1.6;
+  margin-left: 0 !important;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.description-collapsed {
+  max-height: 96px; /* Approximately 4 lines of text */
+  overflow: hidden;
+  position: relative;
+}
+
+.description-expanded {
+  max-height: 2000px; /* Large value to accommodate any description */
+  transition: max-height 0.5s ease;
+}
+
+.description-collapsed::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  pointer-events: none;
+}
+
+.show-more-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-weight: 500;
+  cursor: pointer;
+  margin: 10px 0 20px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.show-more-btn:hover {
+  background-color: var(--light-gray);
+}
+
+.show-more-icon {
+  transition: transform 0.3s ease;
+}
+
+.show-more-icon.expanded {
+  transform: rotate(180deg);
+}
+
+/* Similar treatment for key features section if needed */
+.key-features {
+  margin-top: 20px;
+}
+
+.key-text-collapsed {
+  max-height: 120px; /* Limit height of the key features text */
+  overflow: hidden;
+  position: relative;
+}
+
+.key-text-collapsed::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  pointer-events: none;
+}
+
+.key-text-expanded {
+  max-height: 1000px;
+  transition: max-height 0.5s ease;
+}
 
 /* Delivery info */
 .delivery-info {
@@ -570,10 +655,76 @@
   display: flex;
   gap: 5px;
 }
+/* Blue stars styling */
+.star {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+  filter: invert(44%) sepia(82%) saturate(1752%) hue-rotate(197deg) brightness(101%) contrast(96%); /* This creates blue stars */
+}
+
+/* Hover effect for interactive stars */
+.star.interactive {
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.star.interactive:hover {
+  transform: scale(1.2);
+  filter: invert(44%) sepia(96%) saturate(2352%) hue-rotate(210deg) brightness(101%) contrast(106%); /* Slightly brighter blue on hover */
+}
+
+/* Stars container */
+.stars-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Submitting status indicator */
+.review-submit-status {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #3b82f6; /* Blue color to match stars */
+}
+
+.submit-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  border: 2px solid rgba(59, 130, 246, 0.3); /* Light blue */
+  border-radius: 50%;
+  border-top-color: #3b82f6; /* Blue */
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Submit button styling */
+.review-content-btn {
+  position: relative;
+}
+
+.review-content-btn.submitting {
+  background-color: #3b82f6;
+  opacity: 0.8;
+  pointer-events: none; /* Prevents additional clicks while submitting */
+}
+
+.review-content-btn.submitting::after {
+  content: "Submitting...";
+}
 
 .review-content-btn {
   padding: 12px;
-  background-color: var(--primary-color);
+  background-color: #3f51b5;
   color: white;
   border: none;
   border-radius: 4px;

@@ -31,7 +31,8 @@
 .all-products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
+ gap: 8px;
+ row-gap: 30px;
 }
 
 .all-product-card {
@@ -39,6 +40,7 @@
   background: white;
   border: 1px solid #eee;
   border-radius: 8px;
+  padding: 10px;
   width: auto;
   transition: all 0.3s ease;
   height: 100%;
@@ -49,14 +51,14 @@
 .all-product-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ff6666; /* Light red border on hover */
+  border: 1px solid #5877bb; /* Light red border on hover */
 }
 
 .discount-badge {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: #ff4444; /* Red background */
+  background: #3f51b5 !important; /* Red background */
   color: white;
   padding: 5px 8px;
   border-radius: 4px;
@@ -67,7 +69,7 @@
 
 .product-image {
   width: 100%;
-  height: 190px !important;
+  height: 180px !important;
   object-fit: contain;
   border-radius: 10px;
 
@@ -77,9 +79,10 @@
 }
 
 .all-product-name {
-  font-size: clamp(0.8rem, 2.5vw, 1rem);
+  font-size: 14px;
+  font-weight: 600;
   max-width: 100%;
-  color: #333;
+  color: #444444;
   display: block;
   white-space: nowrap !important;
   white-space: nowrap !important;
@@ -94,14 +97,15 @@
 }
 
 .product-price-new {
-  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  font-size: 16px;
   font-weight: bold;
-  color: #df2e3c;
+  color: dark;
 }
 
 .product-price-old {
-  font-size: clamp(0.7rem, 2.5vw, 0.9rem);
-  color: #999;
+  font-size: 14px;
+
+  color: #918e8e;
   text-decoration: line-through;
 }
 
@@ -110,9 +114,9 @@
   margin-top: 20px;
 }
 
-.load-more-button, .show-less-button {
+.load-more-button , .show-less-button {
   padding: 10px 20px;
-  background: blue !important;
+  background: #3f51b5 !important;
   color: white;
   border: none;
   border-radius: 5px !important;
@@ -122,7 +126,7 @@
 }
 
 .load-more-button:hover, .show-less-button:hover {
-  background: darkblue !important;
+  background: #30379f !important;
 }
 
 /* Responsive Design for Below 1024px */

@@ -17,7 +17,7 @@ const LoginSignup = lazy(() => import("./pages/loginSignup.jsx"));
 const Cart = lazy(() => import("./pages/Cart.jsx"));
 const About = lazy(() => import("./components/About/About.jsx"));
 const Company = lazy(() => import("./components/company/Company.jsx"));
-const Offices = lazy(() => import("./components/Offices/Offices.jsx"));
+
 const Contact = lazy(() => import("./components/contacts/Contacts.jsx"));
 const Orders = lazy(() => import("./components/Orders/Orders.jsx"));
 const Faq = lazy(() => import("./components/Faq/Faq.jsx"));
@@ -90,7 +90,7 @@ const App = () => {
           <Route path="/search" element={<SearchResultsPage />} />
           <Route path="/cart/checkout" element={<Checkout />} />
           <Route path="/company" element={<Company />} />
-          <Route path="/offices" element={<Offices />} />
+        
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<Faq />} />

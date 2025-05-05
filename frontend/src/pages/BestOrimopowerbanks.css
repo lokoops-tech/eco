@@ -42,7 +42,7 @@
 .powerbank-products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    gap: 7px;
 }
 
 /* Product Card */
@@ -59,7 +59,7 @@
 .powerbank-product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-    border-color: red;
+    border-color: rgb(135, 145, 173);
 }
 
 /* Image Link */
@@ -85,7 +85,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: red;
+    background-color: #3f51b5;
     color: white;
     padding: 4px 8px;
     border-radius: 4px;
@@ -101,9 +101,10 @@
 }
 
 .powerbank-product-name {
-    font-size: 1rem;
+    font-size: 14px;
+    font-weight: 600;
     margin-bottom: 10px;
-    color: #333;
+    color: #444444;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -120,16 +121,16 @@
 }
 
 .powerbank-price {
-    color:#df2e3c;
+    color:dark;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 16px;
     display: block;
 }
 
 .powerbank-old-price {
-    color: #888;
+    color: #918e8e;
     text-decoration: line-through;
-    font-size: 0.9rem;
+    font-size: 14px;
 }
 
 /* Responsive Adjustments */
@@ -187,6 +188,7 @@
         display: flex;
         flex-direction:space-between;
         width: 100%;
+        margin: 0%;
         background-color: #dfdfdf;
 
     }

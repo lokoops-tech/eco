@@ -1,7 +1,7 @@
 .news {
     min-height: 400px;
     width: 100%;
-    background: linear-gradient(to bottom, #afc9eb, #dfbc91);
+    background: linear-gradient(to bottom, #031ae9, whitesmoke);
     padding: 3rem 1rem;
     box-sizing: border-box;
     margin: auto;
@@ -11,7 +11,7 @@
 }
 
 .news h1 {
-    color: #1E40AF;
+    color: whitesmoke;
     font-size: 2rem;
     font-weight: bold;
     text-align: center;
@@ -20,7 +20,7 @@
 }
 
 .news p {
-    color: #4B5563;
+    color: #0f0f0f;
     font-size: 1.125rem;
     text-align: center;
     margin-bottom: 2rem;

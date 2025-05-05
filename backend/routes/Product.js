@@ -403,11 +403,8 @@ router.get('/bestjblspeakers', async (req, res) => {
     try {
         const products = await Product.find({
             category: "woofers",
-            subcategory: "home-theater-systems",
             brand: "Jbl"
         })
-        .sort({ rating: -1, reviews: -1 })
-        .limit(8);
 
         res.json({
             success: true,
