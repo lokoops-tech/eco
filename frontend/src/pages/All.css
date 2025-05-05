@@ -152,6 +152,7 @@
 /* Responsive Design for Below 500px */
 @media (max-width: 500px) {
   .all-products-container{
+    margin: 30px auto;
    padding: 0%;
    background-color: white;
   }
