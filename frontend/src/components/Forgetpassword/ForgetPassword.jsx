@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ForgetPassword.css';
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com"; // Adjust this to your API base URL
+const API_BASE_URL = "https://gich-backend.onrender.com"; // Adjust this to your API base URL
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
