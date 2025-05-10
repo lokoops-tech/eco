@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'; // Assuming you're using React Router
 import SEO from '../../pages/Seo.jsx';
 import './Popular.css';
 
-const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base URL
+const API_BASE_URL = "https://gich-backend.onrender.com"; // Adjust this to your API base URL
 
 const Popular = () => {
     const [popularProducts, setPopularProducts] = useState([]);
