@@ -22,6 +22,28 @@
     text-align: justify;
 }
 
+.vision-mission {
+    margin-top: 30px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.vision-section, .mission-section {
+    flex: 1 1 300px;
+    background-color: #f5f0ff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(98, 0, 234, 0.1);
+    border-left: 4px solid #6200ea;
+}
+
+.vision-section h2, .mission-section h2 {
+    font-size: 1.8rem;
+    color: #6200ea;
+    margin-bottom: 10px;
+}
+
 .why-choose-us, .about-achievements {
     margin-top: 30px;
 }
@@ -60,3 +82,40 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Media query for mobile devices */
+@media (max-width: 500px) {
+    .about-contentainer {
+        width: 100%;
+        padding: 0;
+        background-color: white;
+        margin: 0%;
+    }
+    .about-content{
+        width: 100%;
+        padding: 10px;
+        box-shadow: none;
+        max-width: auto;
+    }
+    
+    .vision-mission {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .vision-section, .mission-section {
+        flex: 1 1 100%;
+    }
+    
+    .about-header h1 {
+        font-size: 2rem;
+    }
+    
+    .vision-section h2, .mission-section h2, 
+    .why-choose-us h2, .about-achievements h2 {
+        font-size: 1.5rem;
+    }
+    
+    .about-content p {
+        font-size: 1rem;
+    }
+}

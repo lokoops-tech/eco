@@ -14,30 +14,42 @@ import groom from '../Assets/grooming.png';
 import tv from '../Assets/tv0.png';
 import ear from '../Assets/earpods.png';
 import '../pages/css/Shop_category.css';
-import SEO from "./Seo.jsx";
-import { categoryBrands } from "../../Seo.js";
+import SEO from "./SEO.jsx";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { categoryBrands } from "../../Seo.js";
+
+// Toast configuration
+const toastConfig = {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true
+};
+
+
 
 const ShopCategory = ({ category, subcategory }) => {
     const { 
-        allProducts, 
-        filteredProducts, 
+        allProducts = [], 
+        filteredProducts = [], 
         filterByCategory, 
         filterBySubcategory, 
-        cartState,
-        cart,
+        cartState = {},
+        cart = {},
         addToCart, 
         updateCartItemQuantity,
         removeFromCart,
         error,
         clearCartError,
-        isLoading,
-        isAuthenticated,
-        userProfile,
-        cartTotal,
-        cartItemCount
-    } = useContext(shopContext);
+        isLoading = false,
+        isAuthenticated = false,
+        userProfile = {},
+        cartTotal = 0,
+        cartItemCount = 0
+    } = useContext(shopContext) || {}; // Default to empty object if context is undefined
 
     const navigate = useNavigate();
     const [sortOption, setSortOption] = useState("default");
@@ -49,6 +61,7 @@ const ShopCategory = ({ category, subcategory }) => {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [hoveredProductId, setHoveredProductId] = useState(null);
     const [addingToCart, setAddingToCart] = useState({});
+    const [authToken, setAuthToken] = useState(null);
 
     const categoryBanners = {
         "phone-accessories": phone,
@@ -63,11 +76,29 @@ const ShopCategory = ({ category, subcategory }) => {
         "electricals": electric
     };
 
-    // Improved Add to Cart handler
+    // Check for authentication token on component mount and when localStorage changes
+    useEffect(() => {
+        const token = localStorage.getItem("auth-token");
+        setAuthToken(token);
+        
+        // Listen for storage events (when token is added or removed in another tab)
+        const handleStorageChange = () => {
+            const newToken = localStorage.getItem("auth-token");
+            setAuthToken(newToken);
+        };
+        
+        window.addEventListener('storage', handleStorageChange);
+        return () => window.removeEventListener('storage', handleStorageChange);
+    }, []);
+
+    // Improved Add to Cart handler with JWT token validation
     const handleAddToCart = async (productId) => {
         try {
-            if (!isAuthenticated) {
-                toast.warning("Please log in to add items to your cart");
+            // Check for auth token directly from localStorage for freshest state
+            const token = localStorage.getItem("auth-token");
+            
+            if (!token) {
+                toast.warning("Please log in to add items to your cart", toastConfig);
                 navigate("/login", { state: { from: window.location.pathname } });
                 return;
             }
@@ -75,44 +106,136 @@ const ShopCategory = ({ category, subcategory }) => {
             setAddingToCart(prev => ({ ...prev, [productId]: true }));
             
             // Check if product is in stock
-            const product = allProducts.find(p => p.id === productId);
+            const product = allProducts && allProducts.find?.(p => p && p.id === productId);
             if (product?.stockStatus === 'OUT_OF_STOCK') {
-                toast.error("This product is out of stock");
+                toast.error("This product is out of stock", toastConfig);
                 return;
             }
 
-            await addToCart(productId, 1);
-            toast.success("Added to cart successfully");
+            // Pass the token to addToCart if needed
+            if (typeof addToCart === 'function') {
+                await addToCart(productId, 1);
+                toast.success("Added to cart successfully", toastConfig);
+            } else {
+                throw new Error("Add to cart functionality is unavailable");
+            }
         } catch (err) {
-            toast.error(err?.response?.data?.message || err?.message || "Failed to add item to cart");
+            if (err.message === "Authentication required") {
+                // Handle auth errors specially
+                toast.error("Please log in to continue", {
+                    ...toastConfig,
+                    onClick: () => navigate("/login", { state: { from: window.location.pathname } })
+                });
+            } else {
+                toast.error(err?.response?.data?.message || err?.message || "Failed to add item to cart", toastConfig);
+            }
         } finally {
             setAddingToCart(prev => ({ ...prev, [productId]: false }));
         }
     };
 
-    // Simplified cart state checking
+    // Handle quantity update with authentication check
+    const handleUpdateQuantity = async (productId, newQuantity) => {
+        try {
+            const token = localStorage.getItem("auth-token");
+            
+            if (!token) {
+                toast.warning("Please log in to update your cart", toastConfig);
+                navigate("/login", { state: { from: window.location.pathname } });
+                return;
+            }
+
+            setAddingToCart(prev => ({ ...prev, [productId]: true }));
+            
+            if (newQuantity <= 0) {
+                if (typeof removeFromCart === 'function') {
+                    await removeFromCart(productId);
+                    toast.success("Item removed from cart", toastConfig);
+                }
+            } else {
+                if (typeof updateCartItemQuantity === 'function') {
+                    await updateCartItemQuantity(productId, newQuantity);
+                    toast.success("Cart updated", toastConfig);
+                }
+            }
+        } catch (err) {
+            toast.error(err?.response?.data?.message || err?.message || "Failed to update cart", toastConfig);
+        } finally {
+            setAddingToCart(prev => ({ ...prev, [productId]: false }));
+        }
+    };
+
+    // Handle remove from cart with authentication check
+    const handleRemoveFromCart = async (productId) => {
+        try {
+            const token = localStorage.getItem("auth-token");
+            
+            if (!token) {
+                toast.warning("Please log in to manage your cart", toastConfig);
+                navigate("/login", { state: { from: window.location.pathname } });
+                return;
+            }
+
+            setAddingToCart(prev => ({ ...prev, [productId]: true }));
+            
+            if (typeof removeFromCart === 'function') {
+                await removeFromCart(productId);
+                toast.success("Item removed from cart", toastConfig);
+            }
+        } catch (err) {
+            toast.error(err?.response?.data?.message || err?.message || "Failed to remove item", toastConfig);
+        } finally {
+            setAddingToCart(prev => ({ ...prev, [productId]: false }));
+        }
+    };
+
+    // Simplified cart state checking - FIX: Safely handle potential undefined values
     const isInCart = (productId) => {
-        const items = cartState?.items || cart?.items || cartState || cart || [];
-        // Make sure items is an array before calling .some()
-        return Array.isArray(items) 
-            ? items.some(item => item.product_id === productId || item.id === productId)
-            : false;
+        // Get items array safely
+        let items = [];
+        
+        if (cartState && Array.isArray(cartState.items)) {
+            items = cartState.items;
+        } else if (cart && Array.isArray(cart.items)) {
+            items = cart.items;
+        } else if (Array.isArray(cartState)) {
+            items = cartState;
+        } else if (Array.isArray(cart)) {
+            items = cart;
+        }
+        
+        // Now safely check if product is in cart
+        return productId && items.some(item => 
+            item && (item.product_id === productId || item.id === productId)
+        );
     };
     
     const getItemQuantity = (productId) => {
-        const items = cartState?.items || cart?.items || cartState || cart || [];
-        // Make sure items is an array before trying to find an item
-        if (!Array.isArray(items)) return 0;
+        // Get items array safely
+        let items = [];
         
-        const item = items.find(item => item.product_id === productId || item.id === productId);
+        if (cartState && Array.isArray(cartState.items)) {
+            items = cartState.items;
+        } else if (cart && Array.isArray(cart.items)) {
+            items = cart.items;
+        } else if (Array.isArray(cartState)) {
+            items = cartState;
+        } else if (Array.isArray(cart)) {
+            items = cart;
+        }
+        
+        // Now safely find the item
+        const item = productId && items.find(item => 
+            item && (item.product_id === productId || item.id === productId)
+        );
+        
         return item?.quantity || 0;
     };
    
-
     // Clear cart errors on unmount
     useEffect(() => {
         return () => {
-            if (clearCartError) {
+            if (typeof clearCartError === 'function') {
                 clearCartError();
             }
         };
@@ -121,65 +244,78 @@ const ShopCategory = ({ category, subcategory }) => {
     // Display error notifications
     useEffect(() => {
         if (error) {
-            toast.error(error?.response?.data?.message || error.message || "An error occurred");
-            if (clearCartError) {
+            toast.error(error?.response?.data?.message || error.message || "An error occurred", toastConfig);
+            if (typeof clearCartError === 'function') {
                 clearCartError();
             }
         }
     }, [error, clearCartError]);
 
-    // Get display names for the current category
+    // Get available brands for the current category - FIX: Handle potential undefined values
     const getAvailableBrands = () => {
-        return categoryBrands[category] 
-            ? Object.keys(categoryBrands[category])
-            : [];
+        if (category && categoryBrands && categoryBrands[category]) {
+            return Object.keys(categoryBrands[category]) || [];
+        }
+        return [];
     };
 
-    // Convert backend brand name to display name
+    // Convert backend brand name to display name - FIX: Handle potential undefined values
     const getDisplayBrand = (backendBrand) => {
-        if (!backendBrand || !categoryBrands[category]) return backendBrand || '';
+        if (!backendBrand || !category || !categoryBrands || !categoryBrands[category]) {
+            return backendBrand || '';
+        }
         
-        const displayBrand = Object.entries(categoryBrands[category])
-            .find(([display, lower]) => lower === backendBrand.toLowerCase());
+        // Safely access categoryBrands
+        const brandEntries = Object.entries(categoryBrands[category] || {});
+        const displayBrand = brandEntries.find(
+            ([display, lower]) => lower === backendBrand.toLowerCase()
+        );
         
         return displayBrand ? displayBrand[0] : (backendBrand || '');
     };
 
-    // Convert display brand to backend brand
+    // Convert display brand to backend brand - FIX: Handle potential undefined values
     const getBackendBrand = (displayBrand) => {
-        if (!displayBrand) return '';
+        if (!displayBrand || !category || !categoryBrands || !categoryBrands[category]) {
+            return '';
+        }
         return categoryBrands[category]?.[displayBrand]?.toLowerCase() || displayBrand.toLowerCase();
     };
 
     // Initial category/subcategory filter
     useEffect(() => {
-        if (subcategory) {
+        if (subcategory && typeof filterBySubcategory === 'function') {
             filterBySubcategory(subcategory);
-        } else {
+        } else if (category && typeof filterByCategory === 'function') {
             filterByCategory(category);
         }
         setSelectedBrands([]);
     }, [category, subcategory, filterByCategory, filterBySubcategory]);
 
-    // Handle filtering and display products
+    // Handle filtering and display products - FIX: Handle potential undefined values
     useEffect(() => {
-        let productsToFilter = [...filteredProducts];
+        // Make sure we have an array of products to work with
+        const productsToProcess = Array.isArray(filteredProducts) ? [...filteredProducts] : [];
+        let productsToDisplay = productsToProcess;
 
-        if (selectedBrands.length > 0) {
-            productsToFilter = productsToFilter.filter(product => 
-                selectedBrands.some(displayBrand => {
-                    return product.brand && 
-                           getBackendBrand(displayBrand) === product.brand.toLowerCase();
+        // Filter by selected brands if any are selected
+        if (selectedBrands && selectedBrands.length > 0) {
+            productsToDisplay = productsToDisplay.filter(product => 
+                product && product.brand && selectedBrands.some(displayBrand => {
+                    return getBackendBrand(displayBrand) === product.brand.toLowerCase();
                 })
             );
         }
 
-        productsToFilter = productsToFilter.filter(product => {
-            const productPrice = product.new_price || 0;
-            return productPrice >= priceRange.min && productPrice <= priceRange.max;
-        });
+        // Filter by price range
+        if (priceRange) {
+            productsToDisplay = productsToDisplay.filter(product => {
+                const productPrice = product?.new_price || 0;
+                return productPrice >= priceRange.min && productPrice <= priceRange.max;
+            });
+        }
 
-        setDisplayProducts(productsToFilter);
+        setDisplayProducts(productsToDisplay);
     }, [selectedBrands, priceRange, filteredProducts]);
 
     useEffect(() => {
@@ -207,14 +343,16 @@ const ShopCategory = ({ category, subcategory }) => {
 
     const handlePriceChange = (e) => {
         const value = Number(e.target.value);
-        setPriceRange(prev => ({
+        setPriceChange(prev => ({
             ...prev,
             [e.target.name]: value >= 0 ? value : 0
         }));
     };
 
-    // Sort products
-    const sortedProducts = [...displayProducts].sort((a, b) => {
+    // Sort products - FIX: Handle potential undefined values
+    const sortedProducts = Array.isArray(displayProducts) ? [...displayProducts].sort((a, b) => {
+        if (!a || !b) return 0;
+        
         switch(sortOption) {
             case "priceLowToHigh":
                 return (a.new_price || 0) - (b.new_price || 0);
@@ -225,14 +363,24 @@ const ShopCategory = ({ category, subcategory }) => {
             default:
                 return 0;
         }
-    });
+    }) : [];
 
-    // Prepare category data for SEO
+    // Prepare category data for SEO - FIX: Handle potential undefined values
     const categoryData = {
-        name: category.replace(/-/g, ' '),
-        slug: category,
+        name: category ? category.replace(/-/g, ' ') : '',
+        slug: category || '',
         subcategories: getAvailableBrands(),
-        image: categoryBanners[category] || 'https://yourstore.com/default-category-image.jpg'
+        image: (category && categoryBanners[category]) || 'https://yourstore.com/default-category-image.jpg'
+    };
+
+    // Determine if the user is authenticated based on local storage token
+    const checkIsAuthenticated = () => {
+        return !!localStorage.getItem("auth-token");
+    };
+
+    // Fix: Corrected the setPriceRange function name
+    const setPriceChange = (newValues) => {
+        setPriceRange(newValues);
     };
 
     return (
@@ -243,7 +391,7 @@ const ShopCategory = ({ category, subcategory }) => {
             {/* Add the SEO component */}
             <SEO category={categoryData} />
 
-            {categoryBanners[category] && (
+            {category && categoryBanners[category] && (
                 <div className="category-banner">
                     <img 
                         src={categoryBanners[category]} 
@@ -256,7 +404,7 @@ const ShopCategory = ({ category, subcategory }) => {
             <div className="breadcrumbs">
                 <Link to="/">Home</Link>
                 <span> / </span>
-                <Link to={`/${category}`}>{category.replace(/-/g, ' ')}</Link>
+                <Link to={`/${category}`}>{category ? category.replace(/-/g, ' ') : ''}</Link>
                 {subcategory && (
                     <>
                         <span> / </span>
@@ -265,10 +413,10 @@ const ShopCategory = ({ category, subcategory }) => {
                 )}
             </div>
 
-            {!isAuthenticated && (
+            {!checkIsAuthenticated() && (
                 <div className="login-prompt">
                     <LogIn size={18} />
-                    <p>Please <Link to="/login" className="login-link">log in</Link> to add items to your cart</p>
+                    <p>Please <Link to={`/login?redirect=${encodeURIComponent(window.location.pathname)}`} className="login-link">log in</Link> to add items to your cart</p>
                 </div>
             )}
 
@@ -363,7 +511,7 @@ const ShopCategory = ({ category, subcategory }) => {
 
                 <main className="products-area">
                     <p className="showing-products">
-                        {displayProducts.length > 0 ? (
+                        {displayProducts && displayProducts.length > 0 ? (
                             <span>
                                 Showing 1-{Math.min(visibleCount, displayProducts.length)} out of {displayProducts.length} products
                             </span>
@@ -375,82 +523,63 @@ const ShopCategory = ({ category, subcategory }) => {
                     <div className="products-view">
                         {isLoading ? (
                             <div className="loading-products">Loading products...</div>
-                        ) : displayProducts.length > 0 ? (
+                        ) : displayProducts && displayProducts.length > 0 ? (
                             sortedProducts.slice(0, visibleCount).map((item) => (
-                                <div 
-                                    key={item.id} 
-                                    className="product-item"
-                                    onMouseEnter={() => setHoveredProductId(item.id)}
-                                    onMouseLeave={() => setHoveredProductId(null)}
-                                >
-                                    <Item {...item} />
-                                    {hoveredProductId === item.id && (
-                                        <div className="product-actions">
-                                            {item.stockStatus === 'OUT_OF_STOCK' ? (
-                                                <div className="out-of-stock-message">Out of Stock</div>
-                                            ) : isInCart(item.id) ? (
-                                                <div className="quantity-controls">
+                                item && (
+                                    <div 
+                                        key={item.id} 
+                                        className="product-item"
+                                        onMouseEnter={() => setHoveredProductId(item.id)}
+                                        onMouseLeave={() => setHoveredProductId(null)}
+                                    >
+                                        <Item {...item} />
+                                        {hoveredProductId === item.id && (
+                                            <div className="product-actions">
+                                                {item.stockStatus === 'OUT_OF_STOCK' ? (
+                                                    <div className="out-of-stock-message">Out of Stock</div>
+                                                ) : isInCart(item.id) ? (
+                                                    <div className="quantity-controls">
+                                                        <button 
+                                                            onClick={() => handleUpdateQuantity(item.id, getItemQuantity(item.id) - 1)}
+                                                            disabled={addingToCart[item.id]}
+                                                        >
+                                                            -
+                                                        </button>
+                                                        <span>{getItemQuantity(item.id)}</span>
+                                                        <button 
+                                                            onClick={() => handleUpdateQuantity(item.id, getItemQuantity(item.id) + 1)}
+                                                            disabled={addingToCart[item.id]}
+                                                        >
+                                                            +
+                                                        </button>
+                                                        <button 
+                                                            className="remove-from-cart"
+                                                            onClick={() => handleRemoveFromCart(item.id)}
+                                                            disabled={addingToCart[item.id]}
+                                                        >
+                                                            Remove
+                                                        </button>
+                                                    </div>
+                                                ) : (
                                                     <button 
-                                                        onClick={async () => {
-                                                            try {
-                                                                const newQuantity = getItemQuantity(item.id) - 1;
-                                                                if (newQuantity > 0) {
-                                                                    await updateCartItemQuantity(item.id, newQuantity);
-                                                                } else {
-                                                                    await removeFromCart(item.id);
-                                                                }
-                                                            } catch (err) {
-                                                                toast.error(err?.response?.data?.message || "Failed to update quantity");
-                                                            }
-                                                        }}
-                                                        disabled={!isAuthenticated || addingToCart[item.id]}
+                                                        className="add-to-cart-hover"
+                                                        onClick={() => handleAddToCart(item.id)}
+                                                        disabled={addingToCart[item.id]}
                                                     >
-                                                        -
+                                                        {addingToCart[item.id] ? (
+                                                            <span className="adding-spinner"></span>
+                                                        ) : (
+                                                            <>
+                                                                <ShoppingCart size={16} />
+                                                                <span>Add to Cart</span>
+                                                            </>
+                                                        )}
                                                     </button>
-                                                    <span>{getItemQuantity(item.id)}</span>
-                                                    <button 
-                                                        onClick={async () => {
-                                                            try {
-                                                                await updateCartItemQuantity(item.id, getItemQuantity(item.id) + 1);
-                                                            } catch (err) {
-                                                                toast.error(err?.response?.data?.message || "Failed to update quantity");
-                                                            }
-                                                        }}
-                                                        disabled={!isAuthenticated || addingToCart[item.id]}
-                                                    >
-                                                        +
-                                                    </button>
-                                                    <button 
-                                                        className="remove-from-cart"
-                                                        onClick={async () => {
-                                                            try {
-                                                                await removeFromCart(item.id);
-                                                                toast.success("Item removed from cart");
-                                                            } catch (err) {
-                                                                toast.error(err?.response?.data?.message || "Failed to remove item");
-                                                            }
-                                                        }}
-                                                        disabled={!isAuthenticated || addingToCart[item.id]}
-                                                    >
-                                                        Remove
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <button 
-                                                    className="add-to-cart-hover"
-                                                    onClick={() => handleAddToCart(item.id)}
-                                                    disabled={addingToCart[item.id] || !isAuthenticated}
-                                                >
-                                                    {addingToCart[item.id] ? (
-                                                        <span className="adding-spinner"></span>
-                                                    ) : (
-                                                        'Add to Cart'
-                                                    )}
-                                                </button>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                )
                             ))
                         ) : (
                             <div className="no-products">
@@ -461,7 +590,7 @@ const ShopCategory = ({ category, subcategory }) => {
                         )}
                     </div>
 
-                    {visibleCount < displayProducts.length && (
+                    {displayProducts && visibleCount < displayProducts.length && (
                         <button 
                             className="load-more" 
                             onClick={() => setVisibleCount(prev => prev + 12)}

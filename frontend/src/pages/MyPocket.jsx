@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Import Link
+import React, { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import './MyPocket.css';
 
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com"; // Adjust this to your API base URL
+const API_BASE_URL = "http://localhost:4000"; // ✅ Fixed URL format
 
 const MyPocket = () => {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [products, setProducts] = useState([]);
-  const [displayedProducts, setDisplayedProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -29,6 +28,8 @@ const MyPocket = () => {
     { id: 'electricals', name: 'Electricals' }
   ];
 
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' }); // Smooth scrolling
+
   const sortOptions = [
     { value: 'discount', label: 'Highest Discount' },
     { value: 'price-low', label: 'Price: Low to High' },
@@ -44,17 +45,11 @@ const MyPocket = () => {
     validatePrices();
   }, [minPrice, maxPrice]);
 
-  useEffect(() => {
-    setDisplayedProducts(products);
-  }, [products]);
-
   const validatePrices = () => {
     setPriceError('');
-    
+    const min = parseFloat(minPrice);
+    const max = parseFloat(maxPrice);
     if (minPrice && maxPrice) {
-      const min = parseFloat(minPrice);
-      const max = parseFloat(maxPrice);
-      
       if (min > max) {
         setPriceError('Minimum price cannot be greater than maximum price');
       } else if (min < 0 || max < 0) {
@@ -69,18 +64,13 @@ const MyPocket = () => {
       const response = await fetch(`${API_BASE_URL}/product/allproducts`);
       if (!response.ok) throw new Error('Failed to fetch products');
       const data = await response.json();
-      if (Array.isArray(data)) {
-        setProducts(data);
-        setDisplayedProducts(data);
-      } else if (data && Array.isArray(data.products)) {
-        // If the data is an object with a 'products' array
-        setProducts(data.products);
-        setDisplayedProducts(data.products);
-      } else {
-        console.error("Invalid data format:", data);
-        setProducts([]); // Set to an empty array as a fallback
-        setDisplayedProducts([]);
-      }
+      const productsData = Array.isArray(data)
+        ? data
+        : Array.isArray(data.products)
+        ? data.products
+        : [];
+
+      setProducts(productsData);
       setError(null);
     } catch (err) {
       setError('Failed to load products. Please try again later.');
@@ -89,60 +79,9 @@ const MyPocket = () => {
     }
   };
 
-  const sortProducts = (products) => {
-    if (!Array.isArray(products)) {
-      console.error("Expected an array but got:", products);
-      return [];
-    }
-
-    switch (sortBy) {
-      case 'price-low':
-        return [...products].sort((a, b) => a.new_price - b.new_price);
-      case 'price-high':
-        return [...products].sort((a, b) => b.new_price - a.new_price);
-      case 'name':
-        return [...products].sort((a, b) => a.name.localeCompare(b.name));
-      case 'discount':
-      default:
-        return [...products].sort((a, b) => {
-          const discountA = a.old_price 
-            ? ((a.old_price - a.new_price) / a.old_price) * 100 
-            : 0;
-          const discountB = b.old_price 
-            ? ((b.old_price - b.new_price) / b.old_price) * 100 
-            : 0;
-          return discountB - discountA;
-        });
-    }
-  };
-
-  const getFilteredProducts = () => {
-    let filtered = displayedProducts;
-    
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(product => product.category === selectedCategory);
-    }
-    
-    if (minPrice !== '' || maxPrice !== '') {
-      filtered = filtered.filter(product => {
-        const price = product.new_price;
-        const min = minPrice === '' ? 0 : parseFloat(minPrice);
-        const max = maxPrice === '' ? Infinity : parseFloat(maxPrice);
-        return price >= min && price <= max;
-      });
-    }
-    
-    return sortProducts(filtered);
-  };
-
   const handlePriceChange = (value, setPriceFunction) => {
     const numberValue = value.replace(/[^0-9]/g, '');
     setPriceFunction(numberValue);
-  };
-
-  const handleClick = (productId) => {
-    // Handle click event, e.g., track analytics or perform other actions
-    console.log(`Product ${productId} clicked`);
   };
 
   const clearFilters = () => {
@@ -151,12 +90,37 @@ const MyPocket = () => {
     setSelectedCategory('all');
     setSortBy('discount');
     setPriceError('');
-    setDisplayedProducts([]);
-    
-    setTimeout(() => {
-      fetchProducts();
-    }, 500);
   };
+
+  const filteredProducts = useMemo(() => {
+    let filtered = products;
+
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(product => product.category === selectedCategory);
+    }
+
+    if (minPrice !== '' || maxPrice !== '') {
+      const min = minPrice === '' ? 0 : parseFloat(minPrice);
+      const max = maxPrice === '' ? Infinity : parseFloat(maxPrice);
+      filtered = filtered.filter(product => product.new_price >= min && product.new_price <= max);
+    }
+
+    switch (sortBy) {
+      case 'price-low':
+        return [...filtered].sort((a, b) => a.new_price - b.new_price);
+      case 'price-high':
+        return [...filtered].sort((a, b) => b.new_price - a.new_price);
+      case 'name':
+        return [...filtered].sort((a, b) => a.name.localeCompare(b.name));
+      case 'discount':
+      default:
+        return [...filtered].sort((a, b) => {
+          const discountA = a.old_price ? ((a.old_price - a.new_price) / a.old_price) * 100 : 0;
+          const discountB = b.old_price ? ((b.old_price - b.new_price) / b.old_price) * 100 : 0;
+          return discountB - discountA;
+        });
+    }
+  }, [products, selectedCategory, minPrice, maxPrice, sortBy]);
 
   const renderProduct = (item) => {
     const discount = item.old_price
@@ -167,25 +131,24 @@ const MyPocket = () => {
       <div key={item.id} className="shop-product-wrapper">
         <div className="shop-product-card">
           {discount > 0 && <div className="shop-discount-badge">-{discount}%</div>}
-          <Link to={`/product/${item.id}/${encodeURIComponent(item.name)}`} className="shop-product-link" style={{textDecoration:"none", color:'inherit'}}>
+          <Link to={`/product/${item.name}-${encodeURIComponent(item.id)}`} className="shop-product-link" style={{ textDecoration: "none", color: 'inherit' }}>
             <img
-              onClick={() => console.log(`Product ${item.id} clicked`)}
               src={item.image || "/api/placeholder/400/300"}
               alt={item.name}
               className="shop-product-thumbnail"
+              onClick={scrollToTop} 
             />
-              <div className="shop-product-info">
-            <h3 className="shop-product-title">{item.name}</h3>
-            <div className="shop-product-category">{item.category}</div>
-            <div className="shop-price-wrapper">
-              <span className="shop-price-current">Ksh {item.new_price.toLocaleString()}</span>
-              {item.old_price && (
-                <span className="shop-price-original">Ksh {item.old_price.toLocaleString()}</span>
-              )}
+            <div className="shop-product-info">
+              <h3 className="shop-product-title">{item.name}</h3>
+              <div className="shop-product-category">{item.category}</div>
+              <div className="shop-price-wrapper">
+                <span className="shop-price-current">Ksh {item.new_price.toLocaleString()}</span>
+                {item.old_price && (
+                  <span className="shop-price-original">Ksh {item.old_price.toLocaleString()}</span>
+                )}
+              </div>
             </div>
-          </div>
           </Link>
-        
         </div>
       </div>
     );
@@ -268,19 +231,18 @@ const MyPocket = () => {
       ) : (
         <>
           <div className="shop-results-count">
-            Found {getFilteredProducts().length} products
+            Found {filteredProducts.length} products
           </div>
 
           <div className="shop-products-grid">
-            {Array.isArray(getFilteredProducts()) && getFilteredProducts().map(renderProduct)}
-            
-            {getFilteredProducts().length === 0 && (
+            {filteredProducts.map(renderProduct)}
+
+            {filteredProducts.length === 0 && (
               <div className="shop-empty-state">
                 <p className="shop-empty-text">
-                  {(minPrice || maxPrice) 
-                    ? `No products found within price range Ksh ${minPrice || '0'} - ${maxPrice || '∞'}`
-                    : 'No products found in this category'
-                  }
+                  {(minPrice || maxPrice)
+                    ? `No products found within price range Ksh ${minPrice || '0'} - ${maxPrice || '∞'}` 
+                    : 'No products found in this category'}
                 </p>
               </div>
             )}

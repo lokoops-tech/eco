@@ -1,7 +1,114 @@
-body{
-  background-color: transparent;
-}
-html {
-    scroll-behavior: smooth;
+/* Add these styles to your index.css or create a new error.css file */
+
+.error-page,
+.network-error-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f7f8fb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+.error-container {
+  text-align: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+}
+
+.error-icon {
+  margin-bottom: 1.5rem;
+  color: #e53e3e;
+  display: flex;
+  justify-content: center;
+}
+
+.error-page h1,
+.network-error-page h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #2d3748;
+  margin-bottom: 0.75rem;
+}
+
+.error-page p,
+.network-error-page p {
+  margin: 0;
+  color: #718096;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.retry-button {
+  background-color: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.retry-button:hover {
+  background-color: #3182ce;
+}
+
+.close-button {
+  background-color: transparent;
+  color: #718096;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.close-button:hover {
+  background-color: #f7fafc;
+}
+
+/* Offline Modal Styles */
+.offline-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.offline-modal-content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.offline-indicator {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fed7d7;
+  color: #c53030;
+  text-align: center;
+  padding: 0.5rem;
+  z-index: 900;
+  font-size: 0.875rem;
+  font-weight: 500;
+}

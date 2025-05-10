@@ -6,17 +6,16 @@ import WhatsAppButton from "./components/WhatsApp/WhatsAppButton.jsx";
 import FindUs from "./pages/Top.jsx";
 import { ToastContainer } from "react-toastify";
 import All from "./pages/All.jsx";
-import SEO from "./pages/Seo.jsx";
+import SEO from "./pages/SEO.jsx";
+import LoginSignup from "../src/pages/loginSignup.jsx";
+import Cart from "../src/pages/Cart.jsx";
 
-// Lazy load components
+// Lazy load pages
 const Shop = lazy(() => import("./pages/Shop.jsx"));
 const ShopCategory = lazy(() => import("./pages/ShopCategory.jsx"));
 const Products = lazy(() => import("./pages/Products.jsx"));
-const LoginSignup = lazy(() => import("./pages/loginSignup.jsx"));
-const Cart = lazy(() => import("./pages/Cart.jsx"));
 const About = lazy(() => import("./components/About/About.jsx"));
 const Company = lazy(() => import("./components/company/Company.jsx"));
-
 const Contact = lazy(() => import("./components/contacts/Contacts.jsx"));
 const Orders = lazy(() => import("./components/Orders/Orders.jsx"));
 const Faq = lazy(() => import("./components/Faq/Faq.jsx"));
@@ -55,12 +54,14 @@ const App = () => {
       <ToastContainer />
       <FindUs />
       <Navbar />
-      
+
+      {/* Suspense wrapper for all routes */}
+      <Suspense fallback={<div style={{ padding: "2rem", textAlign: "center" }}>Loading page...</div>}>
         <Routes>
           <Route path="/" element={<Shop />} />
 
           {Object.keys(categoryRoutes).map(category => (
-            <Route 
+            <Route
               key={category}
               path={`/${category}`}
               element={<ShopCategory category={category} />}
@@ -89,7 +90,6 @@ const App = () => {
           <Route path="/search" element={<SearchResultsPage />} />
           <Route path="/cart/checkout" element={<Checkout />} />
           <Route path="/company" element={<Company />} />
-        
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<Faq />} />
@@ -104,7 +104,8 @@ const App = () => {
           <Route path="/:mainCategory/:subCategory/:brand" element={<BestProducts />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
- 
+      </Suspense>
+
       <WhatsAppButton />
       <Footer />
     </BrowserRouter>

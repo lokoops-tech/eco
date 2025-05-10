@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import SEO from './SEO';
 import './BeiYangu.css';
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com"; // Adjust this to your API base URL
+const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base URL
 
 const BeiYangu = () => {
     const [products, setProducts] = useState([]);
@@ -56,15 +56,12 @@ const BeiYangu = () => {
 
     return (
         <div className="budget-deals-wrapper">
-            <Helmet>
-                <title>Budget Deals Under Ksh 5000 | Gich-Tech</title>
-                <meta name="description" content="Discover premium tech products under Ksh 5000. Quality meets unbeatable prices at Gich-Tech." />
-                <meta name="keywords" content="budget tech, affordable electronics, tech deals, Gich-Tech, under 5000" />
-                <meta property="og:title" content="Budget Deals Under Ksh 5000 | Gich-Tech" />
-                <meta property="og:description" content="Smart shopping, smarter savings! Affordable tech finds under Ksh 5000." />
-                <meta property="og:type" content="website" />
-                <link rel="canonical" href="https://gich-tech.com/budget-deals" />
-            </Helmet>
+           
+        <SEO defaultData={{
+        title: "Budget Deals Under Ksh 5000 | Gich-Tech",
+        description: "Discover premium tech products under Ksh 5000. Quality meets unbeatable prices at Gich-Tech.",
+          // other meta data
+           }} />
             
             <div className="budget-deals-header">
                 <h1 className="budget-deals-title">Unlock Premium Deals Under Ksh 5000!</h1>
@@ -98,7 +95,7 @@ const BeiYangu = () => {
                                             {discount > 0 && (
                                                 <div className="budget-discount-tag">-{discount}%</div>
                                             )}
-                                            <Link to={`/product/${item.id || item._id}/${encodeURIComponent(item.name)}`} className="budget-product-link">
+                                            <Link to={`/product/${(item.name)}-${encodeURIComponent(item.id)}`} className="budget-product-link">
                                                 <img
                                                     src={item.image || "/api/placeholder/400/300"}
                                                     alt={item.name}

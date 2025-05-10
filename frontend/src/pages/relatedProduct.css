@@ -225,6 +225,9 @@
     .related-header h1 {
         font-size: 20px;
     }
+    .product-details{
+        padding: 2% !important;
+    }
     
     .related-products-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -233,6 +236,7 @@
     
     .product-image-container {
         height: 150px;
+        object-fit: cover;
     }
     
    

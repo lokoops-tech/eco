@@ -1,7 +1,7 @@
 .shop-container {
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;
     justify-content: center;
+    background-color: white !important;
     padding: 20px;
 }
 
@@ -165,7 +165,7 @@
 .products-view {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 40px;
+    gap: 38px;
     
 }
 
@@ -532,6 +532,12 @@
         margin: 0  ;
         padding: 0%;
     }
+    .Toastify__toast {
+  width: 90%;
+  margin: 5px 30px;
+  justify-content: center;
+}
+
     .shop-content {
         flex-direction: column;
         margin: 0 auto;

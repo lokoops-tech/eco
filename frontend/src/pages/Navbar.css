@@ -6,7 +6,8 @@
     position: sticky;
     top: 0;
     left: 0;
-    z-index: 1000;
+    right: 0;
+    z-index: 100;
 }
 
 .nav-top {
@@ -541,15 +542,15 @@
        
     }
     .nav-top {
-        padding: 8px 5px;
+      
         width: 100%;
-        align-items: center;
+        align-items: flex-start !important;
     }
     
     .nav-left {
         display: flex;
         margin: 0;
-        align-items: center;
+        align-items: start;
     }
     
     .nav-hamburger-btn {
@@ -600,11 +601,14 @@
         padding: 0%;
         margin: 0 auto;
     }
+    .nav-logo{
+        margin-left: 0px !important;
+    }
     .nav-top {
+        padding: 5px !important;
         flex-wrap: nowrap;
-        padding: 8px 10px;
         width: auto;
-        justify-content: space-between;
+        justify-content: space-evenly;
     }
     
     .nav-hamburger-btn {
@@ -613,9 +617,9 @@
     }
     
     .nav-left {
+        padding: 0px !important;
         display: flex;
-        align-items: center;
-        gap: 8px;
+        align-items: start;
         margin: 0 !important;
     }
     
@@ -628,13 +632,26 @@
     .cart-text {
         display: none;
     }
+    .nav-cart-count{
+       
+            position: absolute;
+            top: -1px;
+            right: 1px;
+           
+            font-size: 12px;
+            padding: 4px 7px;
+            
+         
+     
+
+    }
     
     /* Show the search icon button */
     .nav-search-icon-btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 22px;
+       
         color: #282828;
         background: transparent !important;
         border: none;
@@ -644,6 +661,8 @@
     }
     
     .nav-search-icon-btn:hover {
+        
+        background-color: none !important;
         transform: scale(1.1);
     }
     
@@ -690,7 +709,7 @@
     }
     
     .nav-search-close-btn:hover {
-        background-color: #e0e0e0 !important;
+        background-color: none !important;
     }
     
     /* Navbar icons alignment */
@@ -705,13 +724,13 @@
     .nav-search-btn .nav-icon {
         width: 18px;
         height: 18px;
-        color: blue;
+        color: rgb(29, 29, 182);
         background-color: none;
         
     }
     .nav-search-btn .nav-icon:hover{
        
-        background-color: rgb(72, 111, 197);
+        background-color: none !important;
         
     }
 }

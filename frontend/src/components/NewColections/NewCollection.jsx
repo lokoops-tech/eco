@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import SEO from '../../pages/Seo.jsx';
+import SEO from '../../pages/SEO.jsx';
 import './NewCollection.css';
 
 
 
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
+const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base URL
 
 const NewProducts = () => {
   const [newCollection, setNewCollection] = useState([]);

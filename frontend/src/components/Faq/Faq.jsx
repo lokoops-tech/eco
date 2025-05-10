@@ -47,6 +47,21 @@ const FAQ = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+      const ScrollLink = ({ to, children, className }) => {
+          return (
+              <Link 
+                  className={className} 
+                  to={to} 
+                  onClick={scrollToTop}
+              >
+                  {children}
+              </Link>
+          );
+      };
   return (
     <div className="faq-container">
       <h1 className="faq-title">Frequently Asked Questions</h1>
@@ -75,6 +90,13 @@ const FAQ = () => {
           </div>
         ))}
       </div>
+      <button 
+                    className="back-to-top-button" 
+                    onClick={scrollToTop}
+                    aria-label="Back to top"
+                >
+                    ↑
+                </button>
     </div>
   );
 };

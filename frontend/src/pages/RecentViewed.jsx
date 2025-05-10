@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { shopContext } from '../context/ShopContext';
-import SEO from './Seo';
+import SEO from './SEO';
 import './RecentlyViewed.css';
 
 // Utility function to add products to recently viewed

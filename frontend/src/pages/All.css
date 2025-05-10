@@ -111,7 +111,7 @@
 
 .load-more-container {
   text-align: center;
-  margin-top: 20px;
+ padding: 30px;
 }
 
 .load-more-button , .show-less-button {
@@ -119,6 +119,7 @@
   background: #3f51b5 !important;
   color: white;
   border: none;
+ 
   border-radius: 5px !important;
   cursor: pointer;
   transition: background 0.3s ease;
@@ -153,12 +154,13 @@
 @media (max-width: 500px) {
   .all-products-container{
     margin: 30px auto;
-   padding: 0%;
+    padding:  0%;
    background-color: white;
   }
   .all-products-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 15px;
+    gap: 10px;
+    row-gap: 30px;
   
   }
   .all-products-title{
@@ -173,7 +175,8 @@
   
 .load-more-button, .show-less-button {
   padding: 6px 9px;
-  font-size: clamp(0.5rem, 2.0vw, 0.6rem);
+  font-size: 14px;
+  margin-top: 20px;
 }
   
  

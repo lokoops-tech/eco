@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import SEO from '../../pages/Seo';
+import SEO from '../../pages/SEO';
 import './Item.css';
 
 

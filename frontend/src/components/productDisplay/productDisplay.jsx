@@ -11,7 +11,7 @@ import RecentlyViewedItems from '../../pages/RecentViewed';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import SEO from '../../pages/Seo';
+
 import './productDisplay.css';
 
 const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
@@ -22,7 +22,7 @@ const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
         error,
         isAuthenticated,
     } = useContext(shopContext);
-    <SEO product={product} />
+   
 
     const [selectedImage, setSelectedImage] = useState(product?.image);
     const [addedToCart, setAddedToCart] = useState(false);

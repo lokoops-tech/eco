@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { toast, } from 'react-toastify';
-
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 const getDefaultCart = () => ({
     items: {},  // Initialize as empty object
@@ -14,36 +12,35 @@ const getDefaultCart = () => ({
     isValid: true  // Add validation state
 });
 
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com"; // Replace with your actual API base URL
+const API_BASE_URL = "http://localhost:4000"; // Replace with your actual API base URL
 
-// Enhanced default cart with stockStatus
-
+// Enhanced shop context with error state handling
 export const shopContext = createContext({
     all: [],
     filteredProducts: [],
     loading: false,
     error: null,
+    networkError: false,
+    retryFetch: () => {},
     cartState: getDefaultCart(),
     orders: [],
     // Add other default values here
 });
 
-
-
 export const useShop = () => useContext(shopContext);
 
 const ShopContextProvider = (props) => {
-    console.log("ShopContextProvider initializing");
     const [all, setAll] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [error, setError] = useState(null);
+    const [networkError, setNetworkError] = useState(false);
     const [orders, setOrders] = useState([]);
     const [cartItems, setCartItems] = useState(getDefaultCart());
     const [loading, setLoading] = useState(true);
     const [userState, setUserState] = useState({
-        email: null,});
+        email: null,
+    });
     const [cartState, setCartState] = useState(() => {
-        console.log("Initializing cart state"); // Debug log
         const savedCart = localStorage.getItem("cart");
         if (savedCart) {
             try {
@@ -75,41 +72,40 @@ const ShopContextProvider = (props) => {
                     lastUpdated: new Date().toISOString()
                 };
             } catch (error) {
-                console.error("Failed to parse saved cart:", error);
                 localStorage.removeItem("cart"); // Clear invalid cart data
                 return getDefaultCart();
             }
         }
         return getDefaultCart();
     });
-    // Add to ShopContext.jsx
-const handleUserLogin = async (userData, authToken) => {
-    try {
-      // Hash the email for verification purposes
-      const emailHash = await hashEmail(userData.email);
-      
-      // Encrypt the email using the auth token
-      const encryptedEmail = encryptEmail(userData.email, authToken);
-      
-      // Store in localStorage
-      localStorage.setItem("email-hash", emailHash);
-      localStorage.setItem("encrypted-email", encryptedEmail);
-      localStorage.setItem("auth-token", authToken);
-      
-      // Also store the email in your app state for immediate use
-      setUserState(prev => ({
-        ...prev,
-        email: userData.email
-      }));
-      
-      return true;
-    } catch (error) {
-      console.error("Failed to handle user login data:", error);
-      return false;
-    }
-  };
 
-    
+    // Add to ShopContext.jsx
+    const handleUserLogin = async (userData, authToken) => {
+        try {
+          // Hash the email for verification purposes
+          const emailHash = await hashEmail(userData.email);
+          
+          // Encrypt the email using the auth token
+          const encryptedEmail = encryptEmail(userData.email, authToken);
+          
+          // Store in localStorage
+          localStorage.setItem("email-hash", emailHash);
+          localStorage.setItem("encrypted-email", encryptedEmail);
+          localStorage.setItem("auth-token", authToken);
+          
+          // Also store the email in your app state for immediate use
+          setUserState(prev => ({
+            ...prev,
+            email: userData.email
+          }));
+          
+          return true;
+        } catch (error) {
+          return false;
+        }
+    };
+
+    // Load cart from localStorage on component mount
     useEffect(() => {
         const savedCart = localStorage.getItem("cart");
         if (savedCart) {
@@ -117,7 +113,6 @@ const handleUserLogin = async (userData, authToken) => {
                 const parsedCart = JSON.parse(savedCart);
                 setCartState(parsedCart);
             } catch (error) {
-                console.error("Failed to parse cart from localStorage:", error);
                 localStorage.removeItem("cart");
                 setCartState(getDefaultCart());
             }
@@ -131,95 +126,155 @@ const handleUserLogin = async (userData, authToken) => {
                 localStorage.setItem("cart", JSON.stringify(cartState));
             }
         } catch (error) {
-            console.error("Failed to save cart to localStorage:", error);
+            // Silent error handling
         }
     }, [cartState]);
  
+    // Enhanced fetchProducts function with better error handling
+    const fetchProducts = useCallback(async () => {
+        setLoading(true);
+        setNetworkError(false);
+        setError(null);
+        
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
+            const response = await fetch(`${API_BASE_URL}/product/allproducts`, {
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error("Unable to load products. Please try again later.");
+            }
+            
+            const data = await response.json();
+            
+            // Extract the products array from the response
+            const productsArray = data.products || [];
+            
+            setAll(productsArray);
+            setFilteredProducts(productsArray);
+            setLoading(false);
+        } catch (err) {
+            setLoading(false);
+            
+            if (err.name === 'AbortError') {
+                setNetworkError(true);
+                setError("Request timed out. Please check your connection and try again.");
+            } else if (err.message.includes('fetch')) {
+                setNetworkError(true);
+                setError("Network connection issue. Please check your internet connection.");
+            } else {
+                setError(err.message);
+            }
+        }
+    }, []);
+    
+    // Function to retry fetching products
+    const retryFetch = useCallback(() => {
+        fetchProducts();
+    }, [fetchProducts]);
+
     // Fetch all products and cart data on component mount
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch(`${API_BASE_URL}/product/allproducts`);
-                if (!response.ok) throw new Error("Failed to fetch products");
-                const data = await response.json();
-                
-                // Extract the products array from the response
-                const productsArray = data.products || [];
-                
-                setAll(productsArray);
-                setFilteredProducts(productsArray);
-                setLoading(false);
-            } catch (err) {
-                console.error("Error fetching products:", err);
-                setError(err.message);
-                setLoading(false);
-            }
-        };
-        
         fetchProducts();
+    }, [fetchProducts]);
+
+    // Validate stock status before adding to cart
+    const validateStockStatus = useCallback(async (itemId) => {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+            
+            const response = await fetch(`${API_BASE_URL}/product/${itemId}/status`, {
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error('Failed to check product status');
+            }
+            
+            const { stockStatus } = await response.json();
+            
+            if (stockStatus === 'OUT_OF_STOCK') {
+                throw new Error('Product is currently out of stock');
+            }
+            
+            return true;
+        } catch (error) {
+            console.error('Stock status check failed:', error);
+            
+            // Don't show toast notifications for network errors
+            if (!error.name === 'AbortError' && !error.message.includes('fetch')) {
+                throw error;
+            }
+            
+            // For network errors, return a default assumption (let the user try to add to cart)
+            return true;
+        }
     }, []);
 
+    // Fetch current stock status for all products
+    const fetchStockStatus = async () => {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+            
+            const response = await fetch(`${API_BASE_URL}/stockUpdate/getstatus`, {
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to fetch stock status');
+            }
 
+            const { data, success } = await response.json();
 
-  // Validate stock status before adding to cart
-const validateStockStatus = useCallback(async (itemId) => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/product/${itemId}/status`);
-        if (!response.ok) throw new Error('Failed to check product status');
-        
-        const { stockStatus } = await response.json();
-        
-        if (stockStatus === 'OUT_OF_STOCK') {
-            throw new Error('Product is currently out of stock');
+            if (!success) {
+                throw new Error('Failed to fetch stock status data');
+            }
+
+            // Ensure we have the products array
+            if (!data || !data.products) {
+                throw new Error('Invalid stock status data received');
+            }
+
+            return {
+                success: true,
+                data: data.products.map(product => ({
+                    id: product.id,
+                    name: product.name,
+                    stockStatus: product.stockStatus,
+                    lastUpdated: product.lastUpdated
+                }))
+            };
+
+        } catch (error) {
+            console.error('Error fetching stock status:', error);
+            
+            // Don't show notifications for network errors
+            if (error.name === 'AbortError' || error.message.includes('fetch')) {
+                return {
+                    success: true, // Pretend success for network errors
+                    data: []       // Return empty data instead of error
+                };
+            }
+            
+            return {
+                success: false,
+                error: error.message,
+                data: []
+            };
         }
-        
-        return true;
-    } catch (error) {
-        console.error('Stock status check failed:', error);
-        throw error;
-    }
-}, []);
-
-// Fetch current stock status for all products
-const fetchStockStatus = async () => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/stockUpdate/getstatus`);
-        
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to fetch stock status');
-        }
-
-        const { data, success } = await response.json();
-
-        if (!success) {
-            throw new Error('Failed to fetch stock status data');
-        }
-
-        // Ensure we have the products array
-        if (!data || !data.products) {
-            throw new Error('Invalid stock status data received');
-        }
-
-        return {
-            success: true,
-            data: data.products.map(product => ({
-                id: product.id,
-                name: product.name,
-                stockStatus: product.stockStatus,
-                lastUpdated: product.lastUpdated
-            }))
-        };
-
-    } catch (error) {
-        console.error('Error fetching stock status:', error);
-        return {
-            success: false,
-            error: error.message,
-            data: []
-        };
-    }
-};
+    };
 
 // Usage example:
 const updateProductStatus = async () => {
@@ -231,7 +286,6 @@ const updateProductStatus = async () => {
             // Handle the products data
         } else {
             // Handle the error state
-            console.error('Failed to fetch stock status:', result.error);
         }
     } catch (error) {
         // Handle any unexpected errors
@@ -240,14 +294,9 @@ const updateProductStatus = async () => {
 };
  const fetchCartData = useCallback(async () => {
         const authToken = localStorage.getItem("auth-token");
-
-        console.log("Auth token in fetchCartData:", authToken);
-
         if (!authToken) {
-            console.warn("No authentication token available");
             return null;
         }
-
         try {
             const response = await fetch(`${API_BASE_URL}/cart/getcart`, {
                 method: "POST",
@@ -257,14 +306,14 @@ const updateProductStatus = async () => {
                 }
             });
 
-            console.log("Cart fetch response status:", response.status);
+           
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
             const data = await response.json();
-            console.log("Fetched cart data:", data);
+            
 
             setCartState(prev => ({
                 ...prev,

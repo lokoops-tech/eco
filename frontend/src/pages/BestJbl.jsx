@@ -29,7 +29,7 @@ const BestJblSpeakers = () => {
     return (
         <div className="best-jbl-products">
             <div className="header-section">
-                <h1 className="title">JBL Speakers || Bring The Concert Home</h1>
+                <h1 className="title">JBL Products || Hear the truth</h1>
                 <Link to="/woofers/wireless-speakers/jbl" className="jbl-view-all">
                     View All <ArrowRight size={20} />
                 </Link>

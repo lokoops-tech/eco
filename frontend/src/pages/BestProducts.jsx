@@ -15,7 +15,8 @@ const BestProducts = () => {
     const [brand, setBrand] = useState('');
 
     useEffect(() => {
-        if (!all.length) {
+        if (!all || !all.length) {
+            console.log('No products available in context');
             setLoading(false);
             return;
         }
@@ -37,10 +38,10 @@ const BestProducts = () => {
                 const filteredProducts = filterProducts({
                     category: pathParts[0],
                     subcategory: pathParts[1],
-                    brands: [pathParts[2]]
+                    brands: pathParts[2] ? [pathParts[2]] : []
                 });
 
-                console.log('Filtered products:', filteredProducts);
+                console.log(`Found ${filteredProducts.length} filtered products`);
 
                 const limitedProducts = showAll 
                     ? filteredProducts 
@@ -48,6 +49,7 @@ const BestProducts = () => {
 
                 setProducts(limitedProducts);
             } catch (error) {
+                console.error('Error filtering products:', error);
                 setError('Failed to load products.');
             } finally {
                 setLoading(false);
@@ -63,6 +65,18 @@ const BestProducts = () => {
             .split('-')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
+    };
+
+    // Function to create product URL in the format used across the site
+    const createProductUrl = (product) => {
+        if (!product || !product.name) return '/';
+        
+        // Create the same URL format as in YouMayLike component
+        const safeProductName = encodeURIComponent(product.name.trim());
+        const productUrl = `/product/${safeProductName}-${product.id}`;
+        
+        console.log(`Creating URL for product ${product.id}: ${productUrl}`);
+        return productUrl;
     };
 
     return (
@@ -98,7 +112,7 @@ const BestProducts = () => {
                                     {discount > 0 && <div className="product-discount">-{discount}%</div>}
                                     
                                     <Link 
-                                        to={`/product/${product.id}/${encodeURIComponent(product.name)}`} 
+                                        to={createProductUrl(product)} 
                                         className="product-link"
                                     >
                                         <img 
@@ -106,18 +120,16 @@ const BestProducts = () => {
                                             alt={product.name} 
                                             className="product-image"
                                         />
-                                         <div className="best-detail">
-                                        <h2>{product.name}</h2>
-                                        <div className="product-price">
-                                            <span className="current-price">Ksh {product.new_price?.toLocaleString() || '0'}</span>
-                                            {product.old_price && (
-                                                <span className="original-price">Ksh {product.old_price?.toLocaleString() || '0'}</span>
-                                            )}
+                                        <div className="best-detail">
+                                            <h2>{product.name}</h2>
+                                            <div className="product-price">
+                                                <span className="current-price">Ksh {product.new_price?.toLocaleString() || '0'}</span>
+                                                {product.old_price && (
+                                                    <span className="original-price">Ksh {product.old_price?.toLocaleString() || '0'}</span>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
                                     </Link>
-                                    
-                                   
                                 </div>
                             );
                         })}

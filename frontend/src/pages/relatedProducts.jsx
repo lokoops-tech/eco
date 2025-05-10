@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './relatedProduct.css';
 
 // Define the API endpoint as a constant
-const API_ENDPOINT = 'https://ecommerce-axdj.onrender.com/product/allproducts';
+const API_ENDPOINT = 'http://localhost:4000/product/allproducts';
 
 const RelatedProduct = ({ currentCategory, currentProductId }) => {
     const ITEMS_PER_PAGE = 8;

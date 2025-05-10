@@ -182,7 +182,7 @@
 @media screen and (max-width: 480px) {
     .vitron-best-products {
         width: auto;
-        padding: 0%;
+        padding: 0% 9px;
         background-color: white;
     }
     .vitron-title-head {
@@ -201,21 +201,21 @@
     
 
     .vitron-products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      
-        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 9px;
     }
 
     .vitron-product-card {
-      padding: 10px;
+      padding: 0px;
+      margin: 0px;
     }
 
     .vitron-product-image {
-        height: 140px;
+        height: 150px;
     }
 
     .vitron-product-details {
-        padding: 10px;
+        padding: 0px 2px;
     }
 
     .vitron-product-name {

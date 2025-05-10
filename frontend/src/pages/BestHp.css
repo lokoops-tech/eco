@@ -173,7 +173,7 @@
     .hp-best-products {
      background-color: white;
      margin: 30px auto;
-     padding: 0%;
+     padding: 0% 3px;
     }
     
     .hp-header-container {
@@ -189,21 +189,21 @@
     
     .hp-products-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 7px;
     }
     
     .hp-product-card {
-     padding: 10px;
+     padding: 5px;
     }
 
     .hp-product-image {
-        height: 140px;
+        height: 150px;
         width: 100%;
     }
     
     .hp-product-details {
-        padding: 10px;
+        padding: 0px !important;
     }
 
     .hp-product-name {

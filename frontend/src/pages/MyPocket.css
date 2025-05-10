@@ -253,12 +253,13 @@
 /* 500px Breakpoint */
 @media (max-width: 480px) {
   .shop-container {
-    padding: 0%;
+    padding: 0% 9px;
     margin: 0;
     background-color: white;
   }
   .shop-header{
     background-color: #dfdfdf;
+    width: 90%;
   }
   .shop-main-title{
     font-size: 0.9rem;

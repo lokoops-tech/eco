@@ -183,7 +183,7 @@
     .budget-deals-wrapper {
       max-width: 100%;
     
-      padding: 0%;
+      padding: 0% 9px;
       justify-content: start;
       background-color: white;
   
@@ -200,8 +200,8 @@
     }
   
     .budget-products-grid {
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 9px;
     }
   
     .budget-product-card {

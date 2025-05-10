@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you're using React Router
-import SEO from '../../pages/Seo.jsx';
+import SEO from '../../pages/SEO.jsx';
 import './Popular.css';
 
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
+const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base URL
 
 const Popular = () => {
     const [popularProducts, setPopularProducts] = useState([]);
@@ -122,7 +122,7 @@ const Popular = () => {
         
         return (
             <div className="earpods-product-card">
-                <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to={`/product/${product.name}-${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <div className="earpods-product-image">
                         <img src={product.image} alt={product.name} />
                         {discountPercentage && (

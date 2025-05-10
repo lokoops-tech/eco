@@ -172,7 +172,7 @@
 
 @media screen and (max-width: 500px) {
   .best-jbl-products{
-    padding: 0;
+    padding: 0px 3px;
     background-color: white;
   }
   .header-section {
@@ -187,13 +187,16 @@
     color: blue;
   }
   .jbl-products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 8px;
   
   }
 
   .jbl-product-image {
     height: 150px;
+  }
+  .jbl-product-details{
+    margin: 0px 2px;
   }
 }
 

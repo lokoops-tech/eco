@@ -251,7 +251,7 @@ const Navbar = () => {
             {/* Right side - Search, Profile, Cart icons */}
             <div className="nav-icons" style={{ marginLeft: 'auto' }}>
               <button className="nav-search-icon-btn" onClick={toggleSearch}>
-                <Search size={22} className="nav-icon" />
+                <Search size={30} className="nav-icon"  style={{strokeWidth:"2.3", height:'30'}}/>
               </button>
               
               <div className="nav-profile-container">
@@ -282,7 +282,7 @@ const Navbar = () => {
                   <input
                     className="nav-search-input"
                     type="text"
-                    placeholder="Search by name, category, or ID..."
+                    placeholder="Search by name, category, or Brand..."
                     value={searchTerm}
                     onChange={(e) => handleSearch(e.target.value)}
                     onKeyDown={handleKeyDown}
@@ -299,7 +299,7 @@ const Navbar = () => {
             </div>
           )}
         </div>
-      )}
+      )} 
 
       {/* For desktop view (above 500px) - Original layout */}
       {!isMobileView && (
