@@ -6,7 +6,7 @@ import WhatsAppButton from "./components/WhatsApp/WhatsAppButton.jsx";
 import FindUs from "./pages/Top.jsx";
 import { ToastContainer } from "react-toastify";
 import All from "./pages/All.jsx";
-import SEO from "./pages/SEO.jsx";
+import SEO from "./pages/Seo.jsx";
 import LoginSignup from "../src/pages/loginSignup.jsx";
 import Cart from "../src/pages/Cart.jsx";
 

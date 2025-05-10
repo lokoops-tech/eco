@@ -6,7 +6,7 @@ import Describe from "../components/Descriptionbox/DescriptionBox";
 import ProductDisplay from "../components/productDisplay/productDisplay";
 import RelatedProduct from "./relatedProducts";
 import YouMayLike from "./YouMayLike";
-import SEO from "./SEO.jsx";
+import SEO from "./Seo.jsx";
 import RecentlyViewedItems, { addToRecentlyViewed } from "../pages/RecentViewed";
 
 // Memoize SEO component to prevent unnecessary re-renders

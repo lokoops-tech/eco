@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import SEO from './SEO';
+import SEO from './Seo';
 import './BeiYangu.css';
 const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base URL
 

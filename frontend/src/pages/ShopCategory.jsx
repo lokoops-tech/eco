@@ -14,7 +14,7 @@ import groom from '../Assets/grooming.png';
 import tv from '../Assets/tv0.png';
 import ear from '../Assets/earpods.png';
 import '../pages/css/Shop_category.css';
-import SEO from "./SEO.jsx";
+import SEO from "./Seo.jsx";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { categoryBrands } from "../../Seo.js";
