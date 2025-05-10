@@ -18,7 +18,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO
 const io = socketIo(server, {
     cors: {
-        origin: ["http://localhost:5173", "http://localhost:5174", "https://ecommerce-axdj.onrender.com"],
+        origin: ["https://eco-pirg.onrender.com", "https://ecommerce-3-93bn.onrender.com","],
         methods: ["GET", "POST"],
         credentials: true
     }
