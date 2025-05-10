@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ResetPassword.css'
 
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
+const API_BASE_URL = "https://gich-backend.onrender.com";
 
 const ResetPassword = () => {
     const location = useLocation();
