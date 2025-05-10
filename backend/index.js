@@ -18,7 +18,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO
 const io = socketIo(server, {
     cors: {
-        origin: ["https://eco-pirg.onrender.com", "https://ecommerce-3-93bn.onrender.com","],
+        origin: ["https://eco-pirg.onrender.com", "https://ecommerce-3-93bn.onrender.com",],
         methods: ["GET", "POST"],
         credentials: true
     }
@@ -38,7 +38,7 @@ const Analytics = require("./routes/Analytics");
 // Middleware
 app.use(cors({
     origin: function (origin, callback) {
-        const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "https://ecommerce-axdj.onrender.com"];
+        const allowedOrigins = ["http://localhost:5173", "https://ecommerce-3-93bn.onrender.com","https://eco-pirg.onrender.com", "https://ecommerce-axdj.onrender.com"];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
