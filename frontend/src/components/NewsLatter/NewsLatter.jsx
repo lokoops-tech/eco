@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './NewsLatter.css';
 
-const API_BASE_URL = "https://ecommerce-axdj.onrender.com";
+const API_BASE_URL = "https://gich-backend.onrender.com";
 
 const ParticleEffect = () => {
   return (
