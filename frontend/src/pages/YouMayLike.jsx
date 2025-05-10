@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./YouMaylike.css";
-const API_BASE_URL="http://localhost:4000"; // Adjust this to your API base URL
+const API_BASE_URL="https://gich-backend.onrender.com"; // Adjust this to your API base URL
 
 
 
