@@ -27,7 +27,7 @@ const io = socketIo(server, {
 // Import routes
 const authUsersRoutes = require("./routes/authUsers");
 const productRoutes = require("./routes/Product");
-const orderRoutes = require("./routes/Order");
+const orderRoutes = require("./routes/order");
 const adminRoutes = require("./routes/Admin");
 const newslettersRoutes = require("./routes/newsletters");
 const stockUpdateRoutes = require("./routes/stockUpdate");
