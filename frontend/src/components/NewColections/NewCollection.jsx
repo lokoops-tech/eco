@@ -5,7 +5,7 @@ import './NewCollection.css';
 
 
 
-const API_BASE_URL = "http://localhost:4000"; // Adjust this to your API base URL
+const API_BASE_URL = "https://gich-backend.onrender.com"; // Adjust this to your API base URL
 
 const NewProducts = () => {
   const [newCollection, setNewCollection] = useState([]);
