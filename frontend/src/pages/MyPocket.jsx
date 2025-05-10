@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import './MyPocket.css';
 
-const API_BASE_URL = "http://localhost:4000"; // ✅ Fixed URL format
+const API_BASE_URL = "https://gich-backend.onrender.com"; // ✅ Fixed URL format
 
 const MyPocket = () => {
   const [minPrice, setMinPrice] = useState('');
