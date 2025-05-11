@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import SEO from './Seo';
 import './BeiYangu.css';
 const API_BASE_URL = "https://gich-backend.onrender.com"; // Adjust this to your API base URL
 
@@ -56,12 +55,6 @@ const BeiYangu = () => {
 
     return (
         <div className="budget-deals-wrapper">
-           
-        <SEO defaultData={{
-        title: "Budget Deals Under Ksh 5000 | Gich-Tech",
-        description: "Discover premium tech products under Ksh 5000. Quality meets unbeatable prices at Gich-Tech.",
-          // other meta data
-           }} />
             
             <div className="budget-deals-header">
                 <h1 className="budget-deals-title">Unlock Premium Deals Under Ksh 5000!</h1>

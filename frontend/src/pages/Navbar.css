@@ -593,6 +593,9 @@
         padding: 10px 15px;
         font-size: 13px;
     }
+    .nav-icon:hover{
+        background-color: none !important;
+    }
 }
 
 /* New styles for mobile search below 500px */
@@ -633,17 +636,11 @@
         display: none;
     }
     .nav-cart-count{
-       
-            position: absolute;
-            top: -1px;
-            right: 1px;
-           
-            font-size: 12px;
-            padding: 4px 7px;
-            
-         
-     
-
+        position: absolute;
+        top: -1px;
+        right: 1px;
+        font-size: 12px;
+        padding: 4px 7px;
     }
     
     /* Show the search icon button */
@@ -651,19 +648,39 @@
         display: flex;
         align-items: center;
         justify-content: center;
-       
         color: #282828;
         background: transparent !important;
         border: none;
         cursor: pointer;
         padding: 5px;
-        transition: transform 0.2s ease;
     }
     
-    .nav-search-icon-btn:hover {
-        
-        background-color: none !important;
-        transform: scale(1.1);
+    /* REMOVE HOVER EFFECTS FOR BUTTONS BELOW 500px */
+    .nav-hamburger-btn:hover,
+    .nav-icons a:hover, 
+    .nav-icons .nav-profile-btn:hover,
+    .nav-search-btn:hover,
+    .nav-search-icon-btn:hover,
+    .nav-search-close-btn:hover,
+    .nav-dropdown-item:hover,
+    .nav-category-link:hover,
+    .nav-category-indicator:hover,
+    .nav-mobile-back-button:hover svg {
+        transform: none;
+        background-color: transparent !important;
+        color: inherit;
+    }
+    
+    /* Prevent background color changes on hover for items */
+    .nav-item:hover,
+    .nav-dropdown-item:hover,
+    .nav-mobile-back-button:hover {
+        background-color: transparent;
+    }
+    
+    /* Ensure no padding changes on hover */
+    .nav-dropdown-item:hover {
+        padding-left: 20px;
     }
     
     /* Expanded search container */
@@ -705,11 +722,21 @@
         border: none;
         cursor: pointer;
         padding: 8px !important;
-        transition: all 0.2s ease;
     }
     
-    .nav-search-close-btn:hover {
-        background-color: none !important;
+    /* Disable all transitions for smoother mobile experience */
+    .nav-hamburger-btn,
+    .nav-icons a,
+    .nav-icons .nav-profile-btn,
+    .nav-search-icon-btn,
+    .nav-search-close-btn,
+    .nav-icon,
+    .nav-dropdown-item,
+    .nav-category-link,
+    .nav-category-indicator,
+    .nav-mobile-back-button,
+    .nav-mobile-back-button svg {
+        transition: none;
     }
     
     /* Navbar icons alignment */
@@ -726,12 +753,6 @@
         height: 18px;
         color: rgb(29, 29, 182);
         background-color: none;
-        
-    }
-    .nav-search-btn .nav-icon:hover{
-       
-        background-color: none !important;
-        
     }
 }
 

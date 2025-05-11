@@ -58,7 +58,7 @@ const seoDataStore = {
     // Respect the current page type
     if (this.currentPageType === 'product' && this.product?.id) {
       return {
-        title: this.product.metaTitle || `${this.product.name} | Gich-Tech Electronics`,
+        title: this.product.metaTitle || `${this.product.name}`,
         description: (this.product.metaDescription || this.product.description || '')
           .replace(/\/\/.*?\n/g, '')
           .replace(/`.*?`/g, '')
@@ -71,7 +71,7 @@ const seoDataStore = {
     // Then check for category
     if (this.currentPageType === 'category' && this.category?.id) {
       return {
-        title: `${this.category.name} | Gich-Tech Electronics`,
+        title: `${this.category.name}`,
         description: `Shop ${this.category.name} at Gich-Tech. Find the best ${this.category.name.toLowerCase()} products and accessories.`,
         type: 'category',
         id: this.category.id
@@ -116,7 +116,7 @@ const formatPathForTitle = (path) => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
     
-  return `${formattedPath} | Gich-Tech Electronics & Tech Accessories Store.  Find the latest smartphones, TVs, computers, watches, audio gear, kitchen appliances and more at competitive prices.`;
+  return `${formattedPath}`;
 };
 
 const SEO = ({ product = null, category = null, defaultData = {}, pageType = null }) => {
@@ -265,15 +265,15 @@ const SEO = ({ product = null, category = null, defaultData = {}, pageType = nul
     // Override title based on URL extraction if needed
     let overrideTitle = null;
     if (effectivePageType === 'product' && productName && !product) {
-      overrideTitle = `${productName} | Gich-Tech Electronics & Tech Accessories Store.  Find the latest smartphones, TVs, computers, watches, audio gear, kitchen appliances and more at competitive prices.`;
+      overrideTitle = `${productName}`;
     } else if (effectivePageType === 'category' && categoryName && !category) {
-      overrideTitle = `${categoryName} | Gich-Tech Electronics & Tech Accessories Store.  Find the latest smartphones, TVs, computers, watches, audio gear, kitchen appliances and more at competitive prices.`;
+      overrideTitle = `${categoryName}`;
     } else if (effectivePageType === 'path') {
       // Format path-based title
       overrideTitle = formatPathForTitle(path);
     } else if (effectivePageType === 'default' && path === '/') {
       // Special case for home page
-      overrideTitle = 'Gich-Tech Electronics & Tech Accessories Store.  Find the latest smartphones, TVs, computers, watches, audio gear, kitchen appliances and more at competitive prices.';
+      overrideTitle = '';
     }
     
     // Get and use metadata
@@ -348,7 +348,7 @@ const SEO = ({ product = null, category = null, defaultData = {}, pageType = nul
       
     return (
       <Helmet prioritizeSeoTags>
-        <title>{effectiveProduct.metaTitle || `${effectiveProduct.name} | Gich-Tech Electronics`}</title>
+        <title>{effectiveProduct.metaTitle || `${effectiveProduct.name}`}</title>
         <meta name="description" content={cleanDescription} />
         {effectiveProduct.metaKeywords && <meta name="keywords" content={effectiveProduct.metaKeywords.join(', ')} />}
         
@@ -356,14 +356,14 @@ const SEO = ({ product = null, category = null, defaultData = {}, pageType = nul
         
         {/* Open Graph */}
         <meta property="og:type" content="product" />
-        <meta property="og:title" content={effectiveProduct.metaTitle || `${effectiveProduct.name} | Gich-Tech Electronics`} />
+        <meta property="og:title" content={effectiveProduct.metaTitle || `${effectiveProduct.name}`} />
         <meta property="og:description" content={cleanDescription} />
         <meta property="og:url" content={effectiveProduct.seoData?.canonicalUrl || `https://gich-tech.com/products/${effectiveProduct.slug || effectiveProduct.id}`} />
         <meta property="og:image" content={effectiveProduct.images?.[0]?.url || effectiveProduct.image} />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={effectiveProduct.metaTitle || `${effectiveProduct.name} | Gich-Tech Electronics`} />
+        <meta name="twitter:title" content={effectiveProduct.metaTitle || `${effectiveProduct.name}`} />
         <meta name="twitter:description" content={cleanDescription} />
         <meta name="twitter:image" content={effectiveProduct.images?.[0]?.url || effectiveProduct.image} />
         
@@ -405,14 +405,14 @@ const SEO = ({ product = null, category = null, defaultData = {}, pageType = nul
     
     return (
       <Helmet>
-        <title>{`${effectiveCategory.name} | Gich-Tech Electronics`}</title>
+        <title>{`${effectiveCategory.name}`}</title>
         <meta name="description" content={`Shop ${effectiveCategory.name} at Gich-Tech. Find the best ${effectiveCategory.name.toLowerCase()} products and accessories.`} />
         
         <link rel="canonical" href={`https://gich-tech.com/${effectiveCategory.slug}`} />
         
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={`${effectiveCategory.name} | Gich-Tech Electronics`} />
+        <meta property="og:title" content={`${effectiveCategory.name}`} />
         <meta property="og:description" content={`Shop ${effectiveCategory.name} at Gich-Tech Electronics`} />
         <meta property="og:url" content={`https://gich-tech.com/${effectiveCategory.slug}`} />
         <meta property="og:image" content={effectiveCategory.image || 'https://gich-tech.com/default-category-image.jpg'} />
@@ -472,13 +472,13 @@ const SEO = ({ product = null, category = null, defaultData = {}, pageType = nul
   if (extractedProductName && detectedPageType === 'product') {
     return (
       <Helmet>
-        <title>{`${extractedProductName} | Gich-Tech Electronics`}</title>
+        <title>{`${extractedProductName}`}</title>
         <meta name="description" content={`Buy ${extractedProductName} at Gich-Tech Electronics - Quality products at great prices.`} />
         <link rel="canonical" href={`https://gich-tech.com${path}`} />
         
         {/* Open Graph */}
         <meta property="og:type" content="product" />
-        <meta property="og:title" content={`${extractedProductName} | Gich-Tech Electronics`} />
+        <meta property="og:title" content={`${extractedProductName}`} />
         <meta property="og:description" content={`Buy ${extractedProductName} at Gich-Tech Electronics - Quality products at great prices.`} />
         <meta property="og:url" content={`https://gich-tech.com${path}`} />
       </Helmet>
@@ -488,13 +488,13 @@ const SEO = ({ product = null, category = null, defaultData = {}, pageType = nul
   if (extractedCategoryName && detectedPageType === 'category') {
     return (
       <Helmet>
-        <title>{`${extractedCategoryName} | Gich-Tech Electronics`}</title>
+        <title>{`${extractedCategoryName}`}</title>
         <meta name="description" content={`Shop ${extractedCategoryName} at Gich-Tech. Find the best ${extractedCategoryName.toLowerCase()} products and accessories.`} />
         <link rel="canonical" href={`https://gich-tech.com${path}`} />
         
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={`${extractedCategoryName} | Gich-Tech Electronics`} />
+        <meta property="og:title" content={`${extractedCategoryName}`} />
         <meta property="og:description" content={`Shop ${extractedCategoryName} at Gich-Tech Electronics`} />
         <meta property="og:url" content={`https://gich-tech.com${path}`} />
       </Helmet>

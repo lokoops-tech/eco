@@ -14,6 +14,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import './productDisplay.css';
 
+// Replace with your actual business phone number in international format (without the + sign)
+// For example: "254722123456" for Kenya
+const BUSINESS_PHONE_NUMBER = "254722123456";
+
 const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
     const { 
         cartState,
@@ -40,8 +44,8 @@ const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [showShareOptions, setShowShareOptions] = useState(false);
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-   const [isKeyFeaturesExpanded, setIsKeyFeaturesExpanded] = useState(false);
-   const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isKeyFeaturesExpanded, setIsKeyFeaturesExpanded] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
 // Reset expansion state when product changes
 
@@ -151,7 +155,7 @@ const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}&picture=${encodeURIComponent(productImg)}&quote=${encodeURIComponent(`Check out ${product?.name} - Now at Ksh ${product?.new_price}!`)}`,
       twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(`${product?.name} - Now at Ksh ${product?.new_price}!`)}&image=${encodeURIComponent(productImg)}`,
       linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(productUrl)}&title=${encodeURIComponent(`${product?.name} - Special Offer`)}&summary=${encodeURIComponent(`Now available at Ksh ${product?.new_price}. Save ${percentageSavings}%!`)}&source=${encodeURIComponent(productImg)}`,
-      whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(`${product?.name} at Ksh ${product?.new_price} (${percentageSavings}% OFF): ${productUrl}`)}`
+      whatsapp: `https://api.whatsapp.com/send?phone=${BUSINESS_PHONE_NUMBER}&text=${encodeURIComponent(`${product?.name} at Ksh ${product?.new_price} (${percentageSavings}% OFF): ${productUrl}`)}`
     };
 
     const copyToClipboard = () => {
@@ -201,7 +205,7 @@ Price: *Ksh ${product?.new_price}* (Save ${percentageSavings}%)
 
 View it here: ${productUrl}`;
 
-      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(whatsappText)}`, '_blank');
+      window.open(`https://api.whatsapp.com/send?phone=${BUSINESS_PHONE_NUMBER}&text=${encodeURIComponent(whatsappText)}`, '_blank');
     };
 
     const handleShare = (platform) => {
@@ -345,8 +349,8 @@ View it here: ${productUrl}`;
       ));
     };
 
-    // Updated WhatsApp link with properly formatted URL
-    const whatsappLink = `https://api.whatsapp.com/send?phone=YOUR_PHONE_NUMBER&text=Hello,%20I%20am%20interested%20in%20${encodeURIComponent(product.name)}%20on%20your%20website.%20${encodeURIComponent(productUrl)}`; 
+    // Updated WhatsApp link with business phone number
+    const whatsappLink = `https://api.whatsapp.com/send?phone=${BUSINESS_PHONE_NUMBER}&text=Hello,%20I%20am%20interested%20in%20${encodeURIComponent(product.name)}%20on%20your%20website.%20${encodeURIComponent(productUrl)}`; 
 
     const renderErrorMessage = () => {
       if (!errorMessage) return null;
@@ -488,20 +492,20 @@ View it here: ${productUrl}`;
                   />
                 </div>
                 <button 
-  className={`review-content-btn ${isSubmitting ? 'submitting' : ''}`} 
-  type="submit" 
-  disabled={isSubmitting}
->
-  {isSubmitting ? 'Submitting...' : 'Submit Review'}
-</button>
+                  className={`review-content-btn ${isSubmitting ? 'submitting' : ''}`} 
+                  type="submit" 
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit Review'}
+                </button>
 
-{/* Optionally add a loading spinner under the button when submitting */}
-{isSubmitting && (
-  <div className="review-submit-status">
-    <div className="submit-spinner"></div>
-    <span>Processing your review...</span>
-  </div>
-)}
+                {/* Optionally add a loading spinner under the button when submitting */}
+                {isSubmitting && (
+                  <div className="review-submit-status">
+                    <div className="submit-spinner"></div>
+                    <span>Processing your review...</span>
+                  </div>
+                )}
               </form>
 
               <div className="reviews-list">

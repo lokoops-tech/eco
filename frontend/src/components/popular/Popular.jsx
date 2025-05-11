@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you're using React Router
-import SEO from '../../pages/Seo.jsx';
 import './Popular.css';
 
 const API_BASE_URL = "https://gich-backend.onrender.com"; // Adjust this to your API base URL
@@ -146,21 +145,9 @@ const Popular = () => {
         );
     };
 
-    // Create a virtual category object for SEO purposes
-    const categoryData = {
-        id: 'earpods-collection',
-        name: 'Premium Earpods Collection',
-        slug: 'earpods-collection',
-        image: popularProducts[0]?.image || 'http://localhost:5173/default-earpods-image.jpg'
-    };
 
     return (
         <>
-            {/* Pass proper category data to SEO component */}
-            <SEO 
-                category={categoryData} 
-                defaultData={pageData}
-            />
             <div className="earpods-popular-section">
                 <div className="earpods-section-header">
                     <h1>Earpods || Connect To Pure Sound</h1>
