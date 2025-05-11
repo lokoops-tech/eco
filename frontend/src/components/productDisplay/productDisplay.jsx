@@ -16,7 +16,7 @@ import './productDisplay.css';
 
 // Replace with your actual business phone number in international format (without the + sign)
 // For example: "254722123456" for Kenya
-const BUSINESS_PHONE_NUMBER = "254722123456";
+const BUSINESS_PHONE_NUMBER = "254714883820";
 
 const ProductDisplay = ({ product, sizes = [], keyFeatures = [] }) => {
     const { 
