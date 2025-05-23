@@ -1,23 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
-import { ArrowUpDown, ArrowDownUp, SortAsc, ShoppingCart, LogIn, AlertCircle } from "lucide-react";
+import { ArrowUpDown, ArrowDownUp, SortAsc, ShoppingCart, LogIn, AlertCircle, Phone, Mail } from "lucide-react";
 import { shopContext } from "../context/ShopContext";
 import Item from "../components/item/Item.jsx";
 import { Link, useNavigate } from "react-router-dom";
-import watch from '../Assets/watch.png';
-import phone from '../Assets/ph.png';
-import fridge from '../Assets/fridge.png';
-import electric from '../Assets/electricals.png';
-import laptops from '../Assets/laptops.png';
-import speaker from '../Assets/speaker.png';
-import kitchen from '../Assets/kitchen-appliances.png';
-import groom from '../Assets/grooming.png';
-import tv from '../Assets/tv0.png';
-import ear from '../Assets/earpods.png';
 import '../pages/css/Shop_category.css';
 import SEO from "./Seo.jsx";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { categoryBrands } from "../../Seo.js";
+import { Message } from "../../ShopcategoryData.js";
 
 // Toast configuration
 const toastConfig = {
@@ -29,7 +20,28 @@ const toastConfig = {
     draggable: true
 };
 
+// Function to extract contact information from message text
+const extractContactInfo = (text) => {
+    const phoneRegex = /(\d{10})/g;
+    const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/g;
+    
+    const phone = text.match(phoneRegex)?.[0] || "";
+    const email = text.match(emailRegex)?.[0] || "";
+    
+    return { phone, email };
+};
 
+// Format the message text for better display
+const formatMessageText = (text) => {
+    // Replace question marks with line breaks and add emphasis
+    return text
+        .replace(/\?\./g, "?")
+        .replace(/\?/g, "?<br/>")
+        .replace(/business/gi, "<b>business</b>")
+        .replace(/wholesale/gi, "<b>wholesale</b>")
+        .replace(/(0718315313)/g, "<strong>$1</strong>")
+        .replace(/(gichtechsupport@gmail\.com)/g, "<strong>$1</strong>");
+};
 
 const ShopCategory = ({ category, subcategory }) => {
     const { 
@@ -63,18 +75,11 @@ const ShopCategory = ({ category, subcategory }) => {
     const [addingToCart, setAddingToCart] = useState({});
     const [authToken, setAuthToken] = useState(null);
 
-    const categoryBanners = {
-        "phone-accessories": phone,
-        "pc-computer-products": laptops,
-        "fridge": fridge,
-        "tv-appliances": tv,
-        "woofers": speaker,
-        "kitchen-appliances": kitchen,
-        "watch": watch,
-        "groomings": groom,
-        "earpods": ear,
-        "electricals": electric
-    };
+    // Extract contact information from the message
+    const contactInfo = extractContactInfo(Message?.title?.text || "");
+    
+    // Format message text for display
+    const formattedMessage = formatMessageText(Message?.title?.text || "");
 
     // Check for authentication token on component mount and when localStorage changes
     useEffect(() => {
@@ -370,7 +375,7 @@ const ShopCategory = ({ category, subcategory }) => {
         name: category ? category.replace(/-/g, ' ') : '',
         slug: category || '',
         subcategories: getAvailableBrands(),
-        image: (category && categoryBanners[category]) || 'https://yourstore.com/default-category-image.jpg'
+        description: Message?.title?.text || ''
     };
 
     // Determine if the user is authenticated based on local storage token
@@ -391,15 +396,26 @@ const ShopCategory = ({ category, subcategory }) => {
             {/* Add the SEO component */}
             <SEO category={categoryData} />
 
-            {category && categoryBanners[category] && (
-                <div className="category-banner">
-                    <img 
-                        src={categoryBanners[category]} 
-                        alt={`${category} banner`} 
-                        className="banner-image"
-                    />
+            {/* Business announcement banner using Message from JSON */}
+            <div className="category-banner">
+                <div className="business-announcement">
+                    <h2>🔌 GICH-TECH ELECTRONICS 🔌</h2>
+                    <p dangerouslySetInnerHTML={{ __html: formattedMessage }}></p>
+                    
+                    <div className="contact-info">
+                        {contactInfo.phone && (
+                            <a href={`tel:${contactInfo.phone}`} className="contact-btn">
+                                <Phone size={16} /> Call Now
+                            </a>
+                        )}
+                        {contactInfo.email && (
+                            <a href={`mailto:${contactInfo.email}`} className="contact-btn">
+                                <Mail size={16} /> Email Us
+                            </a>
+                        )}
+                    </div>
                 </div>
-            )}
+            </div>
 
             <div className="breadcrumbs">
                 <Link to="/">Home</Link>

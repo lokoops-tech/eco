@@ -18,10 +18,7 @@ const Checkout = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [selectedPickup, setSelectedPickup] = useState("");
   const [selectedStage, setSelectedStage] = useState("");
-  const [availablePickupPoints, setAvailablePickupPoints] = useState([]);
-  const [availableLandmarks, setAvailableLandmarks] = useState([]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,7 +26,6 @@ const Checkout = () => {
     phone: "",
     county: "",
     selectedStage: "",
-    selectedPickup: "",
     deliveryFee: 0,
     orderNotes: "",
   });
@@ -114,35 +110,15 @@ const Checkout = () => {
     }
   }, [selectedStage, deliveryStages, cartProducts.length]);
 
-  // Update available pickup points when county or stage changes
-  useEffect(() => {
-    if (formData.county && selectedStage) {
-      const countyData = DELIVERY_LOCATIONS[formData.county];
-      const stageData = countyData?.stages.find((s) => s.name === selectedStage);
-
-      if (stageData) {
-        setAvailablePickupPoints(stageData.pickupPoints || []);
-        setAvailableLandmarks(stageData.landmarks || []);
-      } else {
-        setAvailablePickupPoints([]);
-        setAvailableLandmarks([]);
-      }
-    } else {
-      setAvailablePickupPoints([]);
-      setAvailableLandmarks([]);
-    }
-  }, [formData.county, selectedStage]);
-
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: null }));
 
-    // Reset stage and pickup point when county changes
+    // Reset stage when county changes
     if (name === "county") {
       setSelectedStage("");
-      setSelectedPickup("");
     }
   };
 
@@ -164,23 +140,7 @@ const Checkout = () => {
   // Handle stage selection
   const handleStageSelect = (stageName) => {
     setSelectedStage(stageName);
-    setSelectedPickup("");
-    const stageData = DELIVERY_LOCATIONS[formData.county]?.stages.find(
-      (s) => s.name === stageName
-    );
-    if (stageData) {
-      setAvailablePickupPoints(stageData.pickupPoints || []);
-      setAvailableLandmarks(stageData.landmarks || []);
-    }
     setErrors((prev) => ({ ...prev, selectedStage: null }));
-  };
-
-  // Handle pickup point selection
-  const handlePickupSelect = (e) => {
-    const point = e.target.value;
-    setSelectedPickup(point);
-    setFormData((prev) => ({ ...prev, selectedPickup: point }));
-    setErrors((prev) => ({ ...prev, selectedPickup: null }));
   };
 
   // Handle county selection
@@ -191,14 +151,10 @@ const Checkout = () => {
       county: selectedCounty,
     }));
     setSelectedStage("");
-    setSelectedPickup("");
-    setAvailablePickupPoints([]);
-    setAvailableLandmarks([]);
     setErrors((prev) => ({
       ...prev,
       county: null,
       selectedStage: null,
-      selectedPickup: null,
     }));
   };
 
@@ -221,9 +177,6 @@ const Checkout = () => {
     if (!formData.county) newErrors.county = "Please select a county";
     if (!selectedStage || !DELIVERY_LOCATIONS[formData.county]?.stages?.some(stage => stage.name === selectedStage)) {
       newErrors.selectedStage = "Please select a valid delivery stage";
-    }
-    if (!selectedPickup || !availablePickupPoints.includes(selectedPickup)) {
-      newErrors.selectedPickup = "Please select a valid pickup point";
     }
     if (!termsAccepted) newErrors.terms = "You must accept the terms and conditions";
 
@@ -299,7 +252,6 @@ const Checkout = () => {
         // Delivery Information
         county: formData.county,
         selectedStage: selectedStage,
-        selectedPickup: selectedPickup,
         deliveryFee: Number(deliveryFee),
         orderNotes: formData.orderNotes.trim(),
 
@@ -428,7 +380,7 @@ const Checkout = () => {
             <div className="delivery-stages-section">
               <h3>Select Delivery Stage *</h3>
               <div className="delivery-info-section">
-                <h2 className="section-title">2. DELIVERY DETAILS</h2>
+                <h2 className="section-title">DELIVERY DETAILS</h2>
 
                 {/* Delivery Stages as Radio */}
                 <div className="delivery-stages">
@@ -464,29 +416,10 @@ const Checkout = () => {
                   ))}
                 </div>
               </div>
+              {errors.selectedStage && (
+                <span className="error-text">{errors.selectedStage}</span>
+              )}
             </div>
-
-            {/* Pickup Points Selection */}
-            {selectedStage && (
-              <div className="pickup-selection">
-                <label>Select pickup station</label>
-                <select
-                  value={selectedPickup}
-                  onChange={handlePickupSelect}
-                  className={errors.selectedPickup ? "error" : ""}
-                >
-                  <option value="">Select pickup station</option>
-                  {availablePickupPoints.map((point, index) => (
-                    <option key={index} value={point}>
-                      {point}
-                    </option>
-                  ))}
-                </select>
-                {errors.selectedPickup && (
-                  <span className="error-text">{errors.selectedPickup}</span>
-                )}
-              </div>
-            )}
 
             {/* Order Notes */}
             <div className="form-group">
@@ -495,7 +428,7 @@ const Checkout = () => {
                 name="orderNotes"
                 value={formData.orderNotes}
                 onChange={handleInputChange}
-                placeholder="Any special instructions..."
+                placeholder="Any special instructions for delivery..."
                 maxLength={500}
               />
             </div>

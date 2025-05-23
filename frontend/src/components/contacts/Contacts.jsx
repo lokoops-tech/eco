@@ -14,7 +14,7 @@ const Contact = () => {
                     <h2>Get in Touch</h2>
                     <p><strong>Email:</strong> support@gich-tech.com</p>
                     <p><strong>Phone:</strong> +254703542368</p>
-                    <p><strong>Address:</strong> 123 Tech Street, Innovation City, Techland</p>
+                    <p><strong>Address:</strong> All Uganda Roads</p>
                     <p><strong>Whatsapp:</strong> +254703542368</p>
 
                 </div>
@@ -25,7 +25,7 @@ const Contact = () => {
                         <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="icon twitter"><FaTwitter /></a>
                         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="icon instagram"><FaInstagram /></a>
                         <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="icon linkedin"><FaLinkedinIn /></a>
-                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="icon youtube"><FaYoutube /></a>
+                        
                     </div>
                 </div>
             </div>

@@ -14,16 +14,16 @@ import {
 import './Navbar.css';
 
 const categoryData = {
-  "phone-accessories": ["cases-covers", "screen-protectors", "chargers-cables", "power-banks", "phone-stands", "camera-accessories"],
-  "watch": ["smartwatches", "analog-watches", "digital-watches", "luxury-watches", "watch-bands", "watch-repair-kits"],
-  "fridge": ["single-door", "double-door", "side-by-side", "mini-fridges", "wine-coolers", "freezers"],
-  "pc-computer-products": ["laptops", "desktops", "monitors", "keyboards-mice", "storage-devices", "networking-equipment"],
-  "tv-appliances": ["smart-tvs", "led-lcd-tvs", "tv-mounts", "streaming-devices", "remote-controls", "tv-accessories"],
-  "woofers": ["subwoofers", "soundbars", "home-theater-systems", "car-woofers", "wireless-speakers", "amplifiers"],
-  "kitchen-appliances": ["mixers-blenders", "microwave-ovens", "dishwashers", "food-processors", "coffee-makers", "electric-kettles"],
-  "groomings": ["shavers-trimmers", "hair-dryers", "straighteners", "facial-care-devices", "body-groomers", "manicure-sets"],
-  "earpods": ["wireless-earbuds", "gaming-headsets", "noise-canceling", "sports-earphones", "true-wireless", "earphone-accessories"],
-  "electricals": ["switches-sockets", "wiring-cables", "circuit-breakers", "led-lighting", "fans-ventilation", "voltage-stabilizers"]
+  "phone-accessories": ["cases-covers", "screen-protectors", "chargers-cables", "power-banks", "storage-devices", "phones","Batteries","earphone-accessories"],
+  "watch": ["smartwatches", "analog-watches", "digital-watches", "luxury-watches", "watch-bands", "smart-watch-chargers"],
+  "fridge": ["single-door", "double-door", "side-by-side", "mini-fridges"],
+  "pc-computer-products": ["laptops", "Chargers","keyboards-mice", "storage-devices", "networking-equipment","hdmi-cables"],
+  "tv-appliances": ["smart-tvs", "led-lcd-tvs", "tv-mounts", "remote-controls", "tv-accessories"],
+  "woofers": ["subwoofers", "soundbars", "car-woofers", "wireless-speakers", "amplifiers"],
+  "kitchen-appliances": ["mixers-blenders", "microwave-ovens","cookers","dispensers","coffee-makers", "electric-kettles"],
+  "groomings": ["shavers-trimmers", "hair-dryers", "straighteners"],
+  "earpods": ["wireless-earbuds","noise-canceling","true-wireless"],
+  "electricals": ["switches-sockets","room-heaters","wiring-cables", "circuit-breakers", "led-lighting", "fans-ventilation", "voltage-stabilizers","extensions"]
 };
 
 const CategoryDropdown = ({ category, isHovered, onMouseEnter, onMouseLeave, isMobile, handleBackToMain, handleSubCategoryClick }) => {

@@ -264,6 +264,7 @@ const CartItems = () => {
                     >
                         Checkout (KSh {subtotal.toLocaleString()})
                     </button>
+            
                 </div>
             </div>
         </div>

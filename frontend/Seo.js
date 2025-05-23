@@ -23,37 +23,27 @@ export const homePageSchema = {
     "phone-accessories": {
         // Phone Brands
     "Samsung": "samsung",
-    "Apple": "apple",
     "OPPO": "oppo",
     "Xiaomi": "xiaomi",
     "Tecno": "tecno",
     "Infinix": "infinix",
-    "Huawei": "huawei",
     "Vivo": "vivo",
     "Nokia": "nokia",
     "Realme": "realme",
     "OnePlus": "oneplus",
     "Google": "google",
     // Accessory Brands
-        "OtterBox": "otterbox",
-        "Spigen": "spigen",
         "Orimo": "orimo",
-        "ZAGG": "zagg",
-        "Anker": "anker",
-        "Belkin": "belkin",
-        "UGREEN": "ugreen",
-        "Moment": "moment",
-        "DJI": "dji"
+ 
+       
     },
 
     "pc-computer-products": {
-        "Apple": "apple",
+       
         "Dell": "dell",
         "Lenovo": "lenovo",
         "HP": "hp",
-        "Logitech": "logitech",
-        "Western Digital": "western digital",
-        "Samsung": "samsung"
+        
     },
 
     "fridge": {
@@ -70,7 +60,6 @@ export const homePageSchema = {
     "tv-appliances": {
         "Samsung": "samsung",
         "LG": "lg",
-        "Sony": "sony",
         "Hisense": "hisense",
         "TCL": "tcl",
         "Vitron": "vitron",
@@ -80,12 +69,10 @@ export const homePageSchema = {
 
     "woofers": {
         "Sony": "sony",
-        "LG": "lg",
         "JBL": "jbl",
         "Vitron": "vitron",
         "Sayona": "sayona",
         "Amtec": "amtec",
-        "Von": "von",
         "Pioneer": "pioneer",
 
 
@@ -93,65 +80,50 @@ export const homePageSchema = {
 
     "kitchen-appliances": {
         "Ramtons": "ramtons",
-        "Von": "von",
         "Mika": "mika",
-        "Hotpoint": "hotpoint",
         "Armco": "armco",
         "Philips": "philips",
-        "Sayona": "sayona",
-        "Black & Decker": "black&decker"
+        "Ailyons":"ailyons",
+        "Nunix":"nunix",
+        "Epcon":"epcon"
         
     },
     "watch": {
-        "Apple": "apple",
-        "Samsung": "samsung",
-        "Huawei": "huawei",
-        "Xiaomi": "xiaomi",
-        "Fitbit": "fitbit",
-        "Garmin": "garmin",
-        "Amazfit": "amazfit",
-        "Fossil": "fossil",
-        "Ticwatch": "ticwatch",
+        "Orimo":"orimo",
+        "Itel":"itel",
         "Casio": "casio",
         "Rolex": "rolex",
-        "Omega": "omega",
-        "Tag Heuer": "tag heuer",
-        "Seiko": "seiko",
-        "Citizen": "citizen",
-        "Timex": "timex"
+      
     },
 
     "groomings": {
         "Philips": "philips",
-        "Braun": "braun",
+        "Orimo": "orimo",
         "Wahl": "wahl",
         "Remington": "remington",
         "Nova": "nova",
-        "Kemei": "kemei",
-        "Moser": "moser",
-        "DSP": "dsp"
+        "Geemy": "geemy",
+       
     },
 
     "earpods": {
-        "Apple": "apple",
-        "Samsung": "samsung",
-        "Sony": "sony",
+        "Tecno": "tecno",
         "JBL": "jbl",
         "Oraimo": "oraimo",
-        "Huawei": "huawei",
+        "Itel": "itel",
         "Xiaomi": "xiaomi",
         "OPPO": "oppo"
     },
 
     "electricals": {
         "Philips": "philips",
-        "Schneider": "schneider",
-        "Crabtree": "crabtree",
-        "Havells": "havells",
-        "Sollatek": "sollatek",
-        "MK": "mk",
-        "Luminous": "luminous",
-        "ABB": "abb"
+        "Velmex": "velmex",
+        "Powermax": "powermax",
+        "Cirls&Gilberts": "cirls&gilberts",
+        "Jsb": "jsb",
+        "Ailyons": "ailyons",
+        "Avc": "avc",
+        
     }
 };
 
