@@ -14,7 +14,7 @@ const getDefaultCart = () => ({
     isValid: true  // Add validation state
 });
 
-const API_BASE_URL = "https://gich-backend.onrender.com"; // Replace with your actual API base URL
+const API_BASE_URL = "http://localhost:4000"; // Replace with your actual API base URL
 
 // Enhanced default cart with stockStatus
 

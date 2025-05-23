@@ -57,7 +57,7 @@ const Orders = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://gich-backend.onrender.com/order/user-orders?page=${currentPage}&status=${filter}`,
+        `http://localhost:4000/order/user-orders?page=${currentPage}&status=${filter}`,
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -172,7 +172,6 @@ const Orders = () => {
                       <h4>Delivery Information</h4>
                       <p><strong>County:</strong> {order.county}</p>
                       <p><strong>Stage:</strong> {order.selectedStage}</p>
-                      <p><strong>Pickup Point:</strong> {order.selectedPickup}</p>
                     </div>
 
                     <div className="items-list">

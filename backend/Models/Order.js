@@ -26,10 +26,6 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    selectedPickup: {
-        type: String,
-        required: true
-    },
     deliveryFee: {
         type: Number,
         required: true

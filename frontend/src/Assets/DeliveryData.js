@@ -214,7 +214,7 @@ export const DELIVERY_LOCATIONS = {
                                                   estimatedTime: "1 days",
                                                   instructions: "Desert-ready vehicles only",
                                                   landmarks: ["Lodwar Airstrip", "Lake Turkana"],
-                                                  pickupPoints: ["Main Market", "Energy Centre"],
+                                      
                                                   specialServices: {
                                                     desertNavigation: true,
                                                     lakeAccess: "Available",
@@ -235,7 +235,6 @@ stages: [
     estimatedTime: "2-3 hours",
     instructions: "24/7 delivery available",
     landmarks: ["Eldoret Sports Club", "64 Stadium"],
-    pickupPoints: ["Main Post Office", "Uganda Road"],  // Removed duplicate line
     specialServices: {
       expressDelivery: true,
       warehouseStorage: "Available",
@@ -270,7 +269,6 @@ stages: [
                                                       estimatedTime: "1 day",
                                                       instructions: "Tea zone access",
                                                       landmarks: ["County HQ", "Mbale Market"],
-                                                      pickupPoints: ["Bus Park", "Rural Market"],
                                                       specialServices: {
                                                         ruralDelivery: true,
                                                         marketDayService: "Enhanced",
@@ -292,7 +290,6 @@ stages: [
                                                           estimatedTime: "1days",
                                                           instructions: "Mountain terrain vehicles required",
                                                           landmarks: ["Kapenguria Museum", "Freedom Square"],
-                                                          pickupPoints: ["Main Stage", "County Offices"],
                                                           specialServices: {
                                                             mountainDelivery: true,
                                                             pastoralRoutes: "Mapped",

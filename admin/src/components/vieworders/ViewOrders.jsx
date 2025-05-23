@@ -380,7 +380,7 @@ const ViewOrders = () => {
                                 <h4>Delivery Information</h4>
                                 <p><strong>County:</strong> {selectedOrder.county}</p>
                                 <p><strong>Stage:</strong> {selectedOrder.selectedStage}</p>
-                                <p><strong>Pickup Point:</strong> {selectedOrder.selectedPickup}</p>
+                
                             </div>
 
                             <div className="order-items">

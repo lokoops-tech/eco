@@ -13,7 +13,7 @@ router.post("/placeorder", authMiddleware, async (req, res) => {
 
     try {
         // Validate required fields
-        const requiredFields = ["name", "email", "phone", "county", "selectedStage", "selectedPickup", "items"];
+        const requiredFields = ["name", "email", "phone", "county", "selectedStage", "items"];
         const missingFields = requiredFields.filter(field => !req.body[field]);
 
         if (missingFields.length > 0) {
@@ -76,7 +76,6 @@ router.post("/placeorder", authMiddleware, async (req, res) => {
             phone: req.body.phone,
             county: req.body.county,
             selectedStage: req.body.selectedStage,
-            selectedPickup: req.body.selectedPickup,
             deliveryFee,
             orderNotes: req.body.orderNotes || "",
             items: itemsWithDetails,
@@ -102,7 +101,6 @@ router.post("/placeorder", authMiddleware, async (req, res) => {
                     
                     <h3>Order Details:</h3>
                     <p>Delivery Location: ${order.county}, ${order.selectedStage}</p>
-                    <p>Pickup Point: ${order.selectedPickup}</p>
                     ${order.orderNotes ? `<p>Additional Notes: ${order.orderNotes}</p>` : ""}
                     
                     <h3>Order Summary:</h3>
@@ -172,7 +170,6 @@ router.get("/getorders", async (req, res) => {
                 phone: 1,
                 county: 1,
                 selectedStage: 1,
-                selectedPickup: 1,
                 orderNotes: 1,
                 items: 1,
                 orderTotal: 1,
