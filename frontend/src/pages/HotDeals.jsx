@@ -19,18 +19,18 @@ const HotDeals = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await fetch(`${API_BASE_URL}/product/allproducts`);
-      
+
       if (!response.ok) {
         throw new Error(`Failed to fetch products: ${response.status} ${response.statusText}`);
       }
-      
+
       const responseData = await response.json();
-      
+
       // Extract the array of products from the response
       let productsArray = [];
-      
+
       if (Array.isArray(responseData)) {
         productsArray = responseData;
       } else if (responseData && Array.isArray(responseData.products)) {
@@ -43,22 +43,22 @@ const HotDeals = () => {
         console.error("Received data is not in expected format:", responseData);
         throw new Error("Invalid data format received from server");
       }
-      
+
       // Filter products with 30% or higher discount
       const filteredProducts = productsArray.filter(product => {
-        const discount = product.old_price 
-          ? Math.round(((product.old_price - product.new_price) / product.old_price) * 100) 
+        const discount = product.old_price
+          ? Math.round(((product.old_price - product.new_price) / product.old_price) * 100)
           : 0;
         return discount >= 30;
       });
-      
+
       // Sort products by discount percentage (highest first)
       const sortedProducts = filteredProducts.sort((a, b) => {
         const discountA = a.old_price ? Math.round(((a.old_price - a.new_price) / a.old_price) * 100) : 0;
         const discountB = b.old_price ? Math.round(((b.old_price - b.new_price) / b.old_price) * 100) : 0;
         return discountB - discountA;
       });
-      
+
       setProducts(sortedProducts);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -115,15 +115,15 @@ const HotDeals = () => {
     const discount = product.old_price
       ? Math.round(((product.old_price - product.new_price) / product.old_price) * 100)
       : 0;
-    
+
     const productSlug = createSlug(product.name);
 
     return (
       <div key={product.id} className="deals-product-card">
         <div className="deals-product-wrapper">
           <div className="deals-discount-tag">-{discount}%</div>
-          <Link 
-            to={`/product/${productSlug}-${product.id}`} 
+          <Link
+            to={`/product/${productSlug}-${product.id}`}
             onClick={handleClick}
             className="deals-product-link"
             style={{ textDecoration: 'none', color: 'inherit' }}
@@ -135,20 +135,20 @@ const HotDeals = () => {
               loading="lazy"
             />
             <div className="deals-product-info">
-            <h4 className="deals-product-title">{product.name}</h4>
-          </div>
-          <div className="deals-price-container">
-            <span className="deals-current-price">
-              Ksh {product.new_price.toLocaleString()}
-            </span>
-            {product.old_price && (
-              <span className="deals-original-price">
-                Ksh {product.old_price.toLocaleString()}
+              <h4 className="deals-product-title">{product.name}</h4>
+            </div>
+            <div className="deals-price-container">
+              <span className="deals-current-price">
+                Ksh {product.new_price.toLocaleString()}
               </span>
-            )}
-          </div>
+              {product.old_price && (
+                <span className="deals-original-price">
+                  Ksh {product.old_price.toLocaleString()}
+                </span>
+              )}
+            </div>
           </Link>
-          
+
         </div>
       </div>
     );
@@ -180,7 +180,7 @@ const HotDeals = () => {
 
       {!loading && !error && products.length > visibleProducts && (
         <div className="deals-load-more">
-          <button 
+          <button
             onClick={loadMore}
             className="deals-load-more-btn"
           >

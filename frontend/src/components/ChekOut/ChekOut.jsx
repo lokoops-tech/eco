@@ -226,6 +226,9 @@ const Checkout = () => {
     if (!cartProducts || cartProducts.length === 0) {
       toast.error("Your cart is empty!");
       return;
+    
+    
+    
     }
 
     // Validate order totals

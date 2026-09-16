@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-// Product API endpoint
+// Product schema/model
 const ProductSchema = new mongoose.Schema({
     id: {
         type: Number,

@@ -12,6 +12,7 @@ const sharp = require('sharp');
 require("dotenv").config(); // Load environment variables
 const cloudinary = require('cloudinary').v2;
 
+
 // Create HTTP server for Socket.IO
 const server = http.createServer(app);
 
@@ -38,7 +39,8 @@ const Analytics = require("./routes/Analytics");
 // Middleware
 app.use(cors({
     origin: function (origin, callback) {
-        const allowedOrigins = ["http://localhost:5173","http://localhost:5174", "https://ecommerce-3-93bn.onrender.com","https://eco-pirg.onrender.com", "https://ecommerce-axdj.onrender.com"];
+        const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+        // const allowedOrigins = ["http://localhost:5173","http://localhost:5174", "https://ecommerce-3-93bn.onrender.com","https://eco-pirg.onrender.com", "https://ecommerce-axdj.onrender.com"];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {

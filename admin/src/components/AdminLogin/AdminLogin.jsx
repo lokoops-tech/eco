@@ -12,6 +12,7 @@ const AdminLogin = ({ setIsLoggedIn }) => {
   const [suggestedEmails, setSuggestedEmails] = useState([]); // ✅ Store past emails
   const [showSuggestions, setShowSuggestions] = useState(false); // ✅ Control dropdown visibility
   const navigate = useNavigate();
+  
 
   // Load saved emails from localStorage
   useEffect(() => {
@@ -110,8 +111,8 @@ const AdminLogin = ({ setIsLoggedIn }) => {
             disabled={isLoading}
           />
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="button"
             disabled={isLoading || !email.trim() || !password.trim()}
           >

@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const Users = require("../Models/User"); // Assuming you have a User model
-const Product = require("../Models/Product"); // Assuming you have a Product model
-const fetchUser = require("../MiddleWare/Auth"); // Import the authentication middleware
+const Users = require("../Models/User"); 
+const Product = require("../Models/Product"); 
+const fetchUser = require("../MiddleWare/Auth"); 
 const mongoose = require("mongoose");
 
 // Add to Cart endpoint

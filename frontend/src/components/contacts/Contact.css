@@ -32,7 +32,7 @@
 /* Contact Details */
 .contact-details h2 {
     font-size: 1.8rem;
-    color: #6200ea;
+    color: blue;
     margin-bottom: 15px;
 }
 
@@ -45,7 +45,7 @@
 /* Social Media Section */
 .social-media h2 {
     font-size: 1.8rem;
-    color: #6200ea;
+    color: blue;
     margin-bottom: 15px;
 }
 
@@ -59,7 +59,7 @@
 .icon {
     font-size: 1.5rem;
     color: #fff;
-    background-color: #6200ea;
+    background-color: blue;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -78,22 +78,24 @@
     background-color: #4267B2;
 }
 
-.twitter {
-    background-color: #1DA1F2;
+.x-twitter {
+    background-color: black !important;
+    color: white;
 }
 
 .instagram {
-    background-color: #E1306C;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
 }
 
 .linkedin {
     background-color: #0077B5;
 }
 
-.youtube {
-    background-color: #FF0000;
+.tiktok {
+    background-color: #000000;
+    color: white; /* TikTok pink for any text/icon */
+    /* for rounded corners like in the image */
 }
-
 /* Responsive Styling */
 @media (max-width: 768px) {
     .contact-info {

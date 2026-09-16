@@ -61,30 +61,30 @@ const AddProduct = () => {
             setImages(prev => ({ ...prev, [imageType]: file }));
         }
     };
-   const getHexCodeForColorName = (colorName) => {
-  // Convert to lowercase for case-insensitive matching
-  const normalized = colorName.toLowerCase().trim();
-  
-  // Return the hex code if the color name is in our map
-  if (colorMap[normalized]) {
-    return colorMap[normalized];
-  }
-  
-  // For unknown colors, generate a simple hash-based color
-  // This ensures the same name always produces the same color
-  let hash = 0;
-  for (let i = 0; i < normalized.length; i++) {
-    hash = normalized.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  
-  let color = '#';
-  for (let i = 0; i < 3; i++) {
-    const value = (hash >> (i * 8)) & 0xFF;
-    color += ('00' + value.toString(16)).slice(-2);
-  }
-  
-  return color;
-};
+    const getHexCodeForColorName = (colorName) => {
+        // Convert to lowercase for case-insensitive matching
+        const normalized = colorName.toLowerCase().trim();
+
+        // Return the hex code if the color name is in our map
+        if (colorMap[normalized]) {
+            return colorMap[normalized];
+        }
+
+        // For unknown colors, generate a simple hash-based color
+        // This ensures the same name always produces the same color
+        let hash = 0;
+        for (let i = 0; i < normalized.length; i++) {
+            hash = normalized.charCodeAt(i) + ((hash << 5) - hash);
+        }
+
+        let color = '#';
+        for (let i = 0; i < 3; i++) {
+            const value = (hash >> (i * 8)) & 0xFF;
+            color += ('00' + value.toString(16)).slice(-2);
+        }
+
+        return color;
+    };
     const removeImage = (imageType) => {
         if (imageType === "main") {
             toast.error("Main image cannot be removed");
@@ -146,32 +146,32 @@ const AddProduct = () => {
         const updatedFeatures = productDetails.keyFeatures.filter((_, i) => i !== index);
         setProductDetails(prev => ({ ...prev, keyFeatures: updatedFeatures }));
     };
-//validate form
+    //validate form
     const validateForm = () => {
         if (!productDetails.name || !productDetails.new_price || !productDetails.old_price || !images.main) {
             toast.error("Please fill all required fields and upload a main image");
             return false;
         }
-        
+
         // Make sure prices are valid numbers
         if (isNaN(parseFloat(productDetails.new_price)) || isNaN(parseFloat(productDetails.old_price))) {
             toast.error("Please enter valid numeric values for prices");
             return false;
         }
-        
+
         // Validate warranty duration if warranty coverage is enabled
         if (productDetails.warranty.hasCoverage && isNaN(parseInt(productDetails.warranty.durationMonths))) {
             toast.error("Please enter a valid warranty duration in months");
             return false;
         }
-        
+
         // Check for empty color names
         const emptyColorIndex = productDetails.colors.findIndex(color => color.name.trim() === "");
         if (emptyColorIndex !== -1) {
             toast.error(`Color at position ${emptyColorIndex + 1} has an empty name`);
             return false;
         }
-        
+
         return true;
     };
 
@@ -205,32 +205,32 @@ const AddProduct = () => {
                 console.log("Form validation failed");
                 return;
             }
-            
+
             setIsLoading(true);
             console.log("Beginning image upload process...");
-            
+
             try {
                 const imageUrls = await uploadAllImages();
                 console.log("Image upload results:", imageUrls);
-                
+
                 if (!imageUrls.main) {
                     console.error("Main image upload failed");
                     toast.error("Failed to upload main image");
                     return;
                 }
-                
+
                 console.log("Creating product data object...");
                 const productData = {
                     ...productDetails,
                     image: imageUrls.main,
                     images: Object.values(imageUrls).map(url => ({ url, alt: productDetails.name, type: 'PRIMARY' }))
                 };
-                
+
                 // Remove any fields that might cause issues
                 delete productData.stockUpdateInfo; // Make sure this field is not included
-                
+
                 console.log("Product data prepared:", productData);
-                
+
                 console.log("Submitting product data to:", ADD_PRODUCT_URL);
                 const addProductResponse = await fetch(ADD_PRODUCT_URL, {
                     method: 'POST',
@@ -238,15 +238,15 @@ const AddProduct = () => {
                     body: JSON.stringify(productData),
                 });
                 console.log("Server response status:", addProductResponse.status);
-                
+
                 const addProductData = await addProductResponse.json();
                 console.log("Server response data:", addProductData);
-                
+
                 if (!addProductResponse.ok) {
                     console.error("Server error details:", addProductData);
                     throw new Error(`Add product failed: ${addProductResponse.statusText}. Details: ${JSON.stringify(addProductData)}`);
                 }
-                
+
                 if (addProductData.success) {
                     console.log("Product added successfully!");
                     toast.success("Product Added Successfully");
@@ -435,56 +435,56 @@ const AddProduct = () => {
                     </div>
                 </div>
 
-              {/* Colors */}
-<div className="addproductitemfield">
-    <p>Colors</p>
-    <div className="colors-container">
-        {productDetails.colors.map((color, index) => (
-            <div key={index} className="color-item">
-                <input
-                    type="color"
-                    value={color.hexCode}
-                    onChange={(e) => {
-                        const updatedColors = [...productDetails.colors];
-                        updatedColors[index].hexCode = e.target.value;
-                        setProductDetails(prev => ({ ...prev, colors: updatedColors }));
-                    }}
-                />
-                <input
-                    type="text"
-                    value={color.name}
-                    onChange={(e) => {
-                        const updatedColors = [...productDetails.colors];
-                        updatedColors[index].name = e.target.value;
-                        // Auto-generate hex code based on color name
-                        if (e.target.value.trim() !== "") {
-                            updatedColors[index].hexCode = getHexCodeForColorName(e.target.value);
-                        }
-                        setProductDetails(prev => ({ ...prev, colors: updatedColors }));
-                    }}
-                    placeholder="Color name"
-                />
-                <button onClick={() => {
-                    const updatedColors = productDetails.colors.filter((_, i) => i !== index);
-                    setProductDetails(prev => ({ ...prev, colors: updatedColors }));
-                }} className="remove-color-btn">
-                    ×
-                </button>
-            </div>
-        ))}
-        <button
-            onClick={() => {
-                setProductDetails(prev => ({
-                    ...prev,
-                    colors: [...prev.colors, { name: "Black", hexCode: "#000000" }]
-                }));
-            }}
-            className="add-color-btn"
-        >
-            Add Color
-        </button>
-    </div>
-</div>
+                {/* Colors */}
+                <div className="addproductitemfield">
+                    <p>Colors</p>
+                    <div className="colors-container">
+                        {productDetails.colors.map((color, index) => (
+                            <div key={index} className="color-item">
+                                <input
+                                    type="color"
+                                    value={color.hexCode}
+                                    onChange={(e) => {
+                                        const updatedColors = [...productDetails.colors];
+                                        updatedColors[index].hexCode = e.target.value;
+                                        setProductDetails(prev => ({ ...prev, colors: updatedColors }));
+                                    }}
+                                />
+                                <input
+                                    type="text"
+                                    value={color.name}
+                                    onChange={(e) => {
+                                        const updatedColors = [...productDetails.colors];
+                                        updatedColors[index].name = e.target.value;
+                                        // Auto-generate hex code based on color name
+                                        if (e.target.value.trim() !== "") {
+                                            updatedColors[index].hexCode = getHexCodeForColorName(e.target.value);
+                                        }
+                                        setProductDetails(prev => ({ ...prev, colors: updatedColors }));
+                                    }}
+                                    placeholder="Color name"
+                                />
+                                <button onClick={() => {
+                                    const updatedColors = productDetails.colors.filter((_, i) => i !== index);
+                                    setProductDetails(prev => ({ ...prev, colors: updatedColors }));
+                                }} className="remove-color-btn">
+                                    ×
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            onClick={() => {
+                                setProductDetails(prev => ({
+                                    ...prev,
+                                    colors: [...prev.colors, { name: "Black", hexCode: "#000000" }]
+                                }));
+                            }}
+                            className="add-color-btn"
+                        >
+                            Add Color
+                        </button>
+                    </div>
+                </div>
                 {/* Key Features */}
                 <div className="addproductitemfield">
                     <p>Key Features</p>
