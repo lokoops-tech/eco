@@ -1,3 +1,4 @@
+import PasswordInput from "../PasswordInput/PasswordInput";
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -109,7 +110,7 @@ const AddAdmin = () => {
       <h3>Add New Admin</h3>
       <div>
         <input type="email" placeholder="New Admin Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="New Admin Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <PasswordInput  placeholder="New Admin Password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <button className="add-admin-btn" onClick={handleAddAdmin}>Add Admin</button>
       </div>
 
@@ -120,7 +121,7 @@ const AddAdmin = () => {
             {editingId === admin._id ? (
               <>
                 <input type="email" value={editEmail} onChange={(e) => setEditEmail(e.target.value)} />
-                <input type="password" value={editPassword} onChange={(e) => setEditPassword(e.target.value)} />
+                <PasswordInput key={editingId} placeholder="New password" value={editPassword} onChange={(e) => setEditPassword(e.target.value)} />
                 <button onClick={() => handleEdit(admin._id)}>Save</button>
                 <button onClick={() => setEditingId(null)}>Cancel</button>
               </>

@@ -1,3 +1,4 @@
+import PasswordInput from "../PasswordInput/PasswordInput";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
@@ -101,8 +102,8 @@ const AdminLogin = ({ setIsLoggedIn }) => {
             )}
           </div>
 
-          <input
-            type="password"
+          <PasswordInput autoComplete="current-password"
+            
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"

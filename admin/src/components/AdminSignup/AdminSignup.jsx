@@ -1,3 +1,4 @@
+import PasswordInput from "../PasswordInput/PasswordInput";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
@@ -75,8 +76,8 @@ const AdminSignup = () => {
             disabled={isLoading}
           />
           
-          <input
-            type="password"
+          <PasswordInput
+            
             name="password"
             placeholder="Password"
             required
@@ -85,8 +86,8 @@ const AdminSignup = () => {
             minLength={8}
           />
 
-          <input
-            type="password"
+          <PasswordInput
+            
             name="confirmPassword"
             placeholder="Confirm Password"
             required
