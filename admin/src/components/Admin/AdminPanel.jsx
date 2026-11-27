@@ -1,6 +1,6 @@
 import { useNavigate, Link, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { FiMenu, FiHome, FiLogOut, FiMail, FiPackage, FiBarChart2 } from 'react-icons/fi';
+import { FiMenu, FiX, FiHome, FiLogOut, FiMail, FiPackage, FiBarChart2 } from 'react-icons/fi';
 import { ShoppingBag, List, ClipboardList, UserPlus } from 'lucide-react';
 import AddProduct from '../addProduct/AddProduct';
 import ListProduct from '../listproduct/ListProduct';
@@ -38,7 +38,12 @@ const AdminPanel = () => {
     navigate('/admin');
   };
 
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const toggleSidebar = () => setIsSidebarOpen(open => !open);
+  useEffect(() => {
+    const close = event => { if (event.key === 'Escape') setIsSidebarOpen(false); };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, []);
 
   const menuItems = [
     { path: '/adminpanel', name: 'dashboard', displayName: 'Dashboard', icon: <FiHome className="icon" /> },
@@ -60,9 +65,11 @@ const AdminPanel = () => {
   return (
     <div className="admin-container">
       {/* Sidebar Navigation */}
-      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+      {isSidebarOpen && <button type="button" className="sidebar-backdrop" aria-label="Close navigation" onClick={() => setIsSidebarOpen(false)} />}
+      <div id="admin-navigation" className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <h2>Admin Portal</h2>
+          <button type="button" className="sidebar-close" aria-label="Close navigation" onClick={() => setIsSidebarOpen(false)}><FiX size={24} /></button>
         </div>
         
         <div className="menu-items">
@@ -88,7 +95,7 @@ const AdminPanel = () => {
       {/* Main Content */}
       <div className={`main-content ${isSidebarOpen ? 'shifted' : ''}`}>
         <div className="header">
-          <button className="menu-toggle" onClick={toggleSidebar}>
+          <button type="button" className="menu-toggle" aria-label="Toggle navigation" aria-expanded={isSidebarOpen} aria-controls="admin-navigation" onClick={toggleSidebar}>
             <FiMenu size={24} />
           </button>
           {showWelcome && <h1 className="amazing-text">Welcome to Admin Dashboard</h1>}
